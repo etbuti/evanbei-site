@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Two-Track Rental Operation – Operating Standard</title>
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --panel:#10141a;
+      --panel2:#0f1318;
+      --text:#e9eef6;
+      --muted:#a9b4c3;
+      --line:rgba(255,255,255,.10);
+      --line2:rgba(255,255,255,.16);
+      --accent:#7dd3fc;
+      --ok:#86efac;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 700px at 70% -10%, rgba(125,211,252,.18), transparent 55%),
+        radial-gradient(900px 600px at 10% 0%, rgba(134,239,172,.10), transparent 60%),
+        radial-gradient(1000px 700px at 90% 100%, rgba(251,191,36,.10), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 56px;
+    }
+    header{
+      padding: 22px 22px 18px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(800px 260px at 35% 0%, rgba(125,211,252,.18), transparent 55%),
+        radial-gradient(700px 260px at 80% 10%, rgba(134,239,172,.12), transparent 60%);
+      pointer-events:none;
+      filter: blur(0px);
+    }
+    header > *{position:relative}
+    .kicker{
+      font-size: 12px;
+      letter-spacing:.18em;
+      text-transform: uppercase;
+      color:var(--muted);
+      margin:0 0 8px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-weight: 750;
+      font-size: 28px;
+      line-height:1.18;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      margin-top: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 860px){
+      .row{grid-template-columns:1fr}
+    }
+    .card{
+      border:1px solid var(--line);
+      background: rgba(16,20,26,.72);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .card h2{
+      margin:0 0 10px;
+      font-size: 16px;
+      letter-spacing:.02em;
+    }
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 7px 10px;
+      border:1px solid var(--line2);
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 13px;
+      margin-right: 8px;
+      margin-top: 8px;
+      user-select:none;
+    }
+    .pill b{color:var(--text); font-weight:650}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+    .tag{
+      display:inline-block;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid var(--line2);
+      color:var(--muted);
+      margin-top: 2px;
+    }
+    .tag.ok{border-color:rgba(134,239,172,.35); color:#b9f6cf}
+    .tag.warn{border-color:rgba(251,191,36,.35); color:#ffe1a1}
+    .tag.bad{border-color:rgba(251,113,133,.35); color:#ffc0cb}
+    ul{margin:10px 0 0 18px; padding:0}
+    li{margin:6px 0}
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+      color: #d7e1ee;
+      border:1px dashed var(--line2);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding: 12px 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 10px;
+    }
+    .section-title{
+      margin: 18px 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing:.18em;
+      text-transform: uppercase;
+    }
+    details{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(16,20,26,.52);
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    details summary{
+      cursor: pointer;
+      list-style: none;
+      font-weight: 650;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      user-select:none;
+    }
+    details summary::-webkit-details-marker{display:none}
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(125,211,252,.16);
+      flex:0 0 auto;
+    }
+    .dot.ok{background:var(--ok); box-shadow: 0 0 0 4px rgba(134,239,172,.14)}
+    .dot.warn{background:var(--warn); box-shadow: 0 0 0 4px rgba(251,191,36,.14)}
+    .dot.bad{background:var(--bad); box-shadow: 0 0 0 4px rgba(251,113,133,.14)}
+    .muted{color:var(--muted)}
+    .btnbar{display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px}
+    button{
+      border:1px solid var(--line2);
+      background: rgba(0,0,0,.20);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:650;
+    }
+    button:hover{border-color:rgba(125,211,252,.45)}
+    .footer{
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      padding: 0 2px;
+    }
+    .stamp{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .stamp .mini{
+      width:8px;height:8px;border-radius:50%;
+      background: rgba(125,211,252,.8);
+      box-shadow: 0 0 0 4px rgba(125,211,252,.12);
+    }
+    .divider{
+      height:1px;
+      background: var(--line);
+      margin: 14px 0;
+    }
+    .callout{
+      border:1px solid var(--line2);
+      background: rgba(0,0,0,.18);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      color: var(--muted);
+    }
+    .callout b{color:var(--text)}
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <header>
+      <p class="kicker">Family-facing operational page</p>
+      <h1>Two-Track Rental Operation – Operating Standard</h1>
+      <p class="sub">
+        This page documents the agreed rental operating method for two properties.
+        It is designed for clarity, stability, compliance, and long-term execution.
+      </p>
+
+      <div class="btnbar" aria-label="Actions">
+        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+        <button type="button" onclick="copyLink()">Copy page link</button>
+        <button type="button" onclick="copySummary()">Copy quick summary</button>
+      </div>
+
+      <div class="row">
+        <div class="card">
+          <h2>Operating Principle</h2>
+          <div class="callout">
+            <b>Both properties may be listed</b>, but it is acceptable that only one is actively let at a given time.
+            The other remains flexible by design (premium positioning / selective letting).
+          </div>
+
+          <div class="divider"></div>
+
+          <div>
+            <span class="pill"><b>Track A</b> High-value • Self-managed • Selective</span>
+            <span class="pill"><b>Track B</b> Standard rent • Agent-managed • Stable</span>
+          </div>
+
+          <div class="mono" id="overviewBox">Property A → Track A (premium, self-managed, selective letting)
+Property B → Track B (standard, fully managed by agent)
+
+Goal: stable operation without emotional decision-making.
+Switching is operational, not emotional.</div>
+        </div>
+
+        <div class="card">
+          <h2>Status</h2>
+          <div class="section-title">Policy</div>
+          <ul>
+            <li><span class="tag ok">Active</span> v1.0</li>
+            <li><span class="tag warn">Next start</span> next month</li>
+            <li><span class="tag ok">Style split</span> East vs West positioning</li>
+          </ul>
+          <div class="section-title">Notes</div>
+          <p class="muted" style="margin:0">
+            This page is for family coordination and internal consistency.
+            It is not a public listing and is not intended for tenants.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" aria-label="Track A">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+          <h2 style="margin:0">Track A – High-Value Selective Letting</h2>
+          <span class="tag ok">Self-managed</span>
+        </div>
+        <p class="muted" style="margin:10px 0 0">
+          Objective: premium price through premium clarity. We select tenants proactively and reduce occupancy risk.
+        </p>
+
+        <div class="section-title">Structured Flow</div>
+        <div class="mono">Application → Screening → References → Agreement → Ongoing service</div>
+
+        <div class="section-title">Tenant Selection (Non-discriminatory)</div>
+        <ul>
+          <li>Professionals preferred; stable income and references required.</li>
+          <li>No subletting. No short-term letting. Named occupants only.</li>
+          <li>Clear house rules sent <b>before</b> signing.</li>
+          <li>Responsive maintenance: target response within <b>24–48 hours</b> for typical issues.</li>
+        </ul>
+
+        <div class="section-title">House Rules (Summary)</div>
+        <ul>
+          <li><b>Occupancy:</b> no sharers, no subletting, named occupants only.</li>
+          <li><b>Use:</b> residential only; no business or short-term letting.</li>
+          <li><b>Noise:</b> respect neighbours; no parties/events.</li>
+          <li><b>Maintenance:</b> report issues promptly; landlord responds within agreed timeframe.</li>
+          <li><b>Termination:</b> break clause after 6 months (or agreed); notice per tenancy.</li>
+        </ul>
+
+        <details>
+          <summary><span class="dot ok"></span> Track A quick checklist</summary>
+          <ul>
+            <li>Written application form collected</li>
+            <li>Right to Rent checks completed</li>
+            <li>Employment + previous landlord references</li>
+            <li>Deposit handled correctly by the chosen scheme</li>
+            <li>Inventory (photos + list) stored</li>
+            <li>House rules acknowledged in writing</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="card" aria-label="Track B">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+          <h2 style="margin:0">Track B – Standard Managed Letting</h2>
+          <span class="tag warn">Agent-managed</span>
+        </div>
+        <p class="muted" style="margin:10px 0 0">
+          Objective: cash-flow stability with minimal landlord involvement. Standard service only.
+        </p>
+
+        <div class="section-title">Agent Instructions (Core)</div>
+        <ul>
+          <li><b>Pricing:</b> market rent; review at day 14 and day 28.</li>
+          <li><b>Fees:</b> management fee charged only when rent is collected; no fee during void periods.</li>
+          <li><b>Repairs:</b> agent authorised up to £150 without approval; above requires written consent.</li>
+          <li><b>Tenant Management:</b> agent handles all tenant communication; landlord not involved in daily matters.</li>
+        </ul>
+
+        <div class="section-title">Minimum Tenant Standard</div>
+        <ul>
+          <li>Right to Rent compliant</li>
+          <li>Referencing completed</li>
+          <li>No known rent arrears history</li>
+        </ul>
+
+        <details>
+          <summary><span class="dot warn"></span> Track B void-control rules (0–45 days)</summary>
+          <ul>
+            <li><b>Day 14:</b> if viewings are weak → adjust price/photos/listing quality.</li>
+            <li><b>Day 28:</b> must move to “deal price” (market median) or offer incentive.</li>
+            <li><b>Day 45:</b> review agent performance; switch agent if needed.</li>
+          </ul>
+        </details>
+      </section>
+    </div>
+
+    <section class="card" aria-label="Switching logic" style="margin-top:14px">
+      <h2 style="margin:0 0 10px">Switching Logic (Pre-defined)</h2>
+      <p class="muted" style="margin:0 0 12px">
+        Switching is operational, not emotional. We keep a flexible buffer by design.
+      </p>
+
+      <div class="grid" style="margin-top:0">
+        <div class="card" style="background:rgba(15,19,24,.55); box-shadow:none">
+          <div style="display:flex; gap:10px; align-items:center">
+            <span class="dot ok"></span>
+            <h2 style="margin:0; font-size:15px">Switch to Track A when</h2>
+          </div>
+          <ul>
+            <li>Higher control is required (tenant selection, price protection).</li>
+            <li>Flexible use is preferred (buffer position).</li>
+            <li>Market conditions justify premium pricing.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="background:rgba(15,19,24,.55); box-shadow:none">
+          <div style="display:flex; gap:10px; align-items:center">
+            <span class="dot warn"></span>
+            <h2 style="margin:0; font-size:15px">Switch to Track B when</h2>
+          </div>
+          <ul>
+            <li>Stability is prioritised (faster letting, less involvement).</li>
+            <li>Reduced day-to-day work is needed.</li>
+            <li>Market conditions favour standard letting.</li>
+          </ul>
+        </div>
+      </div>
+
+      <details>
+        <summary><span class="dot bad"></span> Red lines (do not do)</summary>
+        <ul>
+          <li>Do not refuse viewings while claiming the property is “available”.</li>
+          <li>Do not make the premium listing “impossibly priced” for a long period without review.</li>
+          <li>Do not mix accounts/records between properties or owners.</li>
+          <li>Do not use discriminatory language in listings or selection.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="card" aria-label="Quick message for family" style="margin-top:14px">
+      <h2 style="margin:0 0 10px">Message to Family (Copy & Send)</h2>
+      <p class="muted" style="margin:0 0 10px">
+        Use the button below to copy a short message and share it with family in one click.
+      </p>
+      <div class="mono" id="familyMsg">I’ve set up a clear two-track rental operating plan for the two properties.
+Track A is premium/self-managed with structured tenant selection and clear house rules.
+Track B is standard/agent-managed for stable cash-flow with minimal involvement.
+
+Both properties may be listed, but it’s acceptable that only one is actively let at a time.
+Switching is operational (not emotional) and is pre-defined on the page.</div>
+      <div class="btnbar">
+        <button type="button" onclick="copyFamilyMessage()">Copy family message</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="stamp"><span class="mini"></span> Version: v1.0 · Status: Active</div>
+      <div class="muted">Purpose: internal coordination · Not a public listing</div>
+    </div>
+  </main>
+
+  <script>
+    function copyText(text){
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => toast("Copied."));
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        toast("Copied.");
+      }
+    }
+
+    function copyLink(){
+      copyText(window.location.href);
+    }
+
+    function copySummary(){
+      const txt = document.getElementById("overviewBox").innerText.trim();
+      copyText(txt);
+    }
+
+    function copyFamilyMessage(){
+      const txt = document.getElementById("familyMsg").innerText.trim();
+      copyText(txt);
+    }
+
+    function toast(msg){
+      const el = document.createElement("div");
+      el.textContent = msg;
+      el.style.position = "fixed";
+      el.style.right = "16px";
+      el.style.bottom = "16px";
+      el.style.padding = "10px 12px";
+      el.style.borderRadius = "12px";
+      el.style.background = "rgba(0,0,0,.72)";
+      el.style.border = "1px solid rgba(255,255,255,.18)";
+      el.style.color = "#e9eef6";
+      el.style.fontFamily = "ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial";
+      el.style.boxShadow = "0 18px 60px rgba(0,0,0,.45)";
+      el.style.zIndex = "9999";
+      document.body.appendChild(el);
+      setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .35s"; }, 1100);
+      setTimeout(()=>{ el.remove(); }, 1550);
+    }
+  </script>
+</body>
+</html>
