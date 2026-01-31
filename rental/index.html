@@ -310,112 +310,44 @@ Core: switching is operational, not emotional.</div>
     <div class="footer">
       <div>Version: v1.0 · Status: Active</div>
       <div>Internal coordination only · noindex</div>
+
+<div style="margin-top:18px;color:#a9b4c3;font-size:12px;line-height:1.6">
+  <em>
+  Open cards do not weaken a position.  
+  They clarify it.
+</em><br/>
+  <span>明牌行事。本页记录的是原则。</span>
+</div>      
+      
     </div>
   </main>
 
-  <script>
-    // =========================
-    //  PASSCODE CONFIG
-    // =========================
-    // 1) Choose a passcode, e.g. "Goldisle-2026"
-    // 2) Open this page locally, click "Generate hash" in console method below, or use the built-in helper:
-    //    - Temporarily set PASSCODE_PLAIN below, refresh, and it will print the hash in console.
-    // 3) Paste the hash into PASSCODE_HASH and clear PASSCODE_PLAIN.
-    //
-    // Note: This is obfuscation, not strong security.
+<script>
+  const PASSCODE = "eastwest"; // ← 你想用的口令，改成 123 / welcome / fairplay 都行
 
-    const PASSCODE_HASH = "REPLACE_WITH_SHA256_HEX"; // <-- TODO: replace
-    const PASSCODE_PLAIN = ""; // <-- optional helper: put your passcode here once to get hash printed, then clear it.
+  function unlock(){
+    const input = document.getElementById("pass").value.trim();
+    const err = document.getElementById("err");
+    err.style.display = "none";
 
-    // helper: print hash once if PASSCODE_PLAIN is set
-    (async () => {
-      if (PASSCODE_PLAIN && PASSCODE_PLAIN.trim().length > 0) {
-        const h = await sha256Hex(PASSCODE_PLAIN.trim());
-        console.log("SHA-256(passcode) =", h);
-        console.log("Paste this into PASSCODE_HASH, then clear PASSCODE_PLAIN.");
-      }
-    })();
-
-    function copyLink(){ copyText(window.location.href); }
-    function copySummary(){ copyText(document.getElementById("overviewBox").innerText.trim()); }
-
-    function lockBack(){
-      sessionStorage.removeItem("eastwest_unlocked");
-      document.getElementById("content").classList.add("hidden");
-      document.getElementById("gate").classList.remove("hidden");
-      document.getElementById("pass").value = "";
-      toast("Locked.");
+    if (input === PASSCODE) {
+      sessionStorage.setItem("eastwest_unlocked","1");
+      document.getElementById("gate").classList.add("hidden");
+      document.getElementById("content").classList.remove("hidden");
+    } else {
+      err.textContent = "口令不正确 / Incorrect passcode.";
+      err.style.display = "block";
     }
+  }
 
-    async function unlock(){
-      const input = document.getElementById("pass").value.trim();
-      const err = document.getElementById("err");
-      err.style.display = "none";
-
-      if (!PASSCODE_HASH || PASSCODE_HASH === "REPLACE_WITH_SHA256_HEX") {
-        err.textContent = "尚未设置 PASSCODE_HASH，请先配置。/ PASSCODE_HASH not set.";
-        err.style.display = "block";
-        return;
-      }
-
-      const h = await sha256Hex(input);
-      if (h === PASSCODE_HASH) {
-        sessionStorage.setItem("eastwest_unlocked","1");
-        document.getElementById("gate").classList.add("hidden");
-        document.getElementById("content").classList.remove("hidden");
-        toast("Unlocked.");
-      } else {
-        err.textContent = "口令不正确 / Incorrect passcode.";
-        err.style.display = "block";
-      }
+  // 本会话记忆（刷新不再输）
+  (function(){
+    if (sessionStorage.getItem("eastwest_unlocked") === "1") {
+      document.getElementById("gate").classList.add("hidden");
+      document.getElementById("content").classList.remove("hidden");
     }
-
-    // auto-unlock per session
-    (function(){
-      if (sessionStorage.getItem("eastwest_unlocked") === "1") {
-        document.getElementById("gate").classList.add("hidden");
-        document.getElementById("content").classList.remove("hidden");
-      }
-    })();
-
-    async function sha256Hex(str){
-      const buf = new TextEncoder().encode(str);
-      const digest = await crypto.subtle.digest("SHA-256", buf);
-      return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2,"0")).join("");
-    }
-
-    function copyText(text){
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(()=>toast("Copied."));
-      } else {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        toast("Copied.");
-      }
-    }
-
-    function toast(msg){
-      const el = document.createElement("div");
-      el.textContent = msg;
-      el.style.position="fixed";
-      el.style.right="16px";
-      el.style.bottom="16px";
-      el.style.padding="10px 12px";
-      el.style.borderRadius="12px";
-      el.style.background="rgba(0,0,0,.72)";
-      el.style.border="1px solid rgba(255,255,255,.18)";
-      el.style.color="#e9eef6";
-      el.style.fontFamily="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial";
-      el.style.boxShadow="0 18px 60px rgba(0,0,0,.45)";
-      el.style.zIndex="9999";
-      document.body.appendChild(el);
-      setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .35s"; }, 1100);
-      setTimeout(()=>{ el.remove(); }, 1550);
-    }
-  </script>
+  })();
+</script>
+  
 </body>
 </html>
