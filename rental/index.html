@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Two-Track Rental Operation – Operating Standard</title>
+  <title>East / West 租赁运行标准（内部）</title>
   <style>
     :root{
       --bg:#0b0d10;
@@ -22,73 +22,18 @@
       --radius:18px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "PingFang SC","Hiragino Sans GB","Noto Sans CJK SC";
       background:
         radial-gradient(1200px 700px at 70% -10%, rgba(125,211,252,.18), transparent 55%),
         radial-gradient(900px 600px at 10% 0%, rgba(134,239,172,.10), transparent 60%),
         radial-gradient(1000px 700px at 90% 100%, rgba(251,191,36,.10), transparent 60%),
         var(--bg);
       color:var(--text);
-      line-height:1.5;
+      line-height:1.6;
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 18px 56px;
-    }
-    header{
-      padding: 22px 22px 18px;
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    header:before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(800px 260px at 35% 0%, rgba(125,211,252,.18), transparent 55%),
-        radial-gradient(700px 260px at 80% 10%, rgba(134,239,172,.12), transparent 60%);
-      pointer-events:none;
-      filter: blur(0px);
-    }
-    header > *{position:relative}
-    .kicker{
-      font-size: 12px;
-      letter-spacing:.18em;
-      text-transform: uppercase;
-      color:var(--muted);
-      margin:0 0 8px;
-    }
-    h1{
-      margin:0 0 10px;
-      font-weight: 750;
-      font-size: 28px;
-      line-height:1.18;
-    }
-    .sub{
-      margin:0;
-      color: var(--muted);
-      max-width: 70ch;
-    }
-    .row{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 14px;
-      margin-top: 14px;
-      align-items: stretch;
-    }
-    @media (max-width: 860px){
-      .row{grid-template-columns:1fr}
-    }
+    .wrap{max-width: 980px;margin:0 auto;padding: 28px 18px 56px;}
     .card{
       border:1px solid var(--line);
       background: rgba(16,20,26,.72);
@@ -96,68 +41,40 @@
       box-shadow: var(--shadow);
       padding: 18px;
     }
-    .card h2{
-      margin:0 0 10px;
-      font-size: 16px;
-      letter-spacing:.02em;
-    }
+    h1{margin:0 0 10px;font-weight:780;font-size: 26px;line-height:1.18;}
+    h2{margin:0 0 10px;font-size:16px;letter-spacing:.02em}
+    .muted{color:var(--muted)}
+    .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
+    .row{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+    @media (max-width: 860px){ .row,.grid{grid-template-columns:1fr} }
     .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 7px 10px;
-      border:1px solid var(--line2);
-      border-radius: 999px;
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-size: 13px;
-      margin-right: 8px;
-      margin-top: 8px;
-      user-select:none;
+      display:inline-flex;gap:8px;align-items:center;padding:7px 10px;
+      border:1px solid var(--line2);border-radius:999px;background:rgba(0,0,0,.18);
+      color:var(--muted);font-size:13px;margin-right:8px;margin-top:8px;
     }
-    .pill b{color:var(--text); font-weight:650}
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 14px;
-    }
-    @media (max-width: 860px){
-      .grid{grid-template-columns:1fr}
-    }
+    .pill b{color:var(--text);font-weight:650}
     .tag{
-      display:inline-block;
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border:1px solid var(--line2);
-      color:var(--muted);
-      margin-top: 2px;
+      display:inline-block;font-size:12px;padding:4px 8px;border-radius:999px;
+      border:1px solid var(--line2);color:var(--muted);margin-top:2px;
     }
-    .tag.ok{border-color:rgba(134,239,172,.35); color:#b9f6cf}
-    .tag.warn{border-color:rgba(251,191,36,.35); color:#ffe1a1}
-    .tag.bad{border-color:rgba(251,113,133,.35); color:#ffc0cb}
-    ul{margin:10px 0 0 18px; padding:0}
+    .tag.ok{border-color:rgba(134,239,172,.35);color:#b9f6cf}
+    .tag.warn{border-color:rgba(251,191,36,.35);color:#ffe1a1}
+    .tag.bad{border-color:rgba(251,113,133,.35);color:#ffc0cb}
+    ul{margin:10px 0 0 18px;padding:0}
     li{margin:6px 0}
     .mono{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 13px;
-      color: #d7e1ee;
-      border:1px dashed var(--line2);
-      background: rgba(0,0,0,.18);
-      border-radius: 14px;
-      padding: 12px 12px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      margin-top: 10px;
+      font-size: 13px;color:#d7e1ee;border:1px dashed var(--line2);
+      background:rgba(0,0,0,.18);border-radius:14px;padding:12px;white-space:pre-wrap;word-break:break-word;
+      margin-top:10px;
     }
-    .section-title{
-      margin: 18px 0 10px;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing:.18em;
-      text-transform: uppercase;
+    .btnbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    button{
+      border:1px solid var(--line2);background:rgba(0,0,0,.20);color:var(--text);
+      padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:650;
     }
+    button:hover{border-color:rgba(125,211,252,.45)}
     details{
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -166,274 +83,310 @@
       margin-top: 12px;
     }
     details summary{
-      cursor: pointer;
-      list-style: none;
-      font-weight: 650;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      user-select:none;
+      cursor: pointer;list-style:none;font-weight:650;display:flex;gap:10px;align-items:center;user-select:none;
     }
     details summary::-webkit-details-marker{display:none}
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(125,211,252,.16);
-      flex:0 0 auto;
-    }
-    .dot.ok{background:var(--ok); box-shadow: 0 0 0 4px rgba(134,239,172,.14)}
-    .dot.warn{background:var(--warn); box-shadow: 0 0 0 4px rgba(251,191,36,.14)}
-    .dot.bad{background:var(--bad); box-shadow: 0 0 0 4px rgba(251,113,133,.14)}
-    .muted{color:var(--muted)}
-    .btnbar{display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px}
-    button{
-      border:1px solid var(--line2);
-      background: rgba(0,0,0,.20);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor:pointer;
-      font-weight:650;
-    }
-    button:hover{border-color:rgba(125,211,252,.45)}
-    .footer{
-      margin-top: 16px;
-      color: var(--muted);
-      font-size: 12px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      padding: 0 2px;
-    }
-    .stamp{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .stamp .mini{
-      width:8px;height:8px;border-radius:50%;
-      background: rgba(125,211,252,.8);
-      box-shadow: 0 0 0 4px rgba(125,211,252,.12);
-    }
-    .divider{
-      height:1px;
-      background: var(--line);
-      margin: 14px 0;
-    }
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(125,211,252,.16)}
+    .dot.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(134,239,172,.14)}
+    .dot.warn{background:var(--warn);box-shadow:0 0 0 4px rgba(251,191,36,.14)}
+    .dot.bad{background:var(--bad);box-shadow:0 0 0 4px rgba(251,113,133,.14)}
+    .divider{height:1px;background:var(--line);margin:14px 0;}
     .callout{
-      border:1px solid var(--line2);
-      background: rgba(0,0,0,.18);
-      border-radius: var(--radius);
-      padding: 12px 14px;
-      color: var(--muted);
+      border:1px solid var(--line2);background:rgba(0,0,0,.18);
+      border-radius: var(--radius);padding:12px 14px;color:var(--muted);
     }
     .callout b{color:var(--text)}
+    .footer{
+      margin-top: 16px;color: var(--muted);font-size: 12px;
+      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 2px;
+    }
+
+    /* Gate */
+    .gate{
+      max-width: 560px;
+      margin: 10vh auto 0;
+      padding: 0 18px;
+    }
+    .gate .card{padding:22px}
+    .input{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line2);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+      margin-top: 10px;
+    }
+    .error{color:#ffd1d8;font-size:13px;margin-top:10px;display:none}
+    .hint{font-size:12px;color:var(--muted);margin-top:10px}
+    .hidden{display:none !important}
   </style>
 </head>
 
 <body>
-  <main class="wrap">
-    <header>
-      <p class="kicker">Family-facing operational page</p>
-      <h1>Two-Track Rental Operation – Operating Standard</h1>
-      <p class="sub">
-        This page documents the agreed rental operating method for two properties.
-        It is designed for clarity, stability, compliance, and long-term execution.
+  <!-- PASSWORD GATE -->
+  <section id="gate" class="gate">
+    <div class="card">
+      <p class="kicker">Private access · 内部访问</p>
+      <h1>请输入访问口令 / Enter passcode</h1>
+      <p class="muted" style="margin:0">
+        这是内部操作标准页（非房源广告）。<br/>
+        This is an internal operating standard page (not a public listing).
       </p>
 
-      <div class="btnbar" aria-label="Actions">
-        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+      <input id="pass" class="input" type="password" autocomplete="current-password"
+             placeholder="口令 / Passcode" />
+
+      <div class="btnbar">
+        <button type="button" onclick="unlock()">Unlock / 解锁</button>
         <button type="button" onclick="copyLink()">Copy page link</button>
+      </div>
+
+      <div id="err" class="error">口令不正确 / Incorrect passcode.</div>
+      <div class="hint">
+        提示：前端口令属于“遮挡”，不是强安全。需要真正门禁请用 Cloudflare Access。<br/>
+        Note: Front-end passcode is obfuscation, not strong security. Use Cloudflare Access for real gating.
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <main id="content" class="wrap hidden">
+    <header class="card">
+      <p class="kicker">Family-facing operational page · 家庭协同页</p>
+      <h1>East / West 租赁运行标准（Operating Standard）</h1>
+      <p class="muted" style="margin:0">
+        目的：减少反复解释、统一执行口径、稳定现金流、降低风险。<br/>
+        Purpose: consistency, stability, compliance, and reduced friction.
+      </p>
+
+      <div class="btnbar">
+        <button type="button" onclick="window.print()">Print / Save as PDF</button>
         <button type="button" onclick="copySummary()">Copy quick summary</button>
+        <button type="button" onclick="lockBack()">Lock / 重新上锁</button>
       </div>
 
       <div class="row">
-        <div class="card">
-          <h2>Operating Principle</h2>
+        <div class="card" style="box-shadow:none;background:rgba(16,20,26,.52)">
+          <h2>总原则 / Operating Principle</h2>
           <div class="callout">
-            <b>Both properties may be listed</b>, but it is acceptable that only one is actively let at a given time.
-            The other remains flexible by design (premium positioning / selective letting).
+            <b>两套都可以挂牌</b>，但在同一时间只需要成交其中一套也完全正常；另一套作为缓冲位（溢价定位/选择性出租）。<br/>
+            <b>Both properties may be listed</b>, while it is acceptable that only one is actively let at a time. The other is a deliberate buffer (premium/selective positioning).
           </div>
 
           <div class="divider"></div>
-
           <div>
-            <span class="pill"><b>Track A</b> High-value • Self-managed • Selective</span>
-            <span class="pill"><b>Track B</b> Standard rent • Agent-managed • Stable</span>
+            <span class="pill"><b>East</b> 高价自营 · 精选租客 / Premium self-managed</span>
+            <span class="pill"><b>West</b> 中介托管 · 标准服务 / Agent-managed standard</span>
           </div>
 
-          <div class="mono" id="overviewBox">Property A → Track A (premium, self-managed, selective letting)
-Property B → Track B (standard, fully managed by agent)
+          <div class="mono" id="overviewBox">East → Track A（高价自营：格式操作法 + 精选租客 + 服务溢价）
+West → Track B（中介托管：标准定价 + 标准服务 + 现金流稳定）
 
-Goal: stable operation without emotional decision-making.
-Switching is operational, not emotional.</div>
+核心：切换是“运营动作”，不是“情绪动作”。
+Core: switching is operational, not emotional.</div>
         </div>
 
-        <div class="card">
-          <h2>Status</h2>
-          <div class="section-title">Policy</div>
+        <div class="card" style="box-shadow:none;background:rgba(16,20,26,.52)">
+          <h2>状态 / Status</h2>
           <ul>
             <li><span class="tag ok">Active</span> v1.0</li>
-            <li><span class="tag warn">Next start</span> next month</li>
-            <li><span class="tag ok">Style split</span> East vs West positioning</li>
+            <li><span class="tag warn">Start</span> next month / 下个月启动</li>
+            <li><span class="tag ok">Positioning</span> East vs West style split</li>
           </ul>
-          <div class="section-title">Notes</div>
-          <p class="muted" style="margin:0">
-            This page is for family coordination and internal consistency.
-            It is not a public listing and is not intended for tenants.
+          <p class="muted" style="margin:10px 0 0">
+            本页供家人/内部协同使用，非租客可见广告页。<br/>
+            Internal coordination only; not intended for tenants.
           </p>
         </div>
       </div>
     </header>
 
     <div class="grid">
-      <section class="card" aria-label="Track A">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-          <h2 style="margin:0">Track A – High-Value Selective Letting</h2>
-          <span class="tag ok">Self-managed</span>
+      <!-- EAST -->
+      <section class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <h2 style="margin:0">East（Track A）— 高价自营 / Premium Self-Managed</h2>
+          <span class="tag ok">Selective</span>
         </div>
         <p class="muted" style="margin:10px 0 0">
-          Objective: premium price through premium clarity. We select tenants proactively and reduce occupancy risk.
+          目标：溢价来自“清晰规则 + 快速响应 + 主动选择优质租客”。<br/>
+          Objective: premium through clarity, responsiveness, and selective letting.
         </p>
 
-        <div class="section-title">Structured Flow</div>
-        <div class="mono">Application → Screening → References → Agreement → Ongoing service</div>
+        <div class="mono">申请 Application → 筛选 Screening → 资信 References/Right-to-Rent → 签约 Agreement → 服务 Service</div>
 
-        <div class="section-title">Tenant Selection (Non-discriminatory)</div>
         <ul>
-          <li>Professionals preferred; stable income and references required.</li>
-          <li>No subletting. No short-term letting. Named occupants only.</li>
-          <li>Clear house rules sent <b>before</b> signing.</li>
-          <li>Responsive maintenance: target response within <b>24–48 hours</b> for typical issues.</li>
-        </ul>
-
-        <div class="section-title">House Rules (Summary)</div>
-        <ul>
-          <li><b>Occupancy:</b> no sharers, no subletting, named occupants only.</li>
-          <li><b>Use:</b> residential only; no business or short-term letting.</li>
-          <li><b>Noise:</b> respect neighbours; no parties/events.</li>
-          <li><b>Maintenance:</b> report issues promptly; landlord responds within agreed timeframe.</li>
-          <li><b>Termination:</b> break clause after 6 months (or agreed); notice per tenancy.</li>
+          <li><b>不合租 / No sharers</b>；不转租 / No subletting；不短租 / No short-term letting</li>
+          <li>签约前先发 House Rules（让规则先落地）</li>
+          <li>维修响应目标：常规问题 24–48 小时内给出安排</li>
+          <li>服务溢价必须“可感知”：干净、稳定、响应、规则清晰</li>
         </ul>
 
         <details>
-          <summary><span class="dot ok"></span> Track A quick checklist</summary>
+          <summary><span class="dot ok"></span> East 快速清单 / Quick checklist</summary>
           <ul>
-            <li>Written application form collected</li>
-            <li>Right to Rent checks completed</li>
-            <li>Employment + previous landlord references</li>
-            <li>Deposit handled correctly by the chosen scheme</li>
-            <li>Inventory (photos + list) stored</li>
-            <li>House rules acknowledged in writing</li>
+            <li>申请表 / Application form</li>
+            <li>Right to Rent</li>
+            <li>Employment + landlord references</li>
+            <li>Deposit scheme + inventory evidence</li>
+            <li>House Rules written acknowledgement</li>
           </ul>
         </details>
       </section>
 
-      <section class="card" aria-label="Track B">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-          <h2 style="margin:0">Track B – Standard Managed Letting</h2>
-          <span class="tag warn">Agent-managed</span>
+      <!-- WEST -->
+      <section class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <h2 style="margin:0">West（Track B）— 中介托管 / Agent-Managed Standard</h2>
+          <span class="tag warn">Standard</span>
         </div>
         <p class="muted" style="margin:10px 0 0">
-          Objective: cash-flow stability with minimal landlord involvement. Standard service only.
+          目标：标准化、低参与、快成交、稳现金流。<br/>
+          Objective: standardisation, minimal involvement, stable cash-flow.
         </p>
 
-        <div class="section-title">Agent Instructions (Core)</div>
         <ul>
-          <li><b>Pricing:</b> market rent; review at day 14 and day 28.</li>
-          <li><b>Fees:</b> management fee charged only when rent is collected; no fee during void periods.</li>
-          <li><b>Repairs:</b> agent authorised up to £150 without approval; above requires written consent.</li>
-          <li><b>Tenant Management:</b> agent handles all tenant communication; landlord not involved in daily matters.</li>
-        </ul>
-
-        <div class="section-title">Minimum Tenant Standard</div>
-        <ul>
-          <li>Right to Rent compliant</li>
-          <li>Referencing completed</li>
-          <li>No known rent arrears history</li>
+          <li><b>标准定价 / Market rent</b>：第 14 天复盘，第 28 天必须调整</li>
+          <li><b>空置不收管理费 / No management fee during voids</b></li>
+          <li>维修授权 ≤ £150 中介直接处理；超过需你书面同意</li>
+          <li>中介承担租客沟通与日常管理，你不参与</li>
         </ul>
 
         <details>
-          <summary><span class="dot warn"></span> Track B void-control rules (0–45 days)</summary>
+          <summary><span class="dot warn"></span> West 空置止损节奏 / Void-control cadence</summary>
           <ul>
-            <li><b>Day 14:</b> if viewings are weak → adjust price/photos/listing quality.</li>
-            <li><b>Day 28:</b> must move to “deal price” (market median) or offer incentive.</li>
-            <li><b>Day 45:</b> review agent performance; switch agent if needed.</li>
+            <li><b>Day 14：</b>无带看 = 价格/照片/广告问题</li>
+            <li><b>Day 28：</b>必须切到成交价（中位）或给激励</li>
+            <li><b>Day 45：</b>复盘中介执行力；必要时换中介</li>
           </ul>
         </details>
       </section>
     </div>
 
-    <section class="card" aria-label="Switching logic" style="margin-top:14px">
-      <h2 style="margin:0 0 10px">Switching Logic (Pre-defined)</h2>
-      <p class="muted" style="margin:0 0 12px">
-        Switching is operational, not emotional. We keep a flexible buffer by design.
+    <section class="card" style="margin-top:14px">
+      <h2 style="margin:0 0 10px">切换逻辑 / Switching Logic</h2>
+      <p class="muted" style="margin:0 0 10px">
+        切换是运营动作，不是情绪动作。Switching is operational, not emotional.
       </p>
 
       <div class="grid" style="margin-top:0">
-        <div class="card" style="background:rgba(15,19,24,.55); box-shadow:none">
-          <div style="display:flex; gap:10px; align-items:center">
-            <span class="dot ok"></span>
-            <h2 style="margin:0; font-size:15px">Switch to Track A when</h2>
+        <div class="card" style="box-shadow:none;background:rgba(16,20,26,.52)">
+          <div style="display:flex;gap:10px;align-items:center">
+            <span class="dot ok"></span><h2 style="margin:0;font-size:15px">切换到 East / Switch to East when</h2>
           </div>
           <ul>
-            <li>Higher control is required (tenant selection, price protection).</li>
-            <li>Flexible use is preferred (buffer position).</li>
-            <li>Market conditions justify premium pricing.</li>
+            <li>你需要更强控制权（租客筛选/价格保护）</li>
+            <li>你需要保留缓冲位（可住/可调）</li>
+            <li>市场对“溢价定位”给得出价</li>
           </ul>
         </div>
 
-        <div class="card" style="background:rgba(15,19,24,.55); box-shadow:none">
-          <div style="display:flex; gap:10px; align-items:center">
-            <span class="dot warn"></span>
-            <h2 style="margin:0; font-size:15px">Switch to Track B when</h2>
+        <div class="card" style="box-shadow:none;background:rgba(16,20,26,.52)">
+          <div style="display:flex;gap:10px;align-items:center">
+            <span class="dot.warn dot"></span><h2 style="margin:0;font-size:15px">切换到 West / Switch to West when</h2>
           </div>
           <ul>
-            <li>Stability is prioritised (faster letting, less involvement).</li>
-            <li>Reduced day-to-day work is needed.</li>
-            <li>Market conditions favour standard letting.</li>
+            <li>你要稳定现金流、少操心</li>
+            <li>你精力要回收，不想参与日常管理</li>
+            <li>市场适合走标准快成交</li>
           </ul>
         </div>
       </div>
 
       <details>
-        <summary><span class="dot bad"></span> Red lines (do not do)</summary>
+        <summary><span class="dot bad"></span> 红线 / Red lines</summary>
         <ul>
-          <li>Do not refuse viewings while claiming the property is “available”.</li>
-          <li>Do not make the premium listing “impossibly priced” for a long period without review.</li>
-          <li>Do not mix accounts/records between properties or owners.</li>
-          <li>Do not use discriminatory language in listings or selection.</li>
+          <li>不要挂牌却拒绝带看 / Don’t list as available while refusing viewings</li>
+          <li>不要长期挂“明显不可能成交”的价格 / Don’t keep an impossibly high price without review</li>
+          <li>不要混账（两套/两名义必须分开）/ Don’t mix accounts or records</li>
+          <li>广告与筛选不得使用歧视性语言 / No discriminatory language</li>
         </ul>
       </details>
     </section>
 
-    <section class="card" aria-label="Quick message for family" style="margin-top:14px">
-      <h2 style="margin:0 0 10px">Message to Family (Copy & Send)</h2>
-      <p class="muted" style="margin:0 0 10px">
-        Use the button below to copy a short message and share it with family in one click.
-      </p>
-      <div class="mono" id="familyMsg">I’ve set up a clear two-track rental operating plan for the two properties.
-Track A is premium/self-managed with structured tenant selection and clear house rules.
-Track B is standard/agent-managed for stable cash-flow with minimal involvement.
-
-Both properties may be listed, but it’s acceptable that only one is actively let at a time.
-Switching is operational (not emotional) and is pre-defined on the page.</div>
-      <div class="btnbar">
-        <button type="button" onclick="copyFamilyMessage()">Copy family message</button>
-      </div>
-    </section>
-
     <div class="footer">
-      <div class="stamp"><span class="mini"></span> Version: v1.0 · Status: Active</div>
-      <div class="muted">Purpose: internal coordination · Not a public listing</div>
+      <div>Version: v1.0 · Status: Active</div>
+      <div>Internal coordination only · noindex</div>
     </div>
   </main>
 
   <script>
+    // =========================
+    //  PASSCODE CONFIG
+    // =========================
+    // 1) Choose a passcode, e.g. "Goldisle-2026"
+    // 2) Open this page locally, click "Generate hash" in console method below, or use the built-in helper:
+    //    - Temporarily set PASSCODE_PLAIN below, refresh, and it will print the hash in console.
+    // 3) Paste the hash into PASSCODE_HASH and clear PASSCODE_PLAIN.
+    //
+    // Note: This is obfuscation, not strong security.
+
+    const PASSCODE_HASH = "REPLACE_WITH_SHA256_HEX"; // <-- TODO: replace
+    const PASSCODE_PLAIN = ""; // <-- optional helper: put your passcode here once to get hash printed, then clear it.
+
+    // helper: print hash once if PASSCODE_PLAIN is set
+    (async () => {
+      if (PASSCODE_PLAIN && PASSCODE_PLAIN.trim().length > 0) {
+        const h = await sha256Hex(PASSCODE_PLAIN.trim());
+        console.log("SHA-256(passcode) =", h);
+        console.log("Paste this into PASSCODE_HASH, then clear PASSCODE_PLAIN.");
+      }
+    })();
+
+    function copyLink(){ copyText(window.location.href); }
+    function copySummary(){ copyText(document.getElementById("overviewBox").innerText.trim()); }
+
+    function lockBack(){
+      sessionStorage.removeItem("eastwest_unlocked");
+      document.getElementById("content").classList.add("hidden");
+      document.getElementById("gate").classList.remove("hidden");
+      document.getElementById("pass").value = "";
+      toast("Locked.");
+    }
+
+    async function unlock(){
+      const input = document.getElementById("pass").value.trim();
+      const err = document.getElementById("err");
+      err.style.display = "none";
+
+      if (!PASSCODE_HASH || PASSCODE_HASH === "REPLACE_WITH_SHA256_HEX") {
+        err.textContent = "尚未设置 PASSCODE_HASH，请先配置。/ PASSCODE_HASH not set.";
+        err.style.display = "block";
+        return;
+      }
+
+      const h = await sha256Hex(input);
+      if (h === PASSCODE_HASH) {
+        sessionStorage.setItem("eastwest_unlocked","1");
+        document.getElementById("gate").classList.add("hidden");
+        document.getElementById("content").classList.remove("hidden");
+        toast("Unlocked.");
+      } else {
+        err.textContent = "口令不正确 / Incorrect passcode.";
+        err.style.display = "block";
+      }
+    }
+
+    // auto-unlock per session
+    (function(){
+      if (sessionStorage.getItem("eastwest_unlocked") === "1") {
+        document.getElementById("gate").classList.add("hidden");
+        document.getElementById("content").classList.remove("hidden");
+      }
+    })();
+
+    async function sha256Hex(str){
+      const buf = new TextEncoder().encode(str);
+      const digest = await crypto.subtle.digest("SHA-256", buf);
+      return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+
     function copyText(text){
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => toast("Copied."));
+        navigator.clipboard.writeText(text).then(()=>toast("Copied."));
       } else {
         const ta = document.createElement("textarea");
         ta.value = text;
@@ -445,34 +398,20 @@ Switching is operational (not emotional) and is pre-defined on the page.</div>
       }
     }
 
-    function copyLink(){
-      copyText(window.location.href);
-    }
-
-    function copySummary(){
-      const txt = document.getElementById("overviewBox").innerText.trim();
-      copyText(txt);
-    }
-
-    function copyFamilyMessage(){
-      const txt = document.getElementById("familyMsg").innerText.trim();
-      copyText(txt);
-    }
-
     function toast(msg){
       const el = document.createElement("div");
       el.textContent = msg;
-      el.style.position = "fixed";
-      el.style.right = "16px";
-      el.style.bottom = "16px";
-      el.style.padding = "10px 12px";
-      el.style.borderRadius = "12px";
-      el.style.background = "rgba(0,0,0,.72)";
-      el.style.border = "1px solid rgba(255,255,255,.18)";
-      el.style.color = "#e9eef6";
-      el.style.fontFamily = "ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial";
-      el.style.boxShadow = "0 18px 60px rgba(0,0,0,.45)";
-      el.style.zIndex = "9999";
+      el.style.position="fixed";
+      el.style.right="16px";
+      el.style.bottom="16px";
+      el.style.padding="10px 12px";
+      el.style.borderRadius="12px";
+      el.style.background="rgba(0,0,0,.72)";
+      el.style.border="1px solid rgba(255,255,255,.18)";
+      el.style.color="#e9eef6";
+      el.style.fontFamily="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial";
+      el.style.boxShadow="0 18px 60px rgba(0,0,0,.45)";
+      el.style.zIndex="9999";
       document.body.appendChild(el);
       setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .35s"; }, 1100);
       setTimeout(()=>{ el.remove(); }, 1550);
