@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Evan Bei — Web3 Anchor (v1 Frozen)</title>
+  <meta name="description" content="A minimal, signed existence note — frozen as v1 with on-chain anchor proof." />
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --fg: #e7e7e7;
+      --muted: #a7a7a7;
+      --line: rgba(255,255,255,.12);
+      --card: rgba(255,255,255,.04);
+      --btn: rgba(255,255,255,.08);
+      --btnh: rgba(255,255,255,.14);
+      --ok: #7dffb2;
+      --warn: #ffd27d;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fbfbfd;
+        --fg: #0e0f12;
+        --muted: #444;
+        --line: rgba(0,0,0,.12);
+        --card: rgba(0,0,0,.03);
+        --btn: rgba(0,0,0,.06);
+        --btnh: rgba(0,0,0,.10);
+      }
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      letter-spacing: .2px;
+    }
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 42px 18px 64px;
+    }
+    .top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+    }
+    .brand h1 {
+      font-size: 20px;
+      margin: 0;
+      font-weight: 650;
+    }
+    .brand .sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .pill {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+    }
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .card h2 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    textarea, input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--fg);
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-family: var(--mono);
+      outline: none;
+    }
+    textarea { min-height: 164px; resize: vertical; }
+    input { height: 44px; }
+    textarea[readonly], input[readonly] {
+      opacity: .96;
+    }
+    .row { display: grid; gap: 10px; margin-top: 10px; }
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 10px 2px 6px;
+    }
+    .mono {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.45;
+      word-break: break-all;
+    }
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    button {
+      border: 1px solid var(--line);
+      background: var(--btn);
+      color: var(--fg);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--btnh); }
+    .status {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+    .status b { color: var(--fg); font-weight: 650; }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--line); }
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .tiny {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .hide { display: none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <h1>Web3 Anchor <span class="pill" style="margin-left:8px;">v1 frozen</span></h1>
+        <div class="sub">A minimal, signed existence note — no hype, no noise.</div>
+      </div>
+      <div class="pill" id="clock">UTC: —</div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Manifesto Text</h2>
+        <div class="tiny">This text is frozen as v1. Do not edit.</div>
+
+        <div class="row">
+          <textarea id="text" spellcheck="false" readonly>Evan Bei / billund
+Sound as Event
+Isle of Not Alone
+
+I anchor this statement as a proof of existence.
+Not for speculation, but for permanence.</textarea>
+        </div>
+
+        <div class="label">SHA-256 Fingerprint</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <div id="hash">—</div>
+        </div>
+
+        <div class="btns">
+          <button id="copyHash">Copy Hash</button>
+          <button id="copyText">Copy Text</button>
+          <button id="downloadProof">Download Proof (.txt)</button>
+        </div>
+
+        <div class="status" id="localStatus">
+          <b>Mode:</b> <span class="ok">Anchored</span> (v1 frozen)
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2>On-chain Anchor</h2>
+        <div class="tiny">These fields are frozen to match the on-chain record.</div>
+
+        <div class="label">Tx Hash</div>
+        <input id="tx" readonly
+          value="0x9d451fe8045572753287008c6e68895b3d5832d00f3640074143d4b7a9229e45" />
+
+        <div class="label">Chain</div>
+        <input id="chain" readonly value="Polygon" />
+
+        <div class="label">Explorer</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <a id="explorerLink" href="https://polygonscan.com/tx/0x9d451fe8045572753287008c6e68895b3d5832d00f3640074143d4b7a9229e45" target="_blank" rel="noopener noreferrer">
+            https://polygonscan.com/tx/0x9d451fe8045572753287008c6e68895b3d5832d00f3640074143d4b7a9229e45
+          </a>
+        </div>
+
+        <div class="label">Signer</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <div id="addr">0xc1ebbdf0cb1f9439e21490c8036bf76f7c578c8c</div>
+        </div>
+
+        <div class="label">Signature</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <div id="sig">0x460f488838749f9b20012e5089bc1bbd7d44c201453840cc49b7a3bb1a40b89f07e17e1128981f34507d9928b1d291dffe5bed33520576661d4e51144e78d7ed1b</div>
+        </div>
+
+        <!-- Keep copy for convenience; signing/connect removed in frozen mode -->
+        <div class="btns">
+          <button id="copySig">Copy Signature</button>
+        </div>
+
+        <div class="status" id="chainStatus">
+          <b>Frozen:</b> v1 anchor is fixed. New statements should be published as <span class="mono">v2.html</span>, <span class="mono">v3.html</span>, …
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>
+        This page is intentionally simple: a text, a hash, and proofs.
+        <br />
+        “Web3” here means: <b>verifiable permanence</b>, not social noise.
+      </div>
+      <div class="tiny" style="margin-top:10px;">
+        Suggested path: <span class="mono">/web3/</span> • Keep it stable so others can cite it.
+      </div>
+    </footer>
+  </div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  const textEl = $("text");
+  const hashEl = $("hash");
+  const txEl = $("tx");
+  const chainEl = $("chain");
+  const clockEl = $("clock");
+
+  const signerAddr = $("addr").textContent.trim();
+  const signature = $("sig").textContent.trim();
+
+  // --- Clock (UTC) ---
+  function tick() {
+    const d = new Date();
+    clockEl.textContent = "UTC: " + d.toISOString().replace("T"," ").replace("Z","Z");
+  }
+  tick(); setInterval(tick, 1000);
+
+  // --- SHA-256 ---
+  async function sha256Hex(str) {
+    const enc = new TextEncoder().encode(str);
+    const buf = await crypto.subtle.digest("SHA-256", enc);
+    const arr = Array.from(new Uint8Array(buf));
+    return arr.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function updateHash() {
+    const t = textEl.value.replace(/\r\n/g, "\n").trimEnd();
+    const h = await sha256Hex(t);
+    hashEl.textContent = "0x" + h;
+  }
+  updateHash();
+
+  // --- Utilities ---
+  async function copyToClipboard(text) {
+    await navigator.clipboard.writeText(text);
+  }
+
+  $("copyHash").addEventListener("click", async () => {
+    await copyToClipboard(hashEl.textContent);
+  });
+
+  $("copyText").addEventListener("click", async () => {
+    await copyToClipboard(textEl.value);
+  });
+
+  $("copySig").addEventListener("click", async () => {
+    await copyToClipboard(signature);
+  });
+
+  $("downloadProof").addEventListener("click", async () => {
+    const proof = [
+      "WEB3 ANCHOR PROOF (v1 frozen)",
+      "",
+      "Timestamp (UTC): " + new Date().toISOString(),
+      "Chain: " + (chainEl.value.trim() || "(not specified)"),
+      "Tx Hash: " + (txEl.value.trim() || "(not provided)"),
+      "Fingerprint (SHA-256): " + hashEl.textContent,
+      "Signer: " + (signerAddr || "(not provided)"),
+      "Signature: " + (signature || "(none)"),
+      "",
+      "Text:",
+      "-----",
+      textEl.value.replace(/\r\n/g, "\n").trimEnd(),
+      ""
+    ].join("\n");
+
+    const blob = new Blob([proof], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "web3-anchor-v1-proof.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+})();
+</script>
+</body>
+</html>
