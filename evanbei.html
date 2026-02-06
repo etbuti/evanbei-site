@@ -19,24 +19,26 @@
     .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
     @media (min-width: 760px) { .grid { grid-template-columns: 1fr 1fr; } }
 
-    /* Mark anchor styling (low-noise, aligned with main) */
-    .mark-anchor {
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px solid #eee;
-      font-size: 11px;
-      color: #aaa;
-      line-height: 1.6;
-    }
-    .mark-anchor a {
-      color: #aaa;
-      text-decoration: none;
-    }
-    .mark-anchor .usage a {
-      color: #bbb;
-      font-size: 10px;
-      text-decoration: none;
-    }
+/* Mark anchor styling (low-noise, centered footnote) */
+.mark-anchor{
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+  text-align: center;
+  font-size: 11px;
+  color: #aaa;
+  line-height: 1.6;
+}
+.mark-anchor a{
+  color:#aaa;
+  text-decoration:none;
+}
+.mark-anchor .usage a{
+  color:#bbb;
+  font-size:10px;
+}
+
+    
   </style>
 </head>
 
@@ -86,13 +88,18 @@
     <div class="hr"></div>
     <p class="meta">© Evan Bei. All rights reserved.</p>
 
-    <!-- MARK ANCHOR (low-noise) -->
-    <div class="mark-anchor" aria-label="Trademark anchors (low-noise)">
-      <div><a href="/tsinghua.html">TSINGHUA®</a></div>
-      <div class="usage"><a href="/tsinghua-usage.html">usage</a></div>
-    </div>
-    <!-- /MARK ANCHOR -->
+<!-- MARK ANCHOR (low-noise) -->
+<div class="mark-anchor" aria-label="Trademark anchors (low-noise)">
+  <div>
+    <a href="/tsinghua/tsinghua.html">TSINGHUA®</a>
+  </div>
+  <div class="usage">
+    <a href="/tsinghua/tsinghua-usage.html">usage</a>
+  </div>
+</div>
+<!-- /MARK ANCHOR -->
 
+    
   </main>
 </body>
 </html>
