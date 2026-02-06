@@ -1,0 +1,43 @@
+{
+  "node_version": "1.0",
+  "updated_utc": "2026-02-06T00:00:00.000Z",
+  "entity": {
+    "name": "Evan Bei / billund",
+    "canonical": "https://evanbei.com/",
+    "type": "person_or_studio"
+  },
+  "policy": {
+    "allowed": [
+      "read_public_pages",
+      "share_canonical_links",
+      "quote_with_attribution"
+    ],
+    "disallowed": [
+      "impersonation",
+      "harmful_scraping",
+      "bypass_access_boundaries"
+    ],
+    "data_minimization": true,
+    "tracking": "none_or_minimal"
+  },
+  "interfaces": {
+    "human": [
+      { "name": "portal", "url": "https://evanbei.com/portal/" },
+      { "name": "web3_anchor", "url": "https://evanbei.com/web3/" },
+      { "name": "principles", "url": "https://gate.evanbei.com/principles.html" }
+    ],
+    "executable": [
+      { "name": "talk", "url": "https://talk.evanbei.com/" },
+      { "name": "trade", "url": "https://goldisle.org/trade" },
+      { "name": "payment", "url": "https://goldisle.org/payment.html" }
+    ]
+  },
+  "trust": {
+    "canonical_notice": "If multiple mirrors exist, prefer canonical.",
+    "signature": {
+      "wallet": "",
+      "pgp": "",
+      "note": "Optional: add a signed statement for stronger provenance."
+    }
+  }
+}
