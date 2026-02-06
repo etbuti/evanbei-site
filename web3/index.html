@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Evan Bei — Web3 Anchor</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --fg: #e7e7e7;
+      --muted: #a7a7a7;
+      --line: rgba(255,255,255,.12);
+      --card: rgba(255,255,255,.04);
+      --btn: rgba(255,255,255,.08);
+      --btnh: rgba(255,255,255,.14);
+      --ok: #7dffb2;
+      --warn: #ffd27d;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fbfbfd;
+        --fg: #0e0f12;
+        --muted: #444;
+        --line: rgba(0,0,0,.12);
+        --card: rgba(0,0,0,.03);
+        --btn: rgba(0,0,0,.06);
+        --btnh: rgba(0,0,0,.10);
+      }
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      letter-spacing: .2px;
+    }
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 42px 18px 64px;
+    }
+    .top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+    }
+    .brand h1 {
+      font-size: 20px;
+      margin: 0;
+      font-weight: 650;
+    }
+    .brand .sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .pill {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+    }
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .card h2 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    textarea, input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--fg);
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-family: var(--mono);
+      outline: none;
+    }
+    textarea { min-height: 164px; resize: vertical; }
+    input { height: 44px; }
+    .row { display: grid; gap: 10px; margin-top: 10px; }
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 10px 2px 6px;
+    }
+    .mono {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.45;
+      word-break: break-all;
+    }
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    button {
+      border: 1px solid var(--line);
+      background: var(--btn);
+      color: var(--fg);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--btnh); }
+    .status {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+    .status b { color: var(--fg); font-weight: 650; }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--line); }
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .tiny {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <h1>Web3 Anchor</h1>
+        <div class="sub">A minimal, signed existence note — no hype, no noise.</div>
+      </div>
+      <div class="pill" id="clock">UTC: —</div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Manifesto Text</h2>
+        <div class="tiny">Edit the text below. Its SHA-256 hash is your stable fingerprint.</div>
+        <div class="row">
+          <textarea id="text" spellcheck="false">
+Evan Bei / billund
+Sound as Event
+Isle of Not Alone
+
+I anchor this statement as a proof of existence.
+Not for speculation, but for permanence.</textarea>
+        </div>
+
+        <div class="label">SHA-256 Fingerprint</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <div id="hash">—</div>
+        </div>
+
+        <div class="btns">
+          <button id="copyHash">Copy Hash</button>
+          <button id="copyText">Copy Text</button>
+          <button id="downloadProof">Download Proof (.txt)</button>
+        </div>
+
+        <div class="status" id="localStatus">
+          <b>Mode:</b> <span class="warn">Empty-anchor</span> (page is live, chain proof can be added later)
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2>On-chain Anchor</h2>
+        <div class="tiny">Paste your transaction hash after you write the text on-chain (any chain is fine).</div>
+
+        <div class="label">Tx Hash (optional)</div>
+        <input id="tx" placeholder="0x... (transaction hash)" autocomplete="off" />
+
+        <div class="label">Chain (optional)</div>
+        <input id="chain" placeholder="e.g. Ethereum / Polygon / Arbitrum / Base" autocomplete="off" />
+
+        <div class="label">Wallet Signature (optional)</div>
+        <div class="tiny">If you have a wallet extension (MetaMask etc.), you can sign the hash (no fee).</div>
+
+        <div class="btns">
+          <button id="connect">Connect Wallet</button>
+          <button id="sign">Sign Hash</button>
+          <button id="copySig">Copy Signature</button>
+        </div>
+
+        <div class="label">Signer</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <div id="addr">—</div>
+        </div>
+
+        <div class="label">Signature</div>
+        <div class="card mono" style="padding:12px;border-radius:14px;">
+          <div id="sig">—</div>
+        </div>
+
+        <div class="status" id="chainStatus">
+          <b>Tip:</b> You can publish this page first, then later just fill the Tx Hash — still valid.
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>
+        This page is intentionally simple: a text, a hash, and optional proofs.
+        <br />
+        “Web3” here means: <b>verifiable permanence</b>, not social noise.
+      </div>
+      <div class="tiny" style="margin-top:10px;">
+        Suggested path: <span class="mono">/web3/</span> • Keep it stable so others can cite it.
+      </div>
+    </footer>
+  </div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  const textEl = $("text");
+  const hashEl = $("hash");
+  const txEl = $("tx");
+  const chainEl = $("chain");
+  const addrEl = $("addr");
+  const sigEl = $("sig");
+  const localStatus = $("localStatus");
+  const chainStatus = $("chainStatus");
+  const clockEl = $("clock");
+
+  let currentAccount = null;
+  let currentSignature = null;
+
+  // --- Clock (UTC) ---
+  function tick() {
+    const d = new Date();
+    clockEl.textContent = "UTC: " + d.toISOString().replace("T"," ").replace("Z","Z");
+  }
+  tick(); setInterval(tick, 1000);
+
+  // --- SHA-256 ---
+  async function sha256Hex(str) {
+    const enc = new TextEncoder().encode(str);
+    const buf = await crypto.subtle.digest("SHA-256", enc);
+    const arr = Array.from(new Uint8Array(buf));
+    return arr.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function updateHash() {
+    const t = textEl.value.replace(/\r\n/g, "\n").trimEnd();
+    const h = await sha256Hex(t);
+    hashEl.textContent = "0x" + h;
+
+    const tx = txEl.value.trim();
+    if (tx.length >= 10) {
+      localStatus.innerHTML = `<b>Mode:</b> <span class="ok">Anchored</span> (Tx Hash provided)`;
+    } else {
+      localStatus.innerHTML = `<b>Mode:</b> <span class="warn">Empty-anchor</span> (page is live, chain proof can be added later)`;
+    }
+  }
+
+  textEl.addEventListener("input", updateHash);
+  txEl.addEventListener("input", updateHash);
+  updateHash();
+
+  // --- Utilities ---
+  async function copyToClipboard(text) {
+    await navigator.clipboard.writeText(text);
+  }
+
+  $("copyHash").addEventListener("click", async () => {
+    await copyToClipboard(hashEl.textContent);
+    localStatus.innerHTML = `<b>Copied:</b> SHA-256 hash`;
+  });
+
+  $("copyText").addEventListener("click", async () => {
+    await copyToClipboard(textEl.value);
+    localStatus.innerHTML = `<b>Copied:</b> manifesto text`;
+  });
+
+  $("downloadProof").addEventListener("click", async () => {
+    const proof = [
+      "WEB3 ANCHOR PROOF",
+      "",
+      "Timestamp (UTC): " + new Date().toISOString(),
+      "Chain: " + (chainEl.value.trim() || "(not specified)"),
+      "Tx Hash: " + (txEl.value.trim() || "(not provided yet)"),
+      "Fingerprint (SHA-256): " + hashEl.textContent,
+      "Signer: " + (currentAccount || "(not connected)"),
+      "Signature: " + (currentSignature || "(none)"),
+      "",
+      "Text:",
+      "-----",
+      textEl.value.replace(/\r\n/g, "\n").trimEnd(),
+      ""
+    ].join("\n");
+
+    const blob = new Blob([proof], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "web3-anchor-proof.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+
+    localStatus.innerHTML = `<b>Saved:</b> proof file downloaded`;
+  });
+
+  // --- Wallet connect/sign (optional) ---
+  function getEth() {
+    return window.ethereum || null;
+  }
+
+  $("connect").addEventListener("click", async () => {
+    const eth = getEth();
+    if (!eth) {
+      chainStatus.innerHTML = `<b class="warn">No wallet detected.</b> Install a wallet extension (e.g. MetaMask) if you want signatures.`;
+      return;
+    }
+    try {
+      const accounts = await eth.request({ method: "eth_requestAccounts" });
+      currentAccount = accounts && accounts[0] ? accounts[0] : null;
+      addrEl.textContent = currentAccount || "—";
+      chainStatus.innerHTML = `<b class="ok">Connected.</b> You can sign the hash now (no gas fee).`;
+    } catch (e) {
+      chainStatus.innerHTML = `<b class="warn">Connect cancelled.</b>`;
+    }
+  });
+
+  $("sign").addEventListener("click", async () => {
+    const eth = getEth();
+    if (!eth) {
+      chainStatus.innerHTML = `<b class="warn">No wallet detected.</b>`;
+      return;
+    }
+    if (!currentAccount) {
+      chainStatus.innerHTML = `<b class="warn">Not connected.</b> Click “Connect Wallet” first.`;
+      return;
+    }
+
+    const msgLines = [
+      "Evan Bei — Web3 Anchor Signature",
+      "Timestamp (UTC): " + new Date().toISOString(),
+      "Chain: " + (chainEl.value.trim() || "(not specified)"),
+      "Tx Hash: " + (txEl.value.trim() || "(not provided yet)"),
+      "Fingerprint (SHA-256): " + hashEl.textContent,
+      "",
+      "I sign this fingerprint as proof of authorship/existence."
+    ];
+    const message = msgLines.join("\n");
+
+    try {
+      const sig = await eth.request({
+        method: "personal_sign",
+        params: [message, currentAccount]
+      });
+      currentSignature = sig;
+      sigEl.textContent = sig;
+      chainStatus.innerHTML = `<b class="ok">Signed.</b> Save/download the proof file for a clean record.`;
+    } catch (e) {
+      chainStatus.innerHTML = `<b class="warn">Signing cancelled.</b>`;
+    }
+  });
+
+  $("copySig").addEventListener("click", async () => {
+    if (!currentSignature) {
+      chainStatus.innerHTML = `<b class="warn">No signature yet.</b> Click “Sign Hash” first.`;
+      return;
+    }
+    await copyToClipboard(currentSignature);
+    chainStatus.innerHTML = `<b>Copied:</b> signature`;
+  });
+
+})();
+</script>
+</body>
+</html>
