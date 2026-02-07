@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://evanbei.com/portal/</loc></url>
+  <url><loc>https://evanbei.com/node/</loc></url>
+
+  <url><loc>https://evanbei.com/.well-known/node.json</loc></url>
+  <url><loc>https://evanbei.com/well-known/node.json</loc></url>
+
+  <url><loc>https://evanbei.com/agent/manifest.json</loc></url>
+  <url><loc>https://evanbei.com/agent/protocol.json</loc></url>
+  <url><loc>https://evanbei.com/agent/access-policy.json</loc></url>
+  <url><loc>https://evanbei.com/agent/capability-map.json</loc></url>
+
+  <url><loc>https://evanbei.com/node/health.html</loc></url>
+  <url><loc>https://evanbei.com/node/checksums.json</loc></url>
+
+  <url><loc>https://gate.evanbei.com/principles.html</loc></url>
+</urlset>
