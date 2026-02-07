@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Wallet Signature</title>
+<style>
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 70px}
+.card{border:1px solid rgba(0,0,0,.12);border-radius:16px;padding:14px 14px;background:#fff;margin-top:14px}
+input,textarea,button,select{font:inherit}
+input,textarea,select{width:100%;box-sizing:border-box;padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,.18)}
+textarea{min-height:120px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+button{padding:10px 12px;border-radius:12px;border:1px solid rgba(0,0,0,.18);background:#fff;cursor:pointer}
+button:hover{background:rgba(0,0,0,.04)}
+pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
+.k{opacity:.65}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Wallet Signature</h1>
+  <p class="k">Local signing only. No backend. Use MetaMask (or any injected EIP-1193 wallet).</p>
+
+  <div class="card">
+    <h3>Context</h3>
+
+    <label>Capability</label>
+    <select id="cap">
+      <option value="talk">talk</option>
+      <option value="larc">larc</option>
+      <option value="larc_check_cn">larc_check_cn</option>
+      <option value="trade">trade (invite)</option>
+      <option value="payment">payment (invite)</option>
+    </select>
+
+    <label>Intent</label>
+    <input id="intent" placeholder="e.g. request quote for procurement / submit feedback / etc." />
+
+    <label>Nonce (auto)</label>
+    <input id="nonce" />
+
+    <label>Timestamp (UTC)</label>
+    <input id="ts" />
+  </div>
+
+  <div class="card">
+    <h3>Message to Sign</h3>
+    <div class="k">This message is deterministic. Signature can be verified with address + message + signature.</div>
+    <textarea id="msg"></textarea>
+
+    <div class="btns">
+      <button type="button" onclick="build()">Rebuild Message</button>
+      <button type="button" onclick="connect()">Connect Wallet</button>
+      <button type="button" onclick="sign()">Sign Message</button>
+      <button type="button" onclick="copyAll()">Copy Result</button>
+    </div>
+    <div id="status" class="k" style="margin-top:8px">Status: idle</div>
+  </div>
+
+  <div class="card">
+    <h3>Result</h3>
+    <pre id="out">—</pre>
+    <div class="k">Paste this block into your trace (or email). Do not sign secrets.</div>
+  </div>
+
+  <div class="card">
+    <h3>References</h3>
+    <div class="k">
+      <div>Node machine entry: <a href="/.well-known/node.json">/.well-known/node.json</a></div>
+      <div>Trace builder: <a href="/agent/trace.html">/agent/trace.html</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function utcNow(){ return new Date().toISOString().replace(/\.\d{3}Z$/,"Z"); }
+function randNonce(){
+  const a = new Uint8Array(16);
+  crypto.getRandomValues(a);
+  return Array.from(a).map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+function setStatus(t){ document.getElementById("status").textContent="Status: "+t; }
+
+function buildMessage(){
+  const cap = document.getElementById("cap").value;
+  const intent = document.getElementById("intent").value.trim();
+  const nonce = document.getElementById("nonce").value.trim();
+  const ts = document.getElementById("ts").value.trim();
+
+  const msg =
+`EVANBEI NODE — INVOCATION SIGNATURE
+canonical: https://evanbei.com/
+machine_entry: https://evanbei.com/.well-known/node.json
+
+capability: ${cap}
+intent: ${intent || "(empty)"}
+timestamp_utc: ${ts}
+nonce: ${nonce}
+
+principles: https://gate.evanbei.com/principles.html
+statement: I acknowledge the principles and submit this signature as provenance for the above invocation.`;
+
+  document.getElementById("msg").value = msg;
+  return msg;
+}
+
+async function build(){
+  buildMessage();
+  setStatus("message rebuilt");
+}
+
+let account = "";
+async function connect(){
+  if(!window.ethereum){ setStatus("no wallet found (install MetaMask)"); return; }
+  try{
+    const accs = await window.ethereum.request({ method: "eth_requestAccounts" });
+    account = (accs && accs[0]) ? accs[0] : "";
+    setStatus(account ? ("connected: "+account) : "not connected");
+  }catch(e){
+    setStatus("connect failed: "+e.message);
+  }
+}
+
+async function sign(){
+  if(!window.ethereum){ setStatus("no wallet found"); return; }
+  if(!account){ await connect(); }
+  if(!account){ return; }
+
+  const msg = buildMessage();
+  try{
+    setStatus("signing…");
+    // personal_sign expects hex or utf8 message; MetaMask accepts plain string
+    const signature = await window.ethereum.request({
+      method: "personal_sign",
+      params: [msg, account]
+    });
+
+    const res = {
+      signature_version: "1.0",
+      signer_address: account,
+      message: msg,
+      signature
+    };
+    document.getElementById("out").textContent = JSON.stringify(res, null, 2);
+    setStatus("signed");
+  }catch(e){
+    setStatus("sign failed: "+e.message);
+  }
+}
+
+async function copyAll(){
+  const txt = document.getElementById("out").textContent;
+  if(!txt || txt==="—"){ setStatus("nothing to copy"); return; }
+  await navigator.clipboard.writeText(txt);
+  setStatus("copied");
+}
+
+document.getElementById("nonce").value = randNonce();
+document.getElementById("ts").value = utcNow();
+buildMessage();
+</script>
+</body>
+</html>
