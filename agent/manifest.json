@@ -1,0 +1,40 @@
+{
+  "manifest_version": "1.0",
+  "entity": {
+    "name": "Evan Bei / billund",
+    "canonical": "https://evanbei.com/",
+    "node": "https://evanbei.com/node/",
+    "machine_entry": "https://evanbei.com/.well-known/node.json"
+  },
+  "policy": {
+    "principles": "https://gate.evanbei.com/principles.html",
+    "tracking": "none",
+    "data_minimization": true
+  },
+  "capabilities": [
+    {
+      "id": "talk",
+      "name": "Ephemeral Talk",
+      "url": "https://talk.evanbei.com/",
+      "inputs": ["text"],
+      "outputs": ["text"],
+      "notes": "No account, one-time link style."
+    },
+    {
+      "id": "trade",
+      "name": "Global Procurement",
+      "url": "https://goldisle.org/trade",
+      "inputs": ["inquiry_form"],
+      "outputs": ["pdf_invoice", "email_reply"],
+      "notes": "Business execution entry."
+    },
+    {
+      "id": "larc",
+      "name": "LARC Tools",
+      "url": "https://goldisle.org/larc",
+      "inputs": ["form"],
+      "outputs": ["result_page"],
+      "notes": "Utility entry."
+    }
+  ]
+}
