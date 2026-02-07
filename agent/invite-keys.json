@@ -8,7 +8,7 @@
       "id": "invite-001",
       "class": "invite",
       "capabilities": ["trade", "payment"],
-      "sha256": "PUT_SHA256_OF_KEY_HERE",
+      "sha256": "BC210EAF8184E5464FE79F67349D8B95683ECCB048FF4D4201A41919CF3101E7",
       "note": "Known counterparties (manual invitation)"
     }
   ]
