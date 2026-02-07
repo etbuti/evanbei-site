@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "algo": "sha256",
+  "issued_by": "Evan Bei / billund",
+  "issued_utc": "2026-02-07T00:00:00Z",
+  "keys": [
+    {
+      "id": "invite-001",
+      "class": "invite",
+      "capabilities": ["trade", "payment"],
+      "sha256": "PUT_SHA256_OF_KEY_HERE",
+      "note": "Known counterparties (manual invitation)"
+    }
+  ]
+}
