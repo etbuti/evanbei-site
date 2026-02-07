@@ -21,14 +21,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation M
 <body>
 <div class="wrap">
   <h1>Invite Check</h1>
-  <p class="k">Local verification only. The key is hashed in your browser and compared to <code>/agent/invite-keys.json</code>. No backend.</p>
+  <p class="k">
+    Local verification only. Your input is hashed in-browser (unless you paste a 64-hex token) and compared to
+    <code>/agent/invite-keys.json</code>. No backend.
+  </p>
 
   <div class="card">
-    <h3>Enter Invite Key</h3>
-    <input id="key" placeholder="Invite key"/>
+    <h3>Enter Invite Key / Token</h3>
+    <input id="key" placeholder="Invite key (plaintext) OR 64-hex token" />
     <div class="btns">
-      <button onclick="check()">Verify</button>
-      <button onclick="clearAll()">Clear</button>
+      <button type="button" onclick="check()">Verify</button>
+      <button type="button" onclick="clearAll()">Clear</button>
     </div>
     <div id="status" class="k" style="margin-top:8px">Status: idle</div>
   </div>
@@ -59,50 +62,62 @@ const MANIFEST_URL = "/agent/manifest.json";
 let inviteKeys = null;
 let manifest = null;
 
+function setStatus(t){
+  document.getElementById("status").textContent = "Status: " + t;
+}
+
 async function sha256(s){
-  const b=new TextEncoder().encode(s);
-  const h=await crypto.subtle.digest("SHA-256",b);
+  const b = new TextEncoder().encode(s);
+  const h = await crypto.subtle.digest("SHA-256", b);
   return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,"0")).join("");
 }
+
 async function loadAll(){
   try{ inviteKeys = await fetch(INVITE_KEYS_URL,{cache:"no-store"}).then(r=>r.json()); }catch(e){ inviteKeys=null; }
   try{ manifest = await fetch(MANIFEST_URL,{cache:"no-store"}).then(r=>r.json()); }catch(e){ manifest=null; }
 }
+
 function capUrl(id){
   if(!manifest || !Array.isArray(manifest.capabilities)) return "";
   const hit = manifest.capabilities.find(c=>c.id===id);
   return hit ? hit.url : "";
 }
-function setStatus(t){ document.getElementById("status").textContent = "Status: " + t; }
+
 function clearAll(){
-  document.getElementById("key").value="";
-  document.getElementById("result").style.display="none";
-  document.getElementById("caps").innerHTML="";
+  document.getElementById("key").value = "";
+  document.getElementById("result").style.display = "none";
+  document.getElementById("caps").innerHTML = "";
   setStatus("idle");
 }
+
 async function check(){
   const key = document.getElementById("key").value.trim();
   if(!key){ setStatus("enter a key"); return; }
-  if(!inviteKeys || !inviteKeys.keys){ await loadAll(); }
-  if(!inviteKeys || !Array.isArray(inviteKeys.keys)){ setStatus("failed to load invite-keys.json"); return; }
+
+  if(!inviteKeys || !manifest){
+    setStatus("loading…");
+    await loadAll();
+  }
+  if(!inviteKeys || !Array.isArray(inviteKeys.keys)){
+    setStatus("failed to load invite-keys.json");
+    return;
+  }
 
   const isHex64 = /^[0-9a-fA-F]{64}$/.test(key);
 
   let h = "";
-  if (isHex64) {
-    // Input is already a SHA-256 token (hex)
+  if(isHex64){
     setStatus("verifying token…");
     h = key.toLowerCase();
-  } else {
-    // Input is plaintext; hash locally
+  }else{
     setStatus("hashing…");
     h = (await sha256(key)).toLowerCase();
   }
 
   const hit = inviteKeys.keys.find(k => (k.sha256||"").toLowerCase() === h);
   if(!hit){
-    document.getElementById("result").style.display="none";
-    document.getElementById("caps").innerHTML="";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("caps").innerHTML = "";
     setStatus("invalid key");
     return;
   }
@@ -110,28 +125,19 @@ async function check(){
   const caps = Array.isArray(hit.capabilities) ? hit.capabilities : [];
   const ul = document.getElementById("caps");
   ul.innerHTML = "";
+
   for(const c of caps){
     const li = document.createElement("li");
     const url = capUrl(c) || "";
     li.innerHTML = url ? `<strong>${c}</strong>: <a href="${url}">${url}</a>` : `<strong>${c}</strong>`;
     ul.appendChild(li);
   }
-  document.getElementById("result").style.display="block";
-  setStatus("verified ("+hit.id+")");
+
+  document.getElementById("result").style.display = "block";
+  setStatus("verified (" + (hit.id || "ok") + ")");
 }
 
-  const caps = Array.isArray(hit.capabilities) ? hit.capabilities : [];
-  const ul = document.getElementById("caps");
-  ul.innerHTML = "";
-  for(const c of caps){
-    const li = document.createElement("li");
-    const url = capUrl(c) || "";
-    li.innerHTML = url ? `<strong>${c}</strong>: <a href="${url}">${url}</a>` : `<strong>${c}</strong>`;
-    ul.appendChild(li);
-  }
-  document.getElementById("result").style.display="block";
-  setStatus("verified ("+hit.id+")");
-}
+// preload
 loadAll();
 </script>
 </body>
