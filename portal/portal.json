@@ -1,3 +1,16 @@
+"wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
+"pgp": "https://evanbei.com/keys/evanbei.asc"
+
+"attestations": [
+  {
+    "type": "onchain_tx",
+    "chain": "Ethereum",
+    "tx": "0x9d451fe8045572753287008c6e68895b3d5832d00f3640074143d4b7a9229e45",
+    "note": "Anchor for node statement"
+  }
+]
+
+
 {
   "canonical": "https://evanbei.com/",
   "entity_name": "Evan Bei / billund",
