@@ -1,3 +1,24 @@
+"canonical": "https://evanbei.com/",
+"entity_name": "Evan Bei / billund",
+"entity_type": "person_or_studio",
+"node_version": "1.0",
+"wallet": "",
+"pgp": "",
+"policy_overrides": {
+  "tracking": "none",
+  "data_minimization": true
+},
+"schema": {
+  "type": "Person",
+  "sameAs": [
+    "https://goldisle.org/",
+    "https://aisland.uk/"
+  ],
+  "publishingPrinciples": "https://gate.evanbei.com/principles.html",
+  "contactUrl": "https://evanbei.com/portal/"
+}
+
+
 "wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
 "pgp": "https://evanbei.com/keys/evanbei.asc"
 
@@ -19,7 +40,6 @@
   "publishingPrinciples": "https://gate.evanbei.com/principles.html",
   "contactUrl": "https://evanbei.com/portal/"
 }
-
 
 
 {
