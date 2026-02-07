@@ -45,9 +45,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .well-known/node.json node/index.html || true
-          git commit -m "chore: derive node.json from portal.json" || exit 0
+          git add .well-known/node.json well-known/node.json node/index.html node/checksums.json || true
+          git commit -m "chore: derive node.json + checksums" || exit 0
           git push
+
 
       - name: Summary
         run: |
