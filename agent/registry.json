@@ -1,0 +1,29 @@
+{
+  "registry_version": "1.0",
+  "entity": {
+    "name": "Evan Bei / billund",
+    "canonical": "https://evanbei.com/",
+    "node": "https://evanbei.com/node/"
+  },
+  "machine_entry": "https://evanbei.com/.well-known/node.json",
+  "resources": {
+    "manifest": "https://evanbei.com/agent/manifest.json",
+    "protocol": "https://evanbei.com/agent/protocol.json",
+    "access_policy": "https://evanbei.com/agent/access-policy.json",
+    "capability_map": "https://evanbei.com/agent/capability-map.json",
+    "trace_template": "https://evanbei.com/agent/trace-template.json",
+    "trace_builder": "https://evanbei.com/agent/trace.html",
+    "wallet_sign": "https://evanbei.com/agent/sign.html",
+    "invite_check": "https://evanbei.com/agent/invite-check.html",
+    "invite_keys": "https://evanbei.com/agent/invite-keys.json"
+  },
+  "audit": {
+    "health": "https://evanbei.com/node/health.html",
+    "checksums": "https://evanbei.com/node/checksums.json"
+  },
+  "policy": {
+    "principles": "https://gate.evanbei.com/principles.html",
+    "tracking": "none",
+    "data_minimization": true
+  }
+}
