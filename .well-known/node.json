@@ -1,6 +1,6 @@
 {
   "node_version": "1.0",
-  "updated_utc": "2026-02-07T01:08:25.495Z",
+  "updated_utc": "2026-02-07T01:10:46.263Z",
   "entity": {
     "name": "Evan Bei / billund",
     "canonical": "https://evanbei.com/",
@@ -56,8 +56,13 @@
       },
       {
         "name": "node_json",
-        "url": "https://evanbei.com/.well-known/node.json",
+        "url": "https://evanbei.com/well-known/node.json",
         "meta": "Stable machine entry"
+      },
+      {
+        "name": "/.well-known/node.json",
+        "url": "https://evanbei.com/.well-known/node.json",
+        "meta": "最短机器入口（强烈建议）"
       },
       {
         "name": "/policy/",
