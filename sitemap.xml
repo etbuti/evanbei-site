@@ -14,5 +14,8 @@
   <url><loc>https://evanbei.com/node/health.html</loc></url>
   <url><loc>https://evanbei.com/node/checksums.json</loc></url>
 
+ <url><loc>https://evanbei.com/agent/registry.html</loc></url>
+ <url><loc>https://evanbei.com/agent/registry.json</loc></url>
+
   <url><loc>https://gate.evanbei.com/principles.html</loc></url>
 </urlset>
