@@ -1,6 +1,6 @@
 {
   "node_version": "1.0",
-  "updated_utc": "2026-02-07T09:34:30.164Z",
+  "updated_utc": "2026-02-07T09:38:59.218Z",
   "entity": {
     "name": "Evan Bei / billund",
     "canonical": "https://evanbei.com/",
@@ -107,6 +107,13 @@
         "meta": "展示节点（可升级为授权/交易执行）"
       }
     ]
+  },
+  "agent": {
+    "manifest": "https://evanbei.com/agent/manifest.json",
+    "protocol": "https://evanbei.com/agent/protocol.json",
+    "access_policy": "https://evanbei.com/agent/access-policy.json",
+    "capability_map": "https://evanbei.com/agent/capability-map.json",
+    "checksums": "https://evanbei.com/node/checksums.json"
   },
   "trust": {
     "canonical_notice": "If multiple mirrors exist, prefer canonical.",
