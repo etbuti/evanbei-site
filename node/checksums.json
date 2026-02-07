@@ -1,18 +1,18 @@
 {
-  "updated_utc": "2026-02-07T08:41:10.036Z",
+  "updated_utc": "2026-02-07T08:41:49.550Z",
   "algo": "sha256",
   "files": [
     {
       "path": "/portal/portal.json",
-      "sha256": "4ff0ba3941f5e0796510de8599acfbb23856ae4a7d2d5249bd4eb6e61a67af5c"
+      "sha256": "d85ed968f641e3d742f17a45f509dd05bda4ac2b47ac57f5ef78affdc2ea1e9d"
     },
     {
       "path": "/.well-known/node.json",
-      "sha256": "851d015dbd80139790ecf3f9a51cdad92ee02837439acfc7aa82d3765df06971"
+      "sha256": "693dfe53bacde5e82efba2c686370113cea13a60c2e83043e2fc183b88ec0706"
     },
     {
       "path": "/well-known/node.json",
-      "sha256": "851d015dbd80139790ecf3f9a51cdad92ee02837439acfc7aa82d3765df06971"
+      "sha256": "693dfe53bacde5e82efba2c686370113cea13a60c2e83043e2fc183b88ec0706"
     },
     {
       "path": "/node/index.html",
