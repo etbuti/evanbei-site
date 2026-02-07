@@ -1,0 +1,31 @@
+<!doctype html>
+<meta charset="utf-8"/>
+<title>Invite Check</title>
+<style>
+body{font-family:system-ui;padding:24px;max-width:680px}
+input,button{font-size:16px;padding:8px}
+.k{opacity:.65;margin-top:8px}
+</style>
+
+<h2>Invite Key Check</h2>
+<input id="key" placeholder="Enter invite key"/>
+<button onclick="check()">Check</button>
+<pre id="out" class="k"></pre>
+
+<script>
+async function sha256(s){
+  const b=new TextEncoder().encode(s);
+  const h=await crypto.subtle.digest("SHA-256",b);
+  return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+async function check(){
+  const key=document.getElementById("key").value.trim();
+  if(!key) return;
+  const hash=await sha256(key);
+  const j=await fetch("/agent/invite-keys.json",{cache:"no-store"}).then(r=>r.json());
+  const hit=j.keys.find(k=>k.sha256===hash);
+  document.getElementById("out").textContent =
+    hit ? "✅ Access granted: "+hit.capabilities.join(", ")
+        : "❌ Invalid key";
+}
+</script>
