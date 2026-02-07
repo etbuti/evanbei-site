@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Agent Registry</title>
+<meta name="robots" content="index,follow"/>
+<style>
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 70px}
+.card{border:1px solid rgba(0,0,0,.12);border-radius:16px;padding:14px 14px;background:#fff;margin-top:14px}
+.k{opacity:.65}
+ul{margin:8px 0 0 18px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Agent Registry</h1>
+  <p class="k">A human-facing directory for this node’s machine entry, capabilities, policies, and audit links.</p>
+
+  <div class="card">
+    <h3>Identity</h3>
+    <div><strong>Entity</strong>: Evan Bei / billund</div>
+    <div><strong>Canonical</strong>: <a href="https://evanbei.com/">https://evanbei.com/</a></div>
+    <div><strong>Node</strong>: <a href="/node/">/node/</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Machine Entry</h3>
+    <div><strong>node.json</strong>: <a href="/.well-known/node.json">/.well-known/node.json</a></div>
+    <div class="k" style="margin-top:6px">Stable machine entry for agents and indexers.</div>
+  </div>
+
+  <div class="card">
+    <h3>Agent Resources</h3>
+    <ul class="k">
+      <li>Manifest: <a href="/agent/manifest.json">/agent/manifest.json</a></li>
+      <li>Protocol: <a href="/agent/protocol.json">/agent/protocol.json</a></li>
+      <li>Access Policy: <a href="/agent/access-policy.json">/agent/access-policy.json</a></li>
+      <li>Capability Map: <a href="/agent/capability-map.json">/agent/capability-map.json</a></li>
+      <li>Trace Template: <a href="/agent/trace-template.json">/agent/trace-template.json</a></li>
+      <li>Trace Builder: <a href="/agent/trace.html">/agent/trace.html</a></li>
+      <li>Wallet Sign: <a href="/agent/sign.html">/agent/sign.html</a></li>
+      <li>Invite Check: <a href="/agent/invite-check.html">/agent/invite-check.html</a></li>
+      <li>Invite Keys (hashed): <a href="/agent/invite-keys.json">/agent/invite-keys.json</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Policy & Principles</h3>
+    <div><strong>Principles</strong>: <a href="https://gate.evanbei.com/principles.html">https://gate.evanbei.com/principles.html</a></div>
+    <div class="k" style="margin-top:6px">Agents should acknowledge principles before invoking executable capabilities.</div>
+  </div>
+
+  <div class="card">
+    <h3>Audit</h3>
+    <ul class="k">
+      <li>Health check: <a href="/node/health.html">/node/health.html</a></li>
+      <li>Checksums: <a href="/node/checksums.json">/node/checksums.json</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Registry Index (machine)</h3>
+    <div><strong>registry.json</strong>: <a href="/agent/registry.json">/agent/registry.json</a></div>
+    <div class="k" style="margin-top:6px">A compact index for crawlers and agent directories.</div>
+  </div>
+</div>
+</body>
+</html>
