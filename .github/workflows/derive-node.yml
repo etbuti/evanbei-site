@@ -1,0 +1,55 @@
+name: Derive node.json from portal.json
+
+on:
+  push:
+    paths:
+      - "portal/portal.json"
+      - "tools/derive-node.mjs"
+      - ".github/workflows/derive-node.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  derive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Derive node.json (+ optional node page)
+        run: node tools/derive-node.mjs
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git status --porcelain | grep .; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit & push generated files
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .well-known/node.json node/index.html || true
+          git commit -m "chore: derive node.json from portal.json" || exit 0
+          git push
+
+      - name: Summary
+        run: |
+          echo "Done."
+          echo "Generated: .well-known/node.json"
+          if [ -f node/index.html ]; then
+            echo "Generated: node/index.html"
+          fi
