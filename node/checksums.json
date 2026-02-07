@@ -1,0 +1,9 @@
+{
+  "updated_utc": "2026-02-07T00:00:00Z",
+  "files": [
+    { "path": "/portal/portal.json", "sha256": "..." },
+    { "path": "/.well-known/node.json", "sha256": "..." },
+    { "path": "/node/index.html", "sha256": "..." },
+    { "path": "/node/health.html", "sha256": "..." }
+  ]
+}
