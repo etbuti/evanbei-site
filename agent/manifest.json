@@ -4,7 +4,7 @@
     "name": "Evan Bei / billund",
     "canonical": "https://evanbei.com/",
     "node": "https://evanbei.com/node/",
-    "machine_entry": "https://evanbei.com/.well-known/node.json"
+    "machine_entry": "https://evanbei.com/well-known/node.json"
   },
 
   "policy": {
