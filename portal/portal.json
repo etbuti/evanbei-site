@@ -1,4 +1,14 @@
 {
+  "canonical": "https://evanbei.com/",
+  "entity_name": "Evan Bei / billund",
+  "node_version": "1.0",
+  "policy_overrides": {
+    "tracking": "none",
+    "data_minimization": true
+  }
+}
+
+{
   "title": "Portal",
   "subtitle": "Evan Bei / billund — Human · Machine · Executable",
   "tags": ["stable", "minimal", "auditable", "agent-ready"],
