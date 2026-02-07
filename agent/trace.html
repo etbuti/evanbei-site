@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Agent Trace Builder</title>
+<style>
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 70px}
+.card{border:1px solid rgba(0,0,0,.12);border-radius:16px;padding:14px 14px;background:#fff;margin-top:14px}
+label{display:block;margin-top:10px;font-weight:600}
+input,textarea,select{width:100%;box-sizing:border-box;padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,.18);font:inherit}
+textarea{min-height:110px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+button{padding:10px 12px;border-radius:12px;border:1px solid rgba(0,0,0,.18);background:#fff;font:inherit;cursor:pointer}
+button:hover{background:rgba(0,0,0,.04)}
+pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
+.k{opacity:.65}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Agent Trace Builder</h1>
+  <p class="k">Build a minimal, auditable trace (no backend). Copy JSON and send to the node owner.</p>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label>Capability</label>
+        <select id="cap">
+          <option value="talk">talk (public)</option>
+          <option value="larc">larc (public)</option>
+          <option value="larc_check_cn">larc_check_cn (public)</option>
+          <option value="gallery">gallery (public)</option>
+          <option value="trade">trade (invite)</option>
+          <option value="payment">payment (invite)</option>
+        </select>
+      </div>
+      <div>
+        <label>Timestamp (UTC)</label>
+        <input id="ts" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Caller name</label>
+        <input id="caller_name" placeholder="e.g. Alice / OrgName" />
+      </div>
+      <div>
+        <label>Caller contact</label>
+        <input id="caller_contact" placeholder="email / handle / url" />
+      </div>
+    </div>
+
+    <label>Intent</label>
+    <input id="intent" placeholder="What are you trying to do?" />
+
+    <label>Entry URL (optional override)</label>
+    <input id="entry" placeholder="Leave empty to auto-fill from manifest" />
+
+    <label>Inputs summary</label>
+    <textarea id="inputs" placeholder="What inputs were provided? (minimal summary)"></textarea>
+
+    <div class="row">
+      <div>
+        <label>Principles acknowledged</label>
+        <select id="ack">
+          <option value="true" selected>true</option>
+          <option value="false">false</option>
+        </select>
+      </div>
+      <div>
+        <label>Caller agent id (optional)</label>
+        <input id="agent_id" placeholder="optional" />
+      </div>
+    </div>
+
+    <label>Notes (optional)</label>
+    <textarea id="notes" placeholder="Any additional notes"></textarea>
+
+    <div class="btns">
+      <button onclick="build()">Build JSON</button>
+      <button onclick="copyJson()">Copy JSON</button>
+      <button onclick="downloadJson()">Download .json</button>
+      <button onclick="mailto()">Email (mailto)</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Output</h3>
+    <pre id="out">Click “Build JSON”.</pre>
+    <div class="k">Tip: for invite capabilities, include invite context in Notes; do not paste secrets here.</div>
+  </div>
+
+  <div class="card">
+    <h3>References</h3>
+    <div class="k">
+      <div>Machine entry: <a href="/.well-known/node.json">/.well-known/node.json</a></div>
+      <div>Manifest: <a href="/agent/manifest.json">/agent/manifest.json</a></div>
+      <div>Trace template: <a href="/agent/trace-template.json">/agent/trace-template.json</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRINCIPLES = "https://gate.evanbei.com/principles.html";
+const MANIFEST_URL = "/agent/manifest.json";
+
+let manifest = null;
+async function loadManifest(){
+  try{ manifest = await fetch(MANIFEST_URL,{cache:"no-store"}).then(r=>r.json()); }
+  catch(e){ manifest=null; }
+}
+function utcNow(){ return new Date().toISOString().replace(/\.\d{3}Z$/,"Z"); }
+function capUrl(id){
+  if(!manifest || !Array.isArray(manifest.capabilities)) return "";
+  const hit = manifest.capabilities.find(c=>c.id===id);
+  return hit ? hit.url : "";
+}
+function buildObj(){
+  const cap = document.getElementById("cap").value;
+  const entryOverride = document.getElementById("entry").value.trim();
+  return {
+    trace_version: "1.0",
+    timestamp_utc: document.getElementById("ts").value.trim() || utcNow(),
+    caller: {
+      name: document.getElementById("caller_name").value.trim(),
+      contact: document.getElementById("caller_contact").value.trim(),
+      agent_id_optional: document.getElementById("agent_id").value.trim()
+    },
+    intent: document.getElementById("intent").value.trim(),
+    capability: cap,
+    entry_url: entryOverride || capUrl(cap) || "",
+    inputs_summary: document.getElementById("inputs").value.trim(),
+    constraints_ack: {
+      principles_url: PRINCIPLES,
+      acknowledged: document.getElementById("ack").value === "true"
+    },
+    attachments_optional: [],
+    notes_optional: document.getElementById("notes").value.trim()
+  };
+}
+function build(){
+  const obj = buildObj();
+  document.getElementById("out").textContent = JSON.stringify(obj, null, 2);
+}
+async function copyJson(){
+  const txt = document.getElementById("out").textContent;
+  await navigator.clipboard.writeText(txt);
+  alert("Copied.");
+}
+function downloadJson(){
+  const txt = document.getElementById("out").textContent;
+  const blob = new Blob([txt], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "trace.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function mailto(){
+  const txt = document.getElementById("out").textContent;
+  const subject = encodeURIComponent("Agent Trace Submission");
+  const body = encodeURIComponent(txt);
+  // You can replace with your preferred receiving email address:
+  const to = ""; // e.g. "your@email.com"
+  window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+}
+document.getElementById("ts").value = utcNow();
+loadManifest();
+</script>
+</body>
+</html>
