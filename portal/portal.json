@@ -9,7 +9,7 @@
   "node_version": "1.0",
 
   "node_page": "https://evanbei.com/node/",
-  "machine_entry": "https://evanbei.com/.well-known/node.json",
+"machine_entry": "https://evanbei.com/well-known/node.json",
 
   "wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
   "pgp": "https://evanbei.com/keys/evanbei.asc",
