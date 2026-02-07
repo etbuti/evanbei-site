@@ -6,11 +6,19 @@
     "node": "https://evanbei.com/node/",
     "machine_entry": "https://evanbei.com/.well-known/node.json"
   },
+
   "policy": {
     "principles": "https://gate.evanbei.com/principles.html",
     "tracking": "none",
     "data_minimization": true
   },
+
+  "access_defaults": {
+    "requires_ack_principles": true,
+    "rate_limit": "reasonable",
+    "log_policy": "minimal"
+  },
+
   "capabilities": [
     {
       "id": "talk",
@@ -18,15 +26,44 @@
       "url": "https://talk.evanbei.com/",
       "inputs": ["text"],
       "outputs": ["text"],
-      "notes": "No account, one-time link style."
+      "notes": "No account, one-time link style.",
+      "access": {
+        "class": "public",
+        "requires_ack_principles": true,
+        "rate_limit": "reasonable",
+        "log_policy": "minimal",
+        "verification": "none"
+      }
     },
     {
       "id": "trade",
       "name": "Global Procurement",
       "url": "https://goldisle.org/trade",
       "inputs": ["inquiry_form"],
-      "outputs": ["pdf_invoice", "email_reply"],
-      "notes": "Business execution entry."
+      "outputs": ["pdf_invoice_optional", "email_reply_optional"],
+      "notes": "Business execution entry.",
+      "access": {
+        "class": "invite",
+        "requires_ack_principles": true,
+        "rate_limit": "reasonable",
+        "log_policy": "minimal",
+        "verification": "manual_review_or_email_confirmation"
+      }
+    },
+    {
+      "id": "payment",
+      "name": "Payment / Invoice",
+      "url": "https://goldisle.org/payment.html",
+      "inputs": ["reference_optional"],
+      "outputs": ["payment_page"],
+      "notes": "Payment and invoice landing page.",
+      "access": {
+        "class": "invite",
+        "requires_ack_principles": true,
+        "rate_limit": "reasonable",
+        "log_policy": "minimal",
+        "verification": "manual_review_or_email_confirmation"
+      }
     },
     {
       "id": "larc",
@@ -34,7 +71,44 @@
       "url": "https://goldisle.org/larc",
       "inputs": ["form"],
       "outputs": ["result_page"],
-      "notes": "Utility entry."
+      "notes": "Tools entry.",
+      "access": {
+        "class": "public",
+        "requires_ack_principles": true,
+        "rate_limit": "reasonable",
+        "log_policy": "minimal",
+        "verification": "none"
+      }
+    },
+    {
+      "id": "larc_check_cn",
+      "name": "LARC Check (CN)",
+      "url": "https://goldisle.org/larc/LARC_Check_CN.html",
+      "inputs": ["form_optional"],
+      "outputs": ["result_page"],
+      "notes": "Chinese check page.",
+      "access": {
+        "class": "public",
+        "requires_ack_principles": true,
+        "rate_limit": "reasonable",
+        "log_policy": "minimal",
+        "verification": "none"
+      }
+    },
+    {
+      "id": "gallery",
+      "name": "Gallery Node",
+      "url": "https://gallery.evanbei.com/",
+      "inputs": ["browse"],
+      "outputs": ["pages"],
+      "notes": "Showcase node; can evolve into licensing / execution later.",
+      "access": {
+        "class": "public",
+        "requires_ack_principles": false,
+        "rate_limit": "none",
+        "log_policy": "minimal",
+        "verification": "none"
+      }
     }
   ]
 }
