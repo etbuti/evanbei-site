@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portal — Evan Bei / billund</title>
+  <meta name="description" content="A minimal portal for human, machine, and executable nodes." />
+  <link rel="canonical" href="https://evanbei.com/portal/" />
+
+  <style>
+    :root{--b:rgba(0,0,0,.12);--k:rgba(0,0,0,.62);--bg:rgba(0,0,0,.04)}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.65}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px 70px}
+    h1{margin:0 0 6px 0}
+    .sub{color:var(--k);margin:0 0 16px 0}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .card{border:1px solid var(--b);border-radius:16px;padding:14px 14px;background:#fff}
+    .span6{grid-column:span 6}
+    .span12{grid-column:span 12}
+    @media (max-width:860px){.span6{grid-column:span 12}}
+    .k{color:var(--k)}
+    .tag{display:inline-block;border:1px solid rgba(0,0,0,.18);border-radius:999px;padding:2px 10px;margin:0 6px 6px 0;font-size:12px;color:rgba(0,0,0,.75)}
+    .list{margin:10px 0 0 0;padding:0;list-style:none}
+    .list li{padding:10px 10px;border:1px solid var(--b);border-radius:12px;margin:10px 0;background:var(--bg)}
+    .list a{color:inherit;text-decoration:none}
+    .list a:hover{text-decoration:underline}
+    .meta{font-size:12px;color:var(--k);margin-top:6px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+    .hr{height:1px;background:var(--b);margin:18px 0}
+    .small{font-size:13px;color:rgba(0,0,0,.78)}
+    .foot{margin-top:22px;color:var(--k);font-size:12px}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    button{border:1px solid var(--b);background:#fff;border-radius:12px;padding:9px 12px;cursor:pointer}
+    button:hover{background:var(--bg)}
+  </style>
+
+  <!-- Machine hints: your node entry (add when you deploy it) -->
+  <link rel="alternate" type="application/json" href="https://evanbei.com/.well-known/node.json" title="node.json" />
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Portal</h1>
+    <p class="sub">
+      Evan Bei / billund — <span class="k">Human · Machine · Executable</span>
+    </p>
+
+    <div class="grid">
+      <div class="card span12">
+        <div>
+          <span class="tag">stable</span>
+          <span class="tag">minimal</span>
+          <span class="tag">auditable</span>
+          <span class="tag">agent-ready</span>
+        </div>
+        <div class="small">
+          这页是你的“总入口目录”，不追求内容多，只追求<strong>路径稳定</strong>与<strong>结构清晰</strong>。<br>
+          访问逻辑：先给人看（宣言/导航） → 再给机器看（node.json） → 最后进入执行页（talk/trade 等）。
+        </div>
+
+        <div class="btnrow">
+          <button onclick="copyText(location.href)">复制本页链接</button>
+          <button onclick="copyText('https://evanbei.com/.well-known/node.json')">复制 node.json</button>
+          <button onclick="copyText('https://evanbei.com/node/')">复制 /node/</button>
+        </div>
+        <div class="meta">Updated (UTC): <span id="utc" class="mono"></span></div>
+      </div>
+
+      <!-- HUMAN -->
+      <div class="card span6">
+        <h3>Human-facing（给人看的）</h3>
+        <div class="k small">宣言、原则、入口。少而稳，仪式感 + 可信度。</div>
+        <ul class="list">
+          <li>
+            <a href="https://evanbei.com/" target="_blank" rel="noopener">
+              <strong>evanbei.com /</strong> — Anchor Root
+            </a>
+            <div class="meta">主锚点（尽量保持极简）</div>
+          </li>
+          <li>
+            <a href="https://evanbei.com/web3/" target="_blank" rel="noopener">
+              <strong>/web3/</strong> — Web3 Anchor / Existence Note
+            </a>
+            <div class="meta">存在声明、可封存、可复现</div>
+          </li>
+          <li>
+            <a href="https://gate.evanbei.com/principles.html" target="_blank" rel="noopener">
+              <strong>gate.evanbei.com/principles.html</strong> — Principles
+            </a>
+            <div class="meta">绅士原则 / 行为边界（人读）</div>
+          </li>
+          <li>
+            <a href="https://goldisle.org/" target="_blank" rel="noopener">
+              <strong>goldisle.org</strong> — Isle of Not Alone / Publishing Node
+            </a>
+            <div class="meta">文化与内容发布主域</div>
+          </li>
+          <li>
+            <a href="https://aisland.uk/" target="_blank" rel="noopener">
+              <strong>aisland.uk</strong> — External-facing Index / Landing
+            </a>
+            <div class="meta">对外引导与聚合（如你在用）</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- MACHINE -->
+      <div class="card span6">
+        <h3>Machine-facing（给 Agent / AI 看的）</h3>
+        <div class="k small">固定路径 + 字段稳定。机器判断你是谁、管什么、怎么调用你。</div>
+        <ul class="list">
+          <li>
+            <a href="https://evanbei.com/node/" target="_blank" rel="noopener">
+              <strong>/node/</strong> — Node Page (Human+Machine)
+            </a>
+            <div class="meta">建议部署：身份/政策/接口总览</div>
+          </li>
+          <li>
+            <a href="https://evanbei.com/.well-known/node.json" target="_blank" rel="noopener">
+              <strong>/.well-known/node.json</strong> — Machine Entry
+            </a>
+            <div class="meta">最短机器入口（强烈建议）</div>
+          </li>
+          <li>
+            <a href="https://evanbei.com/policy/" target="_blank" rel="noopener">
+              <strong>/policy/</strong> — Policy (optional)
+            </a>
+            <div class="meta">正式版边界与数据处理声明（可选）</div>
+          </li>
+          <li>
+            <a href="https://evanbei.com/changelog/" target="_blank" rel="noopener">
+              <strong>/changelog/</strong> — Changelog (optional)
+            </a>
+            <div class="meta">演进记录：让机器和人都能“信任历史”</div>
+          </li>
+        </ul>
+        <div class="meta">
+          如果你暂时还没部署 /node 与 node.json，也没关系：保持这个目录先在，未来补齐即可。
+        </div>
+      </div>
+
+      <!-- EXECUTABLE -->
+      <div class="card span12">
+        <h3>Executable Pages（执行型页面 = 网页即 Agent）</h3>
+        <div class="k small">
+          不是展示，而是“做事”。规则清楚、输入输出清楚、失败状态清楚。<br>
+          你现在的 talk / trade 就是典型未来形态。
+        </div>
+        <ul class="list">
+          <li>
+            <a href="https://talk.evanbei.com/" target="_blank" rel="noopener">
+              <strong>talk.evanbei.com</strong> — Talk (Throw / Drift)
+            </a>
+            <div class="meta">无账号/轻规则/一次性链接式沟通（执行页）</div>
+          </li>
+          <li>
+            <a href="https://goldisle.org/trade" target="_blank" rel="noopener">
+              <strong>goldisle.org/trade</strong> — Global Procurement
+            </a>
+            <div class="meta">对外业务执行入口（执行页）</div>
+          </li>
+          <li>
+            <a href="https://goldisle.org/payment.html" target="_blank" rel="noopener">
+              <strong>goldisle.org/payment.html</strong> — Payment / Invoice
+            </a>
+            <div class="meta">支付与发票页（执行页）</div>
+          </li>
+          <li>
+            <a href="https://goldisle.org/larc" target="_blank" rel="noopener">
+              <strong>goldisle.org/larc</strong> — LARC Entry
+            </a>
+            <div class="meta">规则检查器/工具入口（执行页/工具页）</div>
+          </li>
+          <li>
+            <a href="https://goldisle.org/larc/LARC_Check_CN.html" target="_blank" rel="noopener">
+              <strong>LARC_Check_CN.html</strong> — LARC Check (CN)
+            </a>
+            <div class="meta">中文裁判/检查页</div>
+          </li>
+          <li>
+            <a href="https://gallery.evanbei.com/" target="_blank" rel="noopener">
+              <strong>gallery.evanbei.com</strong> — Gallery Node
+            </a>
+            <div class="meta">展示节点（未来也可升级为交易/授权执行页）</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- PATH MAP -->
+      <div class="card span12">
+        <h3>Public Path（外人如何被自然引导）</h3>
+        <div class="small">
+          <span class="mono">1</span> 先到 <span class="mono">/portal/</span>（总入口） →  
+          <span class="mono">2</span> 看 <span class="mono">/web3/</span> 或 <span class="mono">principles</span>（信任建立） →  
+          <span class="mono">3</span> 进入 <span class="mono">talk/trade</span>（执行） →  
+          <span class="mono">4</span> Agent 读取 <span class="mono">/.well-known/node.json</span>（机器索引）。
+        </div>
+        <div class="hr"></div>
+        <div class="k small">
+          你要的“十年不过时”的关键，其实就两点：<br>
+          （a）路径别变；（b）语义别飘。页面内容可以极少，但结构要稳定。
+        </div>
+      </div>
+
+      <!-- PRIVATE/INTERNAL (optional) -->
+      <div class="card span12">
+        <h3>Optional（内部/私密入口：你可自行加锁）</h3>
+        <div class="k small">
+          这里不放具体链接（避免公开扩散）。你可以把需要口令的页面，放在你自己知道的位置，
+          然后只在“对的人”那边给链接 + 口令。
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div>Portal is designed as a stable index. Keep it minimal.</div>
+      <div class="k">Canonical: https://evanbei.com/portal/</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("utc").textContent = new Date().toISOString();
+
+    function copyText(t){
+      try{
+        navigator.clipboard.writeText(t);
+        alert("已复制：\n" + t);
+      }catch(e){
+        prompt("复制失败，请手动复制：", t);
+      }
+    }
+  </script>
+</body>
+</html>
