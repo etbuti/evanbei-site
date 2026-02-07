@@ -28,6 +28,9 @@ jobs:
       - name: Derive node.json (+ optional node page)
         run: node tools/derive-node.mjs
 
+      - name: Derive checksums
+        run: node tools/derive-checksums.mjs
+
       - name: Detect changes
         id: diff
         run: |
