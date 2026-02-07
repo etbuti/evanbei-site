@@ -10,6 +10,17 @@
   }
 ]
 
+"schema": {
+  "type": "Person",
+  "sameAs": [
+    "https://goldisle.org/",
+    "https://aisland.uk/"
+  ],
+  "publishingPrinciples": "https://gate.evanbei.com/principles.html",
+  "contactUrl": "https://evanbei.com/portal/"
+}
+
+
 
 {
   "canonical": "https://evanbei.com/",
