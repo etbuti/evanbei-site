@@ -1,0 +1,25 @@
+{
+  "protocol_version": "1.0",
+  "discovery": {
+    "node_json": "https://evanbei.com/.well-known/node.json",
+    "agent_manifest": "https://evanbei.com/agent/manifest.json",
+    "capability_map": "https://evanbei.com/agent/capability-map.json"
+  },
+  "handshake": {
+    "required": ["read_policy", "ack_principles"],
+    "policy_url": "https://gate.evanbei.com/principles.html"
+  },
+  "invocation": {
+    "mode": "web-entry",
+    "pattern": "capability.entry is the invocation URL",
+    "trace": {
+      "required_fields": ["capability", "timestamp_utc", "caller", "intent"],
+      "transport": ["mailto", "url_params_optional"],
+      "note": "This node is primarily web-executable; minimal data collection."
+    }
+  },
+  "response": {
+    "expected": ["human_visible_page", "downloadable_artifact_optional"],
+    "errors": ["explicit_error_state", "rate_limit_state_optional"]
+  }
+}
