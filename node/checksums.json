@@ -1,18 +1,18 @@
 {
-  "updated_utc": "2026-02-07T08:41:49.550Z",
+  "updated_utc": "2026-02-07T09:34:30.212Z",
   "algo": "sha256",
   "files": [
     {
       "path": "/portal/portal.json",
-      "sha256": "d85ed968f641e3d742f17a45f509dd05bda4ac2b47ac57f5ef78affdc2ea1e9d"
+      "sha256": "1593ae5b8aa08e106cbdfedc07340e2a2ecc6d6ea59126fa929da26c4e224f07"
     },
     {
       "path": "/.well-known/node.json",
-      "sha256": "693dfe53bacde5e82efba2c686370113cea13a60c2e83043e2fc183b88ec0706"
+      "sha256": "6b874bc71a1412e62d515b024a88a9209f7041eb99b541a2de0f562b5a4f30a9"
     },
     {
       "path": "/well-known/node.json",
-      "sha256": "693dfe53bacde5e82efba2c686370113cea13a60c2e83043e2fc183b88ec0706"
+      "sha256": "6b874bc71a1412e62d515b024a88a9209f7041eb99b541a2de0f562b5a4f30a9"
     },
     {
       "path": "/node/index.html",
@@ -20,11 +20,11 @@
     },
     {
       "path": "/node/health.html",
-      "sha256": "1c10754b6eef0abc0fc64ff1a2ab3d7f8a40934a3cb641571b2ff5bed074ade9"
+      "sha256": "c60abb31d5e2811d2c2fa5e3a7eadb80137411ea4f285074245167b0ce57a7db"
     },
     {
       "path": "/agent/manifest.json",
-      "sha256": "81e5c8596181c655de923f29fc45bb3fbf64b983f8a6629e93b65e07e1a519fa"
+      "sha256": "cc053972a9a94013763f5155e706f8181211ba28efdf68983f66d3eb85a5fd90"
     },
     {
       "path": "/agent/capability-map.json",
