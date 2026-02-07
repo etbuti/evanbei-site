@@ -1,0 +1,24 @@
+{
+  "map_version": "1.0",
+  "updated_utc": "2026-02-07T00:00:00Z",
+  "capabilities": [
+    {
+      "capability": "communicate.ephemeral",
+      "entry": "https://talk.evanbei.com/",
+      "human_desc": "一次性瓶中信式沟通",
+      "constraints": ["no impersonation", "no scraping", "respect principles"]
+    },
+    {
+      "capability": "commerce.procurement",
+      "entry": "https://goldisle.org/trade",
+      "human_desc": "全球采购执行入口",
+      "constraints": ["respect principles", "no personal data beyond necessity"]
+    },
+    {
+      "capability": "tools.larc.check",
+      "entry": "https://goldisle.org/larc/LARC_Check_CN.html",
+      "human_desc": "LARC 检查工具",
+      "constraints": ["read-only unless user submits form"]
+    }
+  ]
+}
