@@ -1,0 +1,19 @@
+{
+  "trace_version": "1.0",
+  "timestamp_utc": "",
+  "caller": {
+    "name": "",
+    "contact": "",
+    "agent_id_optional": ""
+  },
+  "intent": "",
+  "capability": "",
+  "entry_url": "",
+  "inputs_summary": "",
+  "constraints_ack": {
+    "principles_url": "https://gate.evanbei.com/principles.html",
+    "acknowledged": true
+  },
+  "attachments_optional": [],
+  "notes_optional": ""
+}
