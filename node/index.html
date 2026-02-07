@@ -59,4 +59,7 @@ fetch("/.well-known/node.json", {cache:"no-store"})
   .then(j=>{document.getElementById("out").textContent = JSON.stringify(j,null,2);})
   .catch(e=>{document.getElementById("out").textContent = "Failed to load node.json: "+e.message;});
 </script>
+
+Agent Protocol: /agent/protocol.json
+  
 </body></html>
