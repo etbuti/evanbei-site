@@ -33,7 +33,9 @@
   "protocol": "https://evanbei.com/agent/protocol.json",
   "access_policy": "https://evanbei.com/agent/access-policy.json",
   "capability_map": "https://evanbei.com/agent/capability-map.json",
-  "checksums": "https://evanbei.com/node/checksums.json"
+  "checksums": "https://evanbei.com/node/checksums.json",
+  "registry": "https://evanbei.com/agent/registry.json",
+  "registry_page": "https://evanbei.com/agent/registry.html"
 },
   
   "schema": {
