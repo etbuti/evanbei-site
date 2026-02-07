@@ -86,16 +86,39 @@ async function check(){
   if(!inviteKeys || !inviteKeys.keys){ await loadAll(); }
   if(!inviteKeys || !Array.isArray(inviteKeys.keys)){ setStatus("failed to load invite-keys.json"); return; }
 
-  setStatus("hashing…");
-  const h = await sha256(key);
+  const isHex64 = /^[0-9a-fA-F]{64}$/.test(key);
 
-  const hit = inviteKeys.keys.find(k => (k.sha256||"").toLowerCase() === h.toLowerCase());
+  let h = "";
+  if (isHex64) {
+    // Input is already a SHA-256 token (hex)
+    setStatus("verifying token…");
+    h = key.toLowerCase();
+  } else {
+    // Input is plaintext; hash locally
+    setStatus("hashing…");
+    h = (await sha256(key)).toLowerCase();
+  }
+
+  const hit = inviteKeys.keys.find(k => (k.sha256||"").toLowerCase() === h);
   if(!hit){
     document.getElementById("result").style.display="none";
     document.getElementById("caps").innerHTML="";
     setStatus("invalid key");
     return;
   }
+
+  const caps = Array.isArray(hit.capabilities) ? hit.capabilities : [];
+  const ul = document.getElementById("caps");
+  ul.innerHTML = "";
+  for(const c of caps){
+    const li = document.createElement("li");
+    const url = capUrl(c) || "";
+    li.innerHTML = url ? `<strong>${c}</strong>: <a href="${url}">${url}</a>` : `<strong>${c}</strong>`;
+    ul.appendChild(li);
+  }
+  document.getElementById("result").style.display="block";
+  setStatus("verified ("+hit.id+")");
+}
 
   const caps = Array.isArray(hit.capabilities) ? hit.capabilities : [];
   const ul = document.getElementById("caps");
