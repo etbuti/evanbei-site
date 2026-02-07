@@ -1,66 +1,41 @@
-"canonical": "https://evanbei.com/",
-"entity_name": "Evan Bei / billund",
-"entity_type": "person_or_studio",
-"node_version": "1.0",
-"wallet": "",
-"pgp": "",
-"policy_overrides": {
-  "tracking": "none",
-  "data_minimization": true
-},
-"schema": {
-  "type": "Person",
-  "sameAs": [
-    "https://goldisle.org/",
-    "https://aisland.uk/"
-  ],
-  "publishingPrinciples": "https://gate.evanbei.com/principles.html",
-  "contactUrl": "https://evanbei.com/portal/"
-}
-
-
-"wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
-"pgp": "https://evanbei.com/keys/evanbei.asc"
-
-"attestations": [
-  {
-    "type": "onchain_tx",
-    "chain": "Ethereum",
-    "tx": "0x9d451fe8045572753287008c6e68895b3d5832d00f3640074143d4b7a9229e45",
-    "note": "Anchor for node statement"
-  }
-]
-
-"schema": {
-  "type": "Person",
-  "sameAs": [
-    "https://goldisle.org/",
-    "https://aisland.uk/"
-  ],
-  "publishingPrinciples": "https://gate.evanbei.com/principles.html",
-  "contactUrl": "https://evanbei.com/portal/"
-}
-
-
-{
-  "canonical": "https://evanbei.com/",
-  "entity_name": "Evan Bei / billund",
-  "node_version": "1.0",
-  "policy_overrides": {
-    "tracking": "none",
-    "data_minimization": true
-  }
-}
-
 {
   "title": "Portal",
   "subtitle": "Evan Bei / billund — Human · Machine · Executable",
   "tags": ["stable", "minimal", "auditable", "agent-ready"],
 
-  "intro_html": "这页由 <span class=\"mono\">/portal/portal.json</span> 驱动。以后新增链接，只改 JSON，不改 HTML。",
+  "canonical": "https://evanbei.com/",
+  "entity_name": "Evan Bei / billund",
+  "entity_type": "person_or_studio",
+  "node_version": "1.0",
 
   "node_page": "https://evanbei.com/node/",
   "machine_entry": "https://evanbei.com/.well-known/node.json",
+
+  "wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
+  "pgp": "https://evanbei.com/keys/evanbei.asc",
+
+  "attestations": [
+    {
+      "type": "onchain_tx",
+      "chain": "Ethereum",
+      "tx": "0x9d451fe8045572753287008c6e68895b3d5832d00f3640074143d4b7a9229e45",
+      "note": "Anchor for node statement"
+    }
+  ],
+
+  "policy_overrides": {
+    "tracking": "none",
+    "data_minimization": true
+  },
+
+  "schema": {
+    "type": "Person",
+    "sameAs": ["https://goldisle.org/", "https://aisland.uk/"],
+    "publishingPrinciples": "https://gate.evanbei.com/principles.html",
+    "contactUrl": "https://evanbei.com/portal/"
+  },
+
+  "intro_html": "这页由 <span class=\"mono\">/portal/portal.json</span> 驱动。以后新增链接，只改 JSON，不改 HTML。",
 
   "public_path_text": "/portal/ → /web3/ 或 principles → talk/trade（执行） → /.well-known/node.json（机器索引）",
   "public_path_hint": "路径别变；语义别飘。内容可以少，但结构要稳定。",
@@ -71,11 +46,36 @@
       "desc": "宣言、原则、入口。少而稳，仪式感 + 可信度。",
       "span": 6,
       "items": [
-        { "name": "evanbei.com /", "url": "https://evanbei.com/", "label": "Anchor Root", "meta": "主锚点（尽量极简）" },
-        { "name": "/web3/", "url": "https://evanbei.com/web3/", "label": "Web3 Anchor", "meta": "存在声明、可封存、可复现" },
-        { "name": "principles", "url": "https://gate.evanbei.com/principles.html", "label": "Principles", "meta": "绅士原则 / 行为边界（人读）" },
-        { "name": "goldisle.org", "url": "https://goldisle.org/", "label": "Publishing Node", "meta": "文化与内容发布主域" },
-        { "name": "aisland.uk", "url": "https://aisland.uk/", "label": "Landing", "meta": "对外引导与聚合" }
+        {
+          "name": "evanbei.com /",
+          "url": "https://evanbei.com/",
+          "label": "Anchor Root",
+          "meta": "主锚点（尽量极简）"
+        },
+        {
+          "name": "/web3/",
+          "url": "https://evanbei.com/web3/",
+          "label": "Web3 Anchor",
+          "meta": "存在声明、可封存、可复现"
+        },
+        {
+          "name": "principles",
+          "url": "https://gate.evanbei.com/principles.html",
+          "label": "Principles",
+          "meta": "绅士原则 / 行为边界（人读）"
+        },
+        {
+          "name": "goldisle.org",
+          "url": "https://goldisle.org/",
+          "label": "Publishing Node",
+          "meta": "文化与内容发布主域"
+        },
+        {
+          "name": "aisland.uk",
+          "url": "https://aisland.uk/",
+          "label": "Landing",
+          "meta": "对外引导与聚合"
+        }
       ]
     },
     {
@@ -83,10 +83,30 @@
       "desc": "固定路径 + 字段稳定。机器判断你是谁、管什么、怎么调用你。",
       "span": 6,
       "items": [
-        { "name": "/node/", "url": "https://evanbei.com/node/", "label": "Node Page", "meta": "身份/政策/接口总览（人+机器）" },
-        { "name": "/.well-known/node.json", "url": "https://evanbei.com/.well-known/node.json", "label": "Machine Entry", "meta": "最短机器入口（强烈建议）" },
-        { "name": "/policy/", "url": "https://evanbei.com/policy/", "label": "Policy (optional)", "meta": "正式版边界与数据处理声明（可选）" },
-        { "name": "/changelog/", "url": "https://evanbei.com/changelog/", "label": "Changelog (optional)", "meta": "演进记录：让机器和人都能信任历史" }
+        {
+          "name": "/node/",
+          "url": "https://evanbei.com/node/",
+          "label": "Node Page",
+          "meta": "身份/政策/接口总览（人+机器）"
+        },
+        {
+          "name": "/.well-known/node.json",
+          "url": "https://evanbei.com/.well-known/node.json",
+          "label": "Machine Entry",
+          "meta": "最短机器入口（强烈建议）"
+        },
+        {
+          "name": "/policy/",
+          "url": "https://evanbei.com/policy/",
+          "label": "Policy (optional)",
+          "meta": "正式版边界与数据处理声明（可选）"
+        },
+        {
+          "name": "/changelog/",
+          "url": "https://evanbei.com/changelog/",
+          "label": "Changelog (optional)",
+          "meta": "演进记录：让机器和人都能信任历史"
+        }
       ]
     },
     {
@@ -94,12 +114,42 @@
       "desc": "不是展示，而是做事。规则清楚、输入输出清楚、失败状态清楚。",
       "span": 12,
       "items": [
-        { "name": "talk.evanbei.com", "url": "https://talk.evanbei.com/", "label": "Talk", "meta": "无账号/一次性链接式沟通" },
-        { "name": "goldisle.org/trade", "url": "https://goldisle.org/trade", "label": "Global Procurement", "meta": "对外业务执行入口" },
-        { "name": "goldisle.org/payment.html", "url": "https://goldisle.org/payment.html", "label": "Payment / Invoice", "meta": "支付与发票页" },
-        { "name": "goldisle.org/larc", "url": "https://goldisle.org/larc", "label": "LARC", "meta": "工具入口" },
-        { "name": "LARC_Check_CN.html", "url": "https://goldisle.org/larc/LARC_Check_CN.html", "label": "LARC Check (CN)", "meta": "乒乓球中文裁判/检查页" },
-        { "name": "gallery.evanbei.com", "url": "https://gallery.evanbei.com/", "label": "Gallery Node", "meta": "展示节点（可升级为授权/交易执行）" }
+        {
+          "name": "talk.evanbei.com",
+          "url": "https://talk.evanbei.com/",
+          "label": "Talk",
+          "meta": "无账号/一次性链接式沟通"
+        },
+        {
+          "name": "goldisle.org/trade",
+          "url": "https://goldisle.org/trade",
+          "label": "Global Procurement",
+          "meta": "对外业务执行入口"
+        },
+        {
+          "name": "goldisle.org/payment.html",
+          "url": "https://goldisle.org/payment.html",
+          "label": "Payment / Invoice",
+          "meta": "支付与发票页"
+        },
+        {
+          "name": "goldisle.org/larc",
+          "url": "https://goldisle.org/larc",
+          "label": "LARC",
+          "meta": "工具入口"
+        },
+        {
+          "name": "LARC_Check_CN.html",
+          "url": "https://goldisle.org/larc/LARC_Check_CN.html",
+          "label": "LARC Check (CN)",
+          "meta": "中文裁判/检查页"
+        },
+        {
+          "name": "gallery.evanbei.com",
+          "url": "https://gallery.evanbei.com/",
+          "label": "Gallery Node",
+          "meta": "展示节点（可升级为授权/交易执行）"
+        }
       ]
     }
   ]
