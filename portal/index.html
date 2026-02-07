@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portal — Evan Bei / billund</title>
-  <meta name="description" content="A minimal portal for human, machine, and executable nodes." />
+  <meta name="description" content="Auto-discovery portal (driven by portal.json)." />
   <link rel="canonical" href="https://evanbei.com/portal/" />
 
   <style>
@@ -28,207 +28,223 @@
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
     .hr{height:1px;background:var(--b);margin:18px 0}
     .small{font-size:13px;color:rgba(0,0,0,.78)}
-    .foot{margin-top:22px;color:var(--k);font-size:12px}
     .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
     button{border:1px solid var(--b);background:#fff;border-radius:12px;padding:9px 12px;cursor:pointer}
     button:hover{background:var(--bg)}
+    .warn{border-color:rgba(255,0,0,.25);background:rgba(255,0,0,.04)}
   </style>
 
-  <!-- Machine hints: your node entry (add when you deploy it) -->
+  <!-- 可选：如果你部署了 node.json，保留这个 -->
   <link rel="alternate" type="application/json" href="https://evanbei.com/.well-known/node.json" title="node.json" />
 </head>
 
 <body>
   <div class="wrap">
-    <h1>Portal</h1>
-    <p class="sub">
-      Evan Bei / billund — <span class="k">Human · Machine · Executable</span>
-    </p>
+    <h1 id="title">Portal</h1>
+    <p class="sub" id="subtitle">Human · Machine · Executable</p>
 
-    <div class="grid">
-      <div class="card span12">
-        <div>
-          <span class="tag">stable</span>
-          <span class="tag">minimal</span>
-          <span class="tag">auditable</span>
-          <span class="tag">agent-ready</span>
-        </div>
-        <div class="small">
-          这页是你的“总入口目录”，不追求内容多，只追求<strong>路径稳定</strong>与<strong>结构清晰</strong>。<br>
-          访问逻辑：先给人看（宣言/导航） → 再给机器看（node.json） → 最后进入执行页（talk/trade 等）。
-        </div>
-
-        <div class="btnrow">
-          <button onclick="copyText(location.href)">复制本页链接</button>
-          <button onclick="copyText('https://evanbei.com/.well-known/node.json')">复制 node.json</button>
-          <button onclick="copyText('https://evanbei.com/node/')">复制 /node/</button>
-        </div>
-        <div class="meta">Updated (UTC): <span id="utc" class="mono"></span></div>
+    <div class="card span12">
+      <div id="tags"></div>
+      <div class="small" id="intro">
+        Auto-discovery mode: driven by <span class="mono">/portal/portal.json</span>.
       </div>
 
-      <!-- HUMAN -->
-      <div class="card span6">
-        <h3>Human-facing（给人看的）</h3>
-        <div class="k small">宣言、原则、入口。少而稳，仪式感 + 可信度。</div>
-        <ul class="list">
-          <li>
-            <a href="https://evanbei.com/" target="_blank" rel="noopener">
-              <strong>evanbei.com /</strong> — Anchor Root
-            </a>
-            <div class="meta">主锚点（尽量保持极简）</div>
-          </li>
-          <li>
-            <a href="https://evanbei.com/web3/" target="_blank" rel="noopener">
-              <strong>/web3/</strong> — Web3 Anchor / Existence Note
-            </a>
-            <div class="meta">存在声明、可封存、可复现</div>
-          </li>
-          <li>
-            <a href="https://gate.evanbei.com/principles.html" target="_blank" rel="noopener">
-              <strong>gate.evanbei.com/principles.html</strong> — Principles
-            </a>
-            <div class="meta">绅士原则 / 行为边界（人读）</div>
-          </li>
-          <li>
-            <a href="https://goldisle.org/" target="_blank" rel="noopener">
-              <strong>goldisle.org</strong> — Isle of Not Alone / Publishing Node
-            </a>
-            <div class="meta">文化与内容发布主域</div>
-          </li>
-          <li>
-            <a href="https://aisland.uk/" target="_blank" rel="noopener">
-              <strong>aisland.uk</strong> — External-facing Index / Landing
-            </a>
-            <div class="meta">对外引导与聚合（如你在用）</div>
-          </li>
-        </ul>
-      </div>
+      <div class="btnrow" id="btns"></div>
+      <div class="meta">Updated (UTC): <span id="utc" class="mono"></span></div>
 
-      <!-- MACHINE -->
-      <div class="card span6">
-        <h3>Machine-facing（给 Agent / AI 看的）</h3>
-        <div class="k small">固定路径 + 字段稳定。机器判断你是谁、管什么、怎么调用你。</div>
-        <ul class="list">
-          <li>
-            <a href="https://evanbei.com/node/" target="_blank" rel="noopener">
-              <strong>/node/</strong> — Node Page (Human+Machine)
-            </a>
-            <div class="meta">建议部署：身份/政策/接口总览</div>
-          </li>
-          <li>
-            <a href="https://evanbei.com/.well-known/node.json" target="_blank" rel="noopener">
-              <strong>/.well-known/node.json</strong> — Machine Entry
-            </a>
-            <div class="meta">最短机器入口（强烈建议）</div>
-          </li>
-          <li>
-            <a href="https://evanbei.com/policy/" target="_blank" rel="noopener">
-              <strong>/policy/</strong> — Policy (optional)
-            </a>
-            <div class="meta">正式版边界与数据处理声明（可选）</div>
-          </li>
-          <li>
-            <a href="https://evanbei.com/changelog/" target="_blank" rel="noopener">
-              <strong>/changelog/</strong> — Changelog (optional)
-            </a>
-            <div class="meta">演进记录：让机器和人都能“信任历史”</div>
-          </li>
-        </ul>
-        <div class="meta">
-          如果你暂时还没部署 /node 与 node.json，也没关系：保持这个目录先在，未来补齐即可。
-        </div>
-      </div>
+      <div id="loadStatus" class="meta"></div>
+    </div>
 
-      <!-- EXECUTABLE -->
-      <div class="card span12">
-        <h3>Executable Pages（执行型页面 = 网页即 Agent）</h3>
-        <div class="k small">
-          不是展示，而是“做事”。规则清楚、输入输出清楚、失败状态清楚。<br>
-          你现在的 talk / trade 就是典型未来形态。
-        </div>
-        <ul class="list">
-          <li>
-            <a href="https://talk.evanbei.com/" target="_blank" rel="noopener">
-              <strong>talk.evanbei.com</strong> — Talk (Throw / Drift)
-            </a>
-            <div class="meta">无账号/轻规则/一次性链接式沟通（执行页）</div>
-          </li>
-          <li>
-            <a href="https://goldisle.org/trade" target="_blank" rel="noopener">
-              <strong>goldisle.org/trade</strong> — Global Procurement
-            </a>
-            <div class="meta">对外业务执行入口（执行页）</div>
-          </li>
-          <li>
-            <a href="https://goldisle.org/payment.html" target="_blank" rel="noopener">
-              <strong>goldisle.org/payment.html</strong> — Payment / Invoice
-            </a>
-            <div class="meta">支付与发票页（执行页）</div>
-          </li>
-          <li>
-            <a href="https://goldisle.org/larc" target="_blank" rel="noopener">
-              <strong>goldisle.org/larc</strong> — LARC Entry
-            </a>
-            <div class="meta">规则检查器/工具入口（执行页/工具页）</div>
-          </li>
-          <li>
-            <a href="https://goldisle.org/larc/LARC_Check_CN.html" target="_blank" rel="noopener">
-              <strong>LARC_Check_CN.html</strong> — LARC Check (CN)
-            </a>
-            <div class="meta">中文裁判/检查页</div>
-          </li>
-          <li>
-            <a href="https://gallery.evanbei.com/" target="_blank" rel="noopener">
-              <strong>gallery.evanbei.com</strong> — Gallery Node
-            </a>
-            <div class="meta">展示节点（未来也可升级为交易/授权执行页）</div>
-          </li>
-        </ul>
-      </div>
+    <div class="grid" id="sections"></div>
 
-      <!-- PATH MAP -->
-      <div class="card span12">
-        <h3>Public Path（外人如何被自然引导）</h3>
-        <div class="small">
-          <span class="mono">1</span> 先到 <span class="mono">/portal/</span>（总入口） →  
-          <span class="mono">2</span> 看 <span class="mono">/web3/</span> 或 <span class="mono">principles</span>（信任建立） →  
-          <span class="mono">3</span> 进入 <span class="mono">talk/trade</span>（执行） →  
-          <span class="mono">4</span> Agent 读取 <span class="mono">/.well-known/node.json</span>（机器索引）。
-        </div>
-        <div class="hr"></div>
-        <div class="k small">
-          你要的“十年不过时”的关键，其实就两点：<br>
-          （a）路径别变；（b）语义别飘。页面内容可以极少，但结构要稳定。
-        </div>
+    <div class="card span12" style="margin-top:14px">
+      <h3>Public Path（外人如何被自然引导）</h3>
+      <div class="small" id="pathText">
+        /portal/ → (anchor/principles) → executable → machine entry
       </div>
-
-      <!-- PRIVATE/INTERNAL (optional) -->
-      <div class="card span12">
-        <h3>Optional（内部/私密入口：你可自行加锁）</h3>
-        <div class="k small">
-          这里不放具体链接（避免公开扩散）。你可以把需要口令的页面，放在你自己知道的位置，
-          然后只在“对的人”那边给链接 + 口令。
-        </div>
+      <div class="hr"></div>
+      <div class="k small" id="pathHint">
+        Key: keep paths stable, keep semantics stable.
       </div>
     </div>
 
-    <div class="foot">
-      <div>Portal is designed as a stable index. Keep it minimal.</div>
-      <div class="k">Canonical: https://evanbei.com/portal/</div>
+    <div class="card span12" style="margin-top:14px">
+      <h3>Optional（内部/私密入口）</h3>
+      <div class="k small">
+        不在公开 Portal 放私密链接。需要口令的页面只对“对的人”单独发链接 + 口令。
+      </div>
+    </div>
+
+    <div class="meta" style="margin-top:16px">
+      Canonical: <span class="mono">https://evanbei.com/portal/</span>
     </div>
   </div>
 
   <script>
-    document.getElementById("utc").textContent = new Date().toISOString();
+    const DEFAULT_JSON_URL = "./portal.json";
+    const utcEl = document.getElementById("utc");
+    utcEl.textContent = new Date().toISOString();
+
+    function el(tag, attrs = {}, children = []) {
+      const n = document.createElement(tag);
+      for (const [k,v] of Object.entries(attrs)) {
+        if (k === "class") n.className = v;
+        else if (k === "html") n.innerHTML = v;
+        else n.setAttribute(k, v);
+      }
+      for (const c of children) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+      return n;
+    }
+
+    function safeText(s){ return (s ?? "").toString(); }
 
     function copyText(t){
-      try{
-        navigator.clipboard.writeText(t);
-        alert("已复制：\n" + t);
-      }catch(e){
-        prompt("复制失败，请手动复制：", t);
+      try{ navigator.clipboard.writeText(t); alert("已复制：\n" + t); }
+      catch(e){ prompt("复制失败，请手动复制：", t); }
+    }
+
+    function renderButtonRow(cfg){
+      const btns = document.getElementById("btns");
+      btns.innerHTML = "";
+      const presets = [
+        { label: "复制本页链接", value: location.href },
+      ];
+
+      if (cfg?.machine_entry) presets.push({ label: "复制 node.json", value: cfg.machine_entry });
+      if (cfg?.node_page) presets.push({ label: "复制 /node/", value: cfg.node_page });
+
+      for (const b of presets) {
+        btns.appendChild(el("button", { }, [ b.label ]));
+        btns.lastChild.onclick = () => copyText(b.value);
       }
     }
+
+    function renderTop(cfg){
+      document.getElementById("title").textContent = cfg?.title || "Portal";
+      document.getElementById("subtitle").textContent = cfg?.subtitle || "Human · Machine · Executable";
+      document.getElementById("intro").innerHTML = cfg?.intro_html
+        || `Auto-discovery mode: driven by <span class="mono">/portal/portal.json</span>.`;
+
+      const tagsEl = document.getElementById("tags");
+      tagsEl.innerHTML = "";
+      (cfg?.tags || ["stable","minimal","auditable","agent-ready"]).forEach(t=>{
+        tagsEl.appendChild(el("span", { class:"tag" }, [t]));
+      });
+
+      document.getElementById("pathText").textContent = cfg?.public_path_text
+        || "/portal/ → /web3/ or principles → talk/trade → /.well-known/node.json";
+      document.getElementById("pathHint").textContent = cfg?.public_path_hint
+        || "路径别变；语义别飘。内容可以少，但结构要稳定。";
+
+      renderButtonRow(cfg);
+    }
+
+    function renderSectionCard(section){
+      const card = el("div", { class: (section?.span === 12 ? "card span12" : "card span6") });
+      card.appendChild(el("h3", {}, [ safeText(section?.title || "Section") ]));
+      if (section?.desc) card.appendChild(el("div", { class:"k small" }, [ safeText(section.desc) ]));
+
+      const ul = el("ul", { class:"list" });
+      for (const it of (section?.items || [])) {
+        const li = el("li");
+        const a = el("a", { href: it.url || "#", target: "_blank", rel: "noopener" });
+        a.appendChild(el("strong", {}, [ safeText(it.name || it.url || "link") ]));
+        if (it.label) a.appendChild(document.createTextNode(" — " + safeText(it.label)));
+        li.appendChild(a);
+        if (it.meta) li.appendChild(el("div", { class:"meta" }, [ safeText(it.meta) ]));
+        ul.appendChild(li);
+      }
+      card.appendChild(ul);
+
+      return card;
+    }
+
+    function validateConfig(cfg){
+      const errors = [];
+      if (!cfg || typeof cfg !== "object") errors.push("portal.json is not a JSON object.");
+      if (!Array.isArray(cfg.sections)) errors.push("Missing 'sections' array.");
+      else {
+        cfg.sections.forEach((s, idx)=>{
+          if (!s.title) errors.push(`sections[${idx}] missing title.`);
+          if (!Array.isArray(s.items)) errors.push(`sections[${idx}] missing items array.`);
+        });
+      }
+      return errors;
+    }
+
+    async function loadPortalConfig(){
+      const status = document.getElementById("loadStatus");
+      status.textContent = "Loading portal.json…";
+      try{
+        const res = await fetch(DEFAULT_JSON_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const cfg = await res.json();
+
+        const errs = validateConfig(cfg);
+        if (errs.length){
+          status.textContent = "portal.json loaded, but has validation issues.";
+          status.className = "meta";
+        } else {
+          status.textContent = "portal.json loaded.";
+        }
+
+        renderTop(cfg);
+
+        const sections = document.getElementById("sections");
+        sections.innerHTML = "";
+        (cfg.sections || []).forEach(s=>{
+          sections.appendChild(renderSectionCard(s));
+        });
+
+        // If validation errors exist, show them in a warning card
+        if (errs.length){
+          const warn = el("div", { class:"card span12 warn" }, [
+            el("h3", {}, ["Config warnings"]),
+            el("div", { class:"small" }, ["以下是 portal.json 的问题（不影响页面运行，但建议修正）："]),
+            el("pre", {}, [ el("code", {}, [ errs.map(e=>"• "+e).join("\n") ]) ])
+          ]);
+          document.getElementById("sections").prepend(warn);
+        }
+
+      }catch(e){
+        status.textContent = `Failed to load portal.json (${e.message}). Using fallback content.`;
+        // fallback minimal
+        const fallback = {
+          title: "Portal",
+          subtitle: "Human · Machine · Executable",
+          tags: ["stable","minimal","auditable","agent-ready"],
+          machine_entry: "https://evanbei.com/.well-known/node.json",
+          node_page: "https://evanbei.com/node/",
+          sections: [
+            {
+              title: "Human-facing（给人看的）",
+              desc: "宣言、原则、入口。少而稳。",
+              span: 6,
+              items: [
+                { name:"evanbei.com /", url:"https://evanbei.com/", label:"Anchor Root", meta:"主锚点（极简）" },
+                { name:"/web3/", url:"https://evanbei.com/web3/", label:"Web3 Anchor", meta:"存在声明/可封存" },
+                { name:"principles", url:"https://gate.evanbei.com/principles.html", label:"Principles", meta:"绅士原则/边界" }
+              ]
+            },
+            {
+              title: "Executable（执行页）",
+              desc: "网页即 Agent：做事，而非展示。",
+              span: 6,
+              items: [
+                { name:"talk", url:"https://talk.evanbei.com/", label:"Talk", meta:"随手扔/漂流" },
+                { name:"trade", url:"https://goldisle.org/trade", label:"Global Procurement", meta:"业务执行入口" }
+              ]
+            }
+          ]
+        };
+        renderTop(fallback);
+        const sections = document.getElementById("sections");
+        sections.innerHTML = "";
+        fallback.sections.forEach(s=>sections.appendChild(renderSectionCard(s)));
+      }
+    }
+
+    loadPortalConfig();
   </script>
 </body>
 </html>
