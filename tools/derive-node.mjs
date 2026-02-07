@@ -80,6 +80,8 @@ function deriveNodeJSON(portal) {
       executable: mapItems(exec?.items || [])
     },
 
+    agent: portal.agent || {},
+    
     trust: {
       canonical_notice: "If multiple mirrors exist, prefer canonical.",
       signature: {
