@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Node Health — Consistency Check</title>
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6}
+    .wrap{max-width:980px;margin:0 auto;padding:26px 16px 60px}
+    .card{border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:14px;background:#fff;margin:12px 0}
+    .k{opacity:.65}
+    .ok{border-color:rgba(0,128,0,.25);background:rgba(0,128,0,.05)}
+    .bad{border-color:rgba(255,0,0,.25);background:rgba(255,0,0,.05)}
+    pre{overflow:auto;padding:10px;border-radius:12px;background:rgba(0,0,0,.04)}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1;min-width:300px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Node Health</h1>
+  <p class="k">Checks consistency between <code>/portal/portal.json</code> and <code>/.well-known/node.json</code>.</p>
+
+  <div id="status" class="card">Loading…</div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <h3>portal.json</h3>
+        <pre id="portalOut">Loading…</pre>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h3>node.json</h3>
+        <pre id="nodeOut">Loading…</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Checks</h3>
+    <pre id="checksOut">Loading…</pre>
+  </div>
+</div>
+
+<script>
+const P1="/portal/portal.json";
+const N1="/.well-known/node.json";
+
+const statusEl=document.getElementById("status");
+const portalOut=document.getElementById("portalOut");
+const nodeOut=document.getElementById("nodeOut");
+const checksOut=document.getElementById("checksOut");
+
+function uniq(arr){return [...new Set(arr.filter(Boolean))];}
+
+function flattenUrlsFromPortal(portal){
+  const urls=[];
+  (portal.sections||[]).forEach(s=>{
+    (s.items||[]).forEach(it=>{ if(it && it.url) urls.push(it.url); });
+  });
+  // also include declared node pointers
+  if(portal.node_page) urls.push(portal.node_page);
+  if(portal.machine_entry) urls.push(portal.machine_entry);
+  return uniq(urls);
+}
+
+function flattenUrlsFromNode(node){
+  const urls=[];
+  const add = (arr)=> (arr||[]).forEach(x=>x?.url && urls.push(x.url));
+  add(node?.interfaces?.human);
+  add(node?.interfaces?.machine);
+  add(node?.interfaces?.executable);
+  return uniq(urls);
+}
+
+function checkEqual(name,a,b){
+  const ok = (a||"") === (b||"");
+  return {name, ok, a, b};
+}
+
+function checkSubset(name, subset, superset){
+  const missing = subset.filter(u=>!superset.includes(u));
+  return {name, ok: missing.length===0, missing};
+}
+
+(async ()=>{
+  try{
+    const [pRes, nRes] = await Promise.all([
+      fetch(P1,{cache:"no-store"}),
+      fetch(N1,{cache:"no-store"})
+    ]);
+    if(!pRes.ok) throw new Error("portal.json HTTP "+pRes.status);
+    if(!nRes.ok) throw new Error("node.json HTTP "+nRes.status);
+
+    const portal = await pRes.json();
+    const node = await nRes.json();
+
+    portalOut.textContent = JSON.stringify(portal,null,2);
+    nodeOut.textContent = JSON.stringify(node,null,2);
+
+    const checks=[];
+
+    // 1) canonical: portal.canonical vs node.entity.canonical
+    checks.push(checkEqual("canonical", portal.canonical || "https://evanbei.com/", node?.entity?.canonical));
+
+    // 2) version: portal.node_version vs node.node_version
+    checks.push(checkEqual("node_version", portal.node_version || "1.0", node?.node_version));
+
+    // 3) machine entry: portal.machine_entry vs node.interfaces.machine includes node_json url
+    const nodeJsonUrl = (node?.interfaces?.machine||[]).find(x=>x.name==="node_json")?.url || "";
+    checks.push(checkEqual("machine_entry", portal.machine_entry || "", nodeJsonUrl));
+
+    // 4) portal urls must be included in node interfaces (at least as a superset)
+    const pUrls = flattenUrlsFromPortal(portal);
+    const nUrls = flattenUrlsFromNode(node);
+    checks.push(checkSubset("portal_urls ⊆ node_urls", pUrls, nUrls));
+
+    const lines = [];
+    let bad = false;
+
+    for(const c of checks){
+      if(c.name.includes("⊆")){
+        lines.push(`${c.ok?"✅":"❌"} ${c.name}`);
+        if(!c.ok){
+          bad=true;
+          lines.push(`   missing (${c.missing.length}):`);
+          c.missing.slice(0,30).forEach(u=>lines.push("   - "+u));
+          if(c.missing.length>30) lines.push("   - …");
+        }
+      }else{
+        lines.push(`${c.ok?"✅":"❌"} ${c.name}`);
+        if(!c.ok){
+          bad=true;
+          lines.push(`   portal: ${c.a}`);
+          lines.push(`   node:   ${c.b}`);
+        }
+      }
+    }
+
+    checksOut.textContent = lines.join("\n");
+    statusEl.className = "card " + (bad ? "bad" : "ok");
+    statusEl.textContent = bad ? "Mismatch detected. Please update portal.json / regenerate node.json." : "All checks passed. portal.json and node.json are consistent.";
+  }catch(e){
+    statusEl.className="card bad";
+    statusEl.textContent="Failed to run checks: " + e.message;
+    checksOut.textContent = e.stack || String(e);
+  }
+})();
+</script>
+</body>
+</html>
