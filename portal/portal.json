@@ -1,5 +1,3 @@
-halo
-
 "canonical": "https://evanbei.com/",
 "entity_name": "Evan Bei / billund",
 "entity_type": "person_or_studio",
@@ -100,7 +98,7 @@ halo
         { "name": "goldisle.org/trade", "url": "https://goldisle.org/trade", "label": "Global Procurement", "meta": "对外业务执行入口" },
         { "name": "goldisle.org/payment.html", "url": "https://goldisle.org/payment.html", "label": "Payment / Invoice", "meta": "支付与发票页" },
         { "name": "goldisle.org/larc", "url": "https://goldisle.org/larc", "label": "LARC", "meta": "工具入口" },
-        { "name": "LARC_Check_CN.html", "url": "https://goldisle.org/larc/LARC_Check_CN.html", "label": "LARC Check (CN)", "meta": "中文裁判/检查页" },
+        { "name": "LARC_Check_CN.html", "url": "https://goldisle.org/larc/LARC_Check_CN.html", "label": "LARC Check (CN)", "meta": "乒乓球中文裁判/检查页" },
         { "name": "gallery.evanbei.com", "url": "https://gallery.evanbei.com/", "label": "Gallery Node", "meta": "展示节点（可升级为授权/交易执行）" }
       ]
     }
