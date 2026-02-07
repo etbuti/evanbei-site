@@ -165,7 +165,7 @@ function mailto(){
   const subject = encodeURIComponent("Agent Trace Submission");
   const body = encodeURIComponent(txt);
   // You can replace with your preferred receiving email address:
-  const to = ""; // e.g. "your@email.com"
+  const to = "toptrust@gmail.com"; // e.g. "your@email.com"
   window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
 }
 document.getElementById("ts").value = utcNow();
