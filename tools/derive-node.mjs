@@ -152,6 +152,12 @@ function main() {
   writeJSON(path.join(wellKnownDir, "node.json"), nodeObj);
   console.log("✅ Generated .well-known/node.json from portal/portal.json");
 
+// Also write to /well-known/node.json (more deployment-friendly than /.well-known/)
+const altDir = path.join(repoRoot, "well-known");
+ensureDir(altDir);
+writeJSON(path.join(altDir, "node.json"), nodeObj);
+console.log("✅ Generated well-known/node.json (alt path)");
+
   // 可选：同时生成 /node/index.html（读 node.json + 内嵌 JSON-LD）
   if (portal.generate_node_page !== false) {
     const nodeDir = path.join(repoRoot, "node");
