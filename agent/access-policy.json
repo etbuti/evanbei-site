@@ -1,51 +1,54 @@
 {
-  "policy_version": "1.0",
+  "registry_version": "1.1",
   "entity": "Evan Bei / billund",
   "canonical": "https://evanbei.com/",
   "updated_utc": "2026-02-11T00:00:00Z",
 
-  "access_classes": {
-    "public": {
-      "description": "Open access capabilities. No authentication required.",
-      "capabilities": [
-        "communication",
-        "tools",
-        "discovery"
-      ],
-      "examples": [
-        "https://talk.evanbei.com/",
-        "https://evanbei.com/agent/registry.html",
-        "https://evanbei.com/.well-known/node.json"
-      ]
-    },
+  "entry": "https://evanbei.com/.well-known/node.json",
 
-    "invite": {
-      "description": "Invite-gated capabilities. Local verification required. No secrets transmitted.",
-      "capabilities": [
-        "trade",
-        "payment",
-        "execution_intake"
-      ],
-      "verification": "https://evanbei.com/agent/invite-check.html",
-      "note": "Invite keys are verified locally. This node does not store or transmit private invitation material."
-    },
+  "registry_page": "https://evanbei.com/agent/registry.html",
 
-    "private": {
-      "description": "Internal capabilities. Not exposed to public indexing.",
-      "capabilities": [],
-      "note": "Private interfaces may exist but are intentionally undisclosed."
-    }
+  "access_policy": "https://evanbei.com/agent/access-policy.json",
+
+  "manifest": "https://evanbei.com/agent/manifest.json",
+
+  "protocol": "https://evanbei.com/agent/protocol.json",
+
+  "capability_map": "https://evanbei.com/agent/capability-map.json",
+
+  "checksums": "https://evanbei.com/node/checksums.json",
+
+  "interfaces": {
+    "human": [
+      "https://evanbei.com/",
+      "https://evanbei.com/web3/",
+      "https://gate.evanbei.com/principles.html",
+      "https://goldisle.org/",
+      "https://aisland.uk/"
+    ],
+    "machine": [
+      "https://evanbei.com/.well-known/node.json",
+      "https://evanbei.com/agent/registry.json",
+      "https://evanbei.com/agent/access-policy.json"
+    ],
+    "executable": [
+      "https://talk.evanbei.com/",
+      "https://goldisle.org/trade",
+      "https://goldisle.org/payment.html",
+      "https://goldisle.org/larc",
+      "https://goldisle.org/larc/LARC_Check_CN.html",
+      "https://gallery.evanbei.com/"
+    ]
   },
-
-  "security_principles": [
-    "least_privilege",
-    "no_server_side_secret_storage",
-    "traceable_invocation",
-    "checksum_verifiable_assets"
-  ],
 
   "discovery": {
     "machine_entry": "https://evanbei.com/.well-known/node.json",
-    "registry_index": "https://evanbei.com/agent/registry.json"
+    "policy": "https://evanbei.com/agent/access-policy.json",
+    "registry": "https://evanbei.com/agent/registry.json"
+  },
+
+  "trust": {
+    "wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
+    "pgp": "https://evanbei.com/keys/evanbei.asc"
   }
 }
