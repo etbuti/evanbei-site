@@ -36,6 +36,7 @@
   "checksums": "https://evanbei.com/node/checksums.json",
   "registry": "https://evanbei.com/agent/registry.json",
   "registry_page": "https://evanbei.com/agent/registry.html"
+  "well_known_agent": "https://evanbei.com/.well-known/agent.json"
 },
   
   "schema": {
