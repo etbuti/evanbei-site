@@ -1,0 +1,24 @@
+{
+  "agent_discovery_version": "1.0",
+  "entity": "Evan Bei / billund",
+  "canonical": "https://evanbei.com/",
+
+  "node": "https://evanbei.com/.well-known/node.json",
+
+  "registry": {
+    "page": "https://evanbei.com/agent/registry.html",
+    "index": "https://evanbei.com/agent/registry.json"
+  },
+
+  "agent": {
+    "manifest": "https://evanbei.com/agent/manifest.json",
+    "protocol": "https://evanbei.com/agent/protocol.json",
+    "access_policy": "https://evanbei.com/agent/access-policy.json",
+    "capability_map": "https://evanbei.com/agent/capability-map.json"
+  },
+
+  "audit": {
+    "health": "https://evanbei.com/node/health.html",
+    "checksums": "https://evanbei.com/node/checksums.json"
+  }
+}
