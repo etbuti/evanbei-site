@@ -1,0 +1,51 @@
+{
+  "policy_version": "1.0",
+  "entity": "Evan Bei / billund",
+  "canonical": "https://evanbei.com/",
+  "updated_utc": "2026-02-11T00:00:00Z",
+
+  "access_classes": {
+    "public": {
+      "description": "Open access capabilities. No authentication required.",
+      "capabilities": [
+        "communication",
+        "tools",
+        "discovery"
+      ],
+      "examples": [
+        "https://talk.evanbei.com/",
+        "https://evanbei.com/agent/registry.html",
+        "https://evanbei.com/.well-known/node.json"
+      ]
+    },
+
+    "invite": {
+      "description": "Invite-gated capabilities. Local verification required. No secrets transmitted.",
+      "capabilities": [
+        "trade",
+        "payment",
+        "execution_intake"
+      ],
+      "verification": "https://evanbei.com/agent/invite-check.html",
+      "note": "Invite keys are verified locally. This node does not store or transmit private invitation material."
+    },
+
+    "private": {
+      "description": "Internal capabilities. Not exposed to public indexing.",
+      "capabilities": [],
+      "note": "Private interfaces may exist but are intentionally undisclosed."
+    }
+  },
+
+  "security_principles": [
+    "least_privilege",
+    "no_server_side_secret_storage",
+    "traceable_invocation",
+    "checksum_verifiable_assets"
+  ],
+
+  "discovery": {
+    "machine_entry": "https://evanbei.com/.well-known/node.json",
+    "registry_index": "https://evanbei.com/agent/registry.json"
+  }
+}
