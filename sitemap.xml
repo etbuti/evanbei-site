@@ -18,4 +18,7 @@
  <url><loc>https://evanbei.com/agent/registry.json</loc></url>
 
   <url><loc>https://gate.evanbei.com/principles.html</loc></url>
+
+<url><loc>https://evanbei.com/.well-known/agent.json</loc></url>
+  
 </urlset>
