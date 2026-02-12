@@ -158,7 +158,7 @@
     "lineage_only_if_canonical": true,
     "external_derivatives_not_authoritative": true
   }
-}
+},
   "schema": {
     "type": "Person",
     "sameAs": [
