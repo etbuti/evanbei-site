@@ -74,6 +74,89 @@
   }
 }
 </script>
+
+<!-- === JSON-LD Research Graph v6.0 · Evan Bei Works Structure === -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph":[
+
+    {
+      "@type":"Person",
+      "@id":"https://evanbei.com/#person",
+      "name":"Xiaojun Yin",
+      "alternateName":["Evan Bei","billund"],
+      "url":"https://evanbei.com",
+      "sameAs":[
+        "https://orcid.org/0009-0000-8302-3360",
+        "https://goldisle.org"
+      ],
+      "identifier":{
+        "@type":"PropertyValue",
+        "propertyID":"ORCID",
+        "value":"0009-0000-8302-3360"
+      },
+      "affiliation":{
+        "@type":"Organization",
+        "name":"Independent Researcher"
+      }
+    },
+
+    {
+      "@type":"CreativeWork",
+      "@id":"https://evanbei.com/#ukcs284760782",
+      "name":"Research Portfolio — UKCS Registered Works",
+      "identifier":"UKCS 284760782",
+      "creator":{
+        "@id":"https://evanbei.com/#person"
+      }
+    },
+
+    {
+      "@type":"ScholarlyArticle",
+      "name":"Sound Ontology — Integrated Master Paper",
+      "creator":{"@id":"https://evanbei.com/#person"},
+      "isPartOf":{"@id":"https://evanbei.com/#ukcs284760782"}
+    },
+
+    {
+      "@type":"CreativeWork",
+      "name":"Sound as Event — Algorithmic Ground Layer",
+      "creator":{"@id":"https://evanbei.com/#person"},
+      "isPartOf":{"@id":"https://evanbei.com/#ukcs284760782"}
+    },
+
+    {
+      "@type":"SoftwareSourceCode",
+      "name":"Evan Bei Style v4.0 — Sound-Spectrum-Visual Model",
+      "creator":{"@id":"https://evanbei.com/#person"},
+      "isPartOf":{"@id":"https://evanbei.com/#ukcs284760782"}
+    },
+
+    {
+      "@type":"SoftwareSourceCode",
+      "name":"SSE-Lang — Constraint-Based Semantic System",
+      "creator":{"@id":"https://evanbei.com/#person"},
+      "isPartOf":{"@id":"https://evanbei.com/#ukcs284760782"}
+    },
+
+    {
+      "@type":"SoftwareSourceCode",
+      "name":"EBIL Fragment Synthesis Engine — West & North Edition",
+      "creator":{"@id":"https://evanbei.com/#person"},
+      "isPartOf":{"@id":"https://evanbei.com/#ukcs284760782"}
+    },
+
+    {
+      "@type":"CreativeWork",
+      "name":"West & North Style — Academic & Legal Enhanced Version",
+      "creator":{"@id":"https://evanbei.com/#person"},
+      "isPartOf":{"@id":"https://evanbei.com/#ukcs284760782"}
+    }
+
+  ]
+}
+</script>
   
 </head>
 <body>
