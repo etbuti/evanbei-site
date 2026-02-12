@@ -7,6 +7,10 @@
   "created_utc": "2026-02-12T00:00:00Z",
   "official_page": "https://evanbei.com/video/",
   "file": "/video/assets/evan-bei-official-presence-2026.mp4",
+"hashes": {
+  "sha256": "6c1bf8d4b424e44ee4f76450136528fe4324ee761a03d28abd7581219e0f7445",
+  "bytes": 3201731
+}
   "policy": {
     "template_release": false,
     "derivatives_allowed": true,
