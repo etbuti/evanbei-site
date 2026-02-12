@@ -1,45 +1,72 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>Official Video Presence · Evan Bei / billund</title>
-  <meta name="description" content="Official video presence of Evan Bei / billund. This page anchors the primary visual identity source for Evan Bei." />
+  <title>Official Video Anchor · Evan Bei / billund</title>
+  <meta name="description" content="Official video anchor of Evan Bei / billund. This page is the primary visual root key and provenance entry for the West-North visual lineage." />
 
   <!-- SEO / identity -->
   <link rel="canonical" href="https://evanbei.com/video/" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
+  <!-- Machine-readable root key -->
+  <meta name="x-root-key" content="EVANBEI-VISUAL-A01" />
+  <link rel="alternate" type="application/json" href="/data/visual-root.json" title="Visual Root Key JSON" />
+
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Official Video Presence · Evan Bei / billund" />
-  <meta property="og:description" content="Official video presence of Evan Bei / billund. Identity anchor page." />
+  <meta property="og:title" content="Official Video Anchor · Evan Bei / billund" />
+  <meta property="og:description" content="Primary visual root key (official). Unofficial uploads may exist online." />
   <meta property="og:url" content="https://evanbei.com/video/" />
 
-  <!-- Optional: add an image if you have a cover -->
-  <!-- <meta property="og:image" content="https://evanbei.com/video/assets/cover.jpg" /> -->
-
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Official Video Presence · Evan Bei / billund" />
-  <meta name="twitter:description" content="Official video presence of Evan Bei / billund. Identity anchor page." />
+  <meta name="twitter:title" content="Official Video Anchor · Evan Bei / billund" />
+  <meta name="twitter:description" content="Primary visual root key (official). Unofficial uploads may exist online." />
 
-  <!-- Structured data -->
+  <!-- Structured data: Profile + VideoObject -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "name": "Official Video Presence · Evan Bei / billund",
-    "url": "https://evanbei.com/video/",
-    "about": {
-      "@type": "Person",
-      "name": "Evan Bei",
-      "alternateName": ["billund", "evanbei"],
-      "url": "https://evanbei.com/"
-    },
-    "dateModified": "2026-02-12",
-    "inLanguage": "en-GB"
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "name": "Official Video Anchor · Evan Bei / billund",
+        "url": "https://evanbei.com/video/",
+        "dateModified": "2026-02-12",
+        "inLanguage": "en-GB",
+        "about": {
+          "@type": "Person",
+          "name": "Evan Bei",
+          "alternateName": ["billund", "evanbei"],
+          "url": "https://evanbei.com/"
+        }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "West-North Direction — Official Visual Anchor (A01)",
+        "description": "This clip serves as the official visual root key for the West-North lineage of Evan Bei / billund. Derivative uploads or unofficial edits may exist online.",
+        "uploadDate": "2026-02-12",
+        "inLanguage": "en-GB",
+        "isFamilyFriendly": true,
+        "creator": {
+          "@type": "Person",
+          "name": "Evan Bei",
+          "alternateName": ["billund"]
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Evan Bei (individual-origin node)",
+          "url": "https://evanbei.com/"
+        },
+        "contentUrl": "https://evanbei.com/video/assets/evan-bei-official-presence-2026.mp4",
+        "url": "https://evanbei.com/video/",
+        "identifier": "EVANBEI-VISUAL-A01",
+        "keywords": ["official", "anchor", "visual root key", "West-North", "Evan Bei", "billund"]
+      }
+    ]
   }
   </script>
 
@@ -68,16 +95,9 @@
     a:hover{border-bottom-color:rgba(233,233,238,.35)}
     .wrap{max-width:920px; margin:0 auto; padding:28px 18px 60px}
     header{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:8px 0 18px}
-    .brand{
-      display:flex; flex-direction:column; gap:6px;
-    }
-    .title{
-      font-size:18px; font-weight:650; letter-spacing:.4px;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:12px;
-    }
+    .brand{display:flex; flex-direction:column; gap:6px;}
+    .title{font-size:18px; font-weight:650; letter-spacing:.4px;}
+    .sub{color:var(--muted); font-size:12px;}
     .pill{
       color:var(--muted);
       font-size:12px;
@@ -94,42 +114,22 @@
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .video{
-      display:block;
-      width:100%;
-      height:auto;
-      background:#000;
-    }
+    .video{display:block; width:100%; height:auto; background:#000;}
     .meta{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      padding:14px 16px;
-      border-top:1px solid var(--hair);
-      color:var(--muted);
-      font-size:12px;
-      flex-wrap:wrap;
+      display:flex; justify-content:space-between; gap:12px;
+      padding:14px 16px; border-top:1px solid var(--hair);
+      color:var(--muted); font-size:12px; flex-wrap:wrap;
     }
     .meta strong{color:rgba(233,233,238,.82); font-weight:600}
     .note{
-      margin-top:14px;
-      padding:14px 16px;
-      border:1px solid var(--hair);
-      border-radius:var(--radius);
-      background:rgba(255,255,255,.02);
-      color:var(--muted);
-      font-size:12px;
+      margin-top:14px; padding:14px 16px;
+      border:1px solid var(--hair); border-radius:var(--radius);
+      background:rgba(255,255,255,.02); color:var(--muted); font-size:12px;
     }
     footer{
-      margin-top:22px;
-      padding-top:14px;
-      border-top:1px solid var(--hair);
-      color:rgba(233,233,238,.45);
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+      margin-top:22px; padding-top:14px; border-top:1px solid var(--hair);
+      color:rgba(233,233,238,.45); font-size:12px;
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
   </style>
@@ -139,38 +139,40 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="title">Official Video Presence · Evan Bei / billund</div>
-        <div class="sub">Primary visual identity anchor · London · <span class="mono">2026-02-12</span></div>
+        <div class="title">Official Video Anchor · Evan Bei / billund</div>
+        <div class="sub">
+          Visual Root Key · <span class="mono">EVANBEI-VISUAL-A01</span> · London · <span class="mono">2026-02-12</span>
+        </div>
       </div>
       <div class="pill">evanbei.com/video/</div>
     </header>
 
-    <main class="card" aria-label="Official video">
-      <video
-        class="video"
-        controls
-        preload="metadata"
-        playsinline
-      >
+    <main class="card" aria-label="Official anchor video">
+      <video class="video" controls preload="metadata" playsinline>
         <source src="./assets/evan-bei-official-presence-2026.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
       <div class="meta">
         <div><strong>Owner</strong> Evan Bei <span class="mono">/</span> billund</div>
-        <div><strong>Purpose</strong> Identity anchor (official presence)</div>
+        <div><strong>Purpose</strong> Official visual root key (A01)</div>
+        <div><strong>Root JSON</strong> <a class="mono" href="/data/visual-root.json">/data/visual-root.json</a></div>
         <div><strong>Last verified</strong> London · <span class="mono">2026-02-12</span></div>
       </div>
     </main>
 
     <div class="note">
-      This page anchors the official visual identity of Evan Bei / billund. Any other channels or uploads are not affiliated unless explicitly linked from
-      <a href="https://evanbei.com/">evanbei.com</a>.
+      This clip serves as the official visual anchor (root key) of Evan Bei / billund.<br/>
+      Derivative uploads or unofficial edits may exist online. Only items explicitly linked from
+      <a href="https://evanbei.com/">evanbei.com</a> are considered official.
     </div>
 
     <footer>
       <div>© <span class="mono">2026</span> Evan Bei</div>
-      <div class="mono"><a href="https://evanbei.com/definition">Definition</a></div>
+      <div class="mono">
+        <a href="https://evanbei.com/definition">Definition</a> ·
+        <a href="/data/visual-root.json">Root JSON</a>
+      </div>
     </footer>
   </div>
 </body>
