@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>山东十川节能科技股份有限公司｜Shandong SC Energy-Saving Technology</title>
+  <meta name="description" content="山东十川节能科技股份有限公司：面向建筑节能、工业节能与区域能源的系统性节能解决方案与技术服务。" />
+
+  <style>
+    :root{
+      --bg0:#05070b;
+      --bg1:#0a1020;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.10);
+      --line:rgba(255,255,255,.10);
+      --txt:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.66);
+      --muted2:rgba(255,255,255,.52);
+      --glow:rgba(120,190,255,.25);
+      --accent:#7ad3ff;
+      --accent2:#a7ffcf;
+      --warn:#ffd66e;
+      --radius:18px;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --max:1120px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--txt);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+                   "PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC", sans-serif;
+      background:
+        radial-gradient(1200px 800px at 10% 10%, rgba(122,211,255,.12), transparent 60%),
+        radial-gradient(900px 700px at 90% 20%, rgba(167,255,207,.10), transparent 55%),
+        radial-gradient(700px 600px at 60% 90%, rgba(190,140,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* subtle grid */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; opacity:.28; mix-blend-mode:screen;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at 50% 20%, black 0%, rgba(0,0,0,.15) 55%, transparent 80%);
+    }
+
+    /* particle canvas */
+    #fx{
+      position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.75;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{position:relative; z-index:1}
+    .container{max-width:var(--max); margin:0 auto; padding:0 22px}
+    .topbar{
+      position:sticky; top:0; z-index:5;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(5,7,11,.72), rgba(5,7,11,.35));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .topbar .row{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width:240px;
+    }
+    .logo{
+      width:42px; height:42px; border-radius:12px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.85), transparent 60%),
+        radial-gradient(26px 26px at 70% 70%, rgba(122,211,255,.55), transparent 60%),
+        linear-gradient(135deg, rgba(122,211,255,.22), rgba(167,255,207,.18));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 0 0 1px rgba(122,211,255,.10) inset, 0 14px 40px rgba(0,0,0,.35);
+    }
+    .brand h1{font-size:14px; margin:0; letter-spacing:.6px}
+    .brand .sub{font-size:12px; color:var(--muted); margin-top:3px}
+    nav{display:flex; gap:16px; flex-wrap:wrap; justify-content:flex-end}
+    nav a{
+      font-size:13px; color:var(--muted);
+      padding:8px 10px; border-radius:10px;
+      border:1px solid transparent;
+    }
+    nav a:hover{
+      color:var(--txt);
+      border-color:rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+    }
+
+    /* hero */
+    .hero{
+      padding:64px 0 30px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .headline{
+      padding:34px 30px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .headline:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background:
+        radial-gradient(420px 220px at 20% 20%, rgba(122,211,255,.18), transparent 60%),
+        radial-gradient(520px 280px at 85% 60%, rgba(167,255,207,.14), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .headline > *{position:relative}
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(122,211,255,.45);
+    }
+    .headline h2{
+      margin:16px 0 10px;
+      font-size:34px;
+      line-height:1.15;
+      letter-spacing:.2px;
+    }
+    .headline p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:56ch;
+    }
+    .ctaRow{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--txt);
+      font-size:13px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.25);
+      user-select:none;
+    }
+    .btn:hover{
+      border-color:rgba(122,211,255,.34);
+      box-shadow: 0 18px 44px rgba(0,0,0,.34);
+      transform: translateY(-1px);
+      transition:.18s ease;
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(122,211,255,.18), rgba(167,255,207,.12));
+      border-color: rgba(122,211,255,.30);
+    }
+    .pillRow{
+      margin-top:18px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .pill{
+      padding:7px 10px;
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      background:rgba(0,0,0,.16);
+    }
+
+    .stats{
+      padding:26px 22px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .stats:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(320px 220px at 20% 30%, rgba(190,140,255,.12), transparent 60%),
+        radial-gradient(320px 240px at 80% 70%, rgba(122,211,255,.14), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .stats > *{position:relative}
+    .cardTitle{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .cardTitle h3{
+      margin:0; font-size:13px; letter-spacing:.4px; color:var(--muted);
+      font-weight:600;
+    }
+    .badge{
+      font-size:12px; color:rgba(255,255,255,.78);
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      white-space:nowrap;
+    }
+    .statGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .stat{
+      padding:12px 12px;
+      border-radius:14px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .stat .k{font-size:12px; color:var(--muted2)}
+    .stat .v{margin-top:6px; font-size:15px}
+    .stat .s{margin-top:6px; font-size:12px; color:var(--muted)}
+    .tiny{font-size:11px; color:var(--muted2); margin-top:12px; line-height:1.6}
+
+    /* sections */
+    section{padding:28px 0}
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:14px; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .sectionHead h3{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .sectionHead p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+      max-width:72ch;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .card{
+      padding:18px 16px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 16px 50px rgba(0,0,0,.28);
+      min-height:132px;
+    }
+    .card .h{
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:10px;
+    }
+    .icon{
+      width:34px; height:34px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(10px 10px at 30% 35%, rgba(255,255,255,.85), transparent 60%),
+        linear-gradient(135deg, rgba(122,211,255,.18), rgba(167,255,207,.10));
+      box-shadow: 0 0 0 1px rgba(122,211,255,.08) inset;
+    }
+    .card h4{margin:0; font-size:14px}
+    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.75}
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    .panel{
+      padding:18px 16px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 16px 50px rgba(0,0,0,.28);
+    }
+    .panel h4{margin:0 0 10px; font-size:14px}
+    .panel ul{margin:0; padding:0 0 0 18px}
+    .panel li{color:var(--muted); font-size:13px; line-height:1.9; margin:6px 0}
+    .panel code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      padding:2px 6px;
+      border-radius:10px;
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+    }
+
+    /* contact */
+    .contact{
+      padding:26px 18px;
+      border-radius: calc(var(--radius) + 4px);
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(520px 240px at 15% 20%, rgba(122,211,255,.14), transparent 60%),
+        radial-gradient(520px 240px at 85% 70%, rgba(167,255,207,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+    }
+    .contactGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    .contact h3{margin:0 0 8px; font-size:18px}
+    .contact p{margin:0; color:var(--muted); font-size:13px; line-height:1.85}
+    .field{
+      margin-top:12px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .emailBox{
+      flex:1 1 280px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.78);
+      font-size:13px;
+    }
+    .emailBox .label{display:block; font-size:11px; color:var(--muted2); margin-bottom:6px}
+    .emailBox .value{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing:.2px;
+    }
+    .hint{
+      font-size:12px; color:var(--muted2);
+      margin-top:8px;
+    }
+
+    footer{
+      padding:24px 0 44px;
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.8;
+    }
+    footer .cols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      padding-top:16px;
+      margin-top:14px;
+    }
+    footer a{color:rgba(255,255,255,.78); border-bottom:1px dashed rgba(255,255,255,.25)}
+    footer a:hover{color:var(--txt); border-bottom-color:rgba(122,211,255,.45)}
+
+    /* responsive */
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr; }
+      .cards{grid-template-columns: 1fr;}
+      .split{grid-template-columns: 1fr;}
+      .contactGrid{grid-template-columns:1fr;}
+      nav{justify-content:flex-start}
+      .brand{min-width:unset}
+      .headline h2{font-size:28px}
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="fx"></canvas>
+  <div class="grid"></div>
+
+  <div class="wrap">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="container">
+        <div class="row">
+          <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+              <h1>山东十川节能科技股份有限公司</h1>
+              <div class="sub">Shandong SC Energy-Saving Technology</div>
+            </div>
+          </div>
+          <nav aria-label="导航">
+            <a href="#about">公司概览</a>
+            <a href="#solutions">解决方案</a>
+            <a href="#innovation">研发与创新</a>
+            <a href="#scenes">应用场景</a>
+            <a href="#contact">联系</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="heroGrid">
+            <div class="headline">
+              <div class="kicker"><span class="dot"></span> 以系统工程驱动节能减排 · 面向未来的能源效率基础设施</div>
+              <h2>让每一度能耗<br/>可度量、可优化、可持续</h2>
+              <p>
+                聚焦建筑节能、工业节能与区域能源等方向，提供节能系统产品、节能技术服务与系统升级服务，
+                以数据化与自动化能力推动能效提升与运营韧性。
+              </p>
+
+              <div class="ctaRow">
+                <a class="btn primary" href="#solutions">查看核心能力</a>
+                <a class="btn" href="#contact">合作与咨询</a>
+              </div>
+
+              <div class="pillRow" aria-label="关键词">
+                <span class="pill">Energy Efficiency</span>
+                <span class="pill">Building Automation</span>
+                <span class="pill">Industrial Optimization</span>
+                <span class="pill">District Energy</span>
+                <span class="pill">Monitoring & Control</span>
+              </div>
+            </div>
+
+            <aside class="stats" aria-label="公司摘要">
+              <div class="cardTitle">
+                <h3>公司摘要（公开信息）</h3>
+                <span class="badge">证券代码：834715（历史挂牌）</span>
+              </div>
+
+              <div class="statGrid">
+                <div class="stat">
+                  <div class="k">成立时间</div>
+                  <div class="v">2007-06-27</div>
+                  <div class="s">长期聚焦节能领域</div>
+                </div>
+                <div class="stat">
+                  <div class="k">业务形态</div>
+                  <div class="v">产品 + 服务</div>
+                  <div class="s">系统交付与升级并重</div>
+                </div>
+                <div class="stat">
+                  <div class="k">服务方向</div>
+                  <div class="v">建筑 / 工业 / 区域能源</div>
+                  <div class="s">多场景节能解决方案</div>
+                </div>
+                <div class="stat">
+                  <div class="k">信息说明</div>
+                  <div class="v">以公开资料为准</div>
+                  <div class="s">页面可按需继续补全</div>
+                </div>
+              </div>
+
+              <div class="tiny">
+                注：公司曾在全国股转系统挂牌（证券简称“十川股份”，代码 834715），并于 2021-03-24 起终止挂牌。
+                本页面用于形象展示与业务介绍，具体以公司正式披露与实际情况为准。
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about">
+        <div class="container">
+          <div class="sectionHead">
+            <div>
+              <h3>公司概览</h3>
+              <p>以“系统性的节能解决方案”为主线，将工程交付、控制策略与运营优化整合为可落地的能效能力。</p>
+            </div>
+          </div>
+
+          <div class="cards">
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>系统性交付</h4></div>
+              <p>面向不同领域客户，提供从方案设计、实施部署到运行优化的一体化节能路径，强调可验证的节能效果与可维护性。</p>
+            </div>
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>数字化与自动化</h4></div>
+              <p>将监测、控制、策略与数据联动，推动能耗透明化与精细化运营，为后续“持续优化”留出接口与数据基础。</p>
+            </div>
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>长期主义研发</h4></div>
+              <p>通过持续的技术积累与知识产权布局，围绕节能相关装置与系统能力迭代，保持工程落地的技术含金量。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Solutions -->
+      <section id="solutions">
+        <div class="container">
+          <div class="sectionHead">
+            <div>
+              <h3>核心解决方案方向</h3>
+              <p>公开信息显示公司业务覆盖建筑节能、工业节能、区域能源等方向，并提供节能系统产品销售、技术服务与系统升级服务。</p>
+            </div>
+          </div>
+
+          <div class="cards">
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>建筑节能</h4></div>
+              <p>围绕楼宇机电系统的监控、联动与策略优化，提升设备运行效率与舒适性平衡，降低单位面积能耗。</p>
+            </div>
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>工业节能</h4></div>
+              <p>面向工艺与公辅系统，基于数据与控制策略做能效优化，形成可复制的节能模块与升级方案。</p>
+            </div>
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>区域能源</h4></div>
+              <p>针对园区级与多能系统场景，以“能源侧协同+运行侧优化”的方法提升综合能效与运行韧性。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Innovation -->
+      <section id="innovation">
+        <div class="container">
+          <div class="sectionHead">
+            <div>
+              <h3>研发与创新（公开专利示例）</h3>
+              <p>以下仅作公开资料的技术侧“示例展示”，不代表公司全部能力清单；实际可按你掌握的材料继续补全。</p>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="panel">
+              <h4>专利示例 A：节能送风装置</h4>
+              <ul>
+                <li>技术方向：通风/送风系统节能相关装置</li>
+                <li>专利号：<code>CN207527775U</code></li>
+                <li>用途表达（建议写法）：以结构与控制配合降低送风能耗、提升运行效率</li>
+              </ul>
+              <div class="tiny">可在“成果/资质”页面进一步添加：软件著作权、检测报告、典型项目等（如有）。</div>
+            </div>
+
+            <div class="panel">
+              <h4>专利示例 B：可移动式光伏储能电池组</h4>
+              <ul>
+                <li>技术方向：光伏+储能系统的结构与应用</li>
+                <li>专利号：<code>CN218242121U</code></li>
+                <li>用途表达（建议写法）：面向分布式能源与临时用能场景的模块化供能能力</li>
+              </ul>
+              <div class="tiny">你若希望更“前沿”，可在此板块加入：能管平台、IoT 采集、边缘控制、预测优化等实际能力点（需你提供内部资料）。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scenes -->
+      <section id="scenes">
+        <div class="container">
+          <div class="sectionHead">
+            <div>
+              <h3>应用场景</h3>
+              <p>将“节能”落到可感知的业务结果：成本、稳定性、运维效率与碳排放强度。</p>
+            </div>
+          </div>
+
+          <div class="cards">
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>园区与综合体</h4></div>
+              <p>多系统联动（冷热源、末端、照明、公区），支持分时策略与运行优化，形成可追踪的能效指标体系。</p>
+            </div>
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>公共建筑与机构</h4></div>
+              <p>以稳定、可维护、可审计为目标，兼顾舒适性与节能收益，适配长期运营的管理需求。</p>
+            </div>
+            <div class="card">
+              <div class="h"><div class="icon" aria-hidden="true"></div><h4>工业与公辅系统</h4></div>
+              <p>聚焦高能耗环节的策略升级与系统改造，推动“经验运行”向“数据驱动运行”转变。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <div class="container">
+          <div class="contact">
+            <div class="contactGrid">
+              <div>
+                <h3>联系与合作</h3>
+                <p>
+                  如需项目合作、技术交流或业务咨询，请通过联系邮箱与我们取得联系。<br/>
+                  （此处邮箱已预留，暂空待填。）
+                </p>
+
+                <div class="field">
+                  <div class="emailBox" role="group" aria-label="联系邮箱">
+                    <span class="label">联系邮箱（待填）</span>
+                    <span class="value">__________@__________.com</span>
+                  </div>
+                  <a class="btn primary" href="javascript:void(0)" onclick="copyEmail()">复制邮箱占位</a>
+                </div>
+                <div class="hint">提示：把上面的占位符替换成真实邮箱后，复制按钮会自动复制你填写的邮箱。</div>
+              </div>
+
+              <div class="panel">
+                <h4>可选补全项（建议你后续加）</h4>
+                <ul>
+                  <li>典型项目（3–6 个）：项目名称、行业、关键指标（节能率/年节电量/ROI）</li>
+                  <li>资质与认证：高新、专精特新、ISO、检测报告等（如有）</li>
+                  <li>产品清单：控制柜/传感器/平台模块/软件截图（可用图片占位）</li>
+                  <li>媒体与新闻：里程碑节点（按年份）</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <footer>
+            <div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+                <div>© <span id="y"></span> 山东十川节能科技股份有限公司</div>
+                <div style="color:rgba(255,255,255,.55)">静态形象页 · 可直接部署到任意静态托管（Cloudflare Pages / GitHub Pages / Nginx）</div>
+              </div>
+            </div>
+
+            <div class="cols">
+              <div>
+                <div style="font-weight:600;color:rgba(255,255,255,.76);margin-bottom:8px;">公开资料来源（建议保留）</div>
+                <div>
+                  官网：<a href="https://sdscjn.cn/" target="_blank" rel="noopener">sdscjn.cn</a><br/>
+                  终止挂牌公告（摘要来源）：<a href="https://pdf.dfcfw.com/pdf/H2_AN202103231475091799_1.pdf" target="_blank" rel="noopener">公告 PDF</a><br/>
+                  专利示例：<a href="https://patentimages.storage.googleapis.com/a7/06/14/babdba87df7ab2/CN207527775U.pdf" target="_blank" rel="noopener">CN207527775U</a> ·
+                  <a href="https://patentimages.storage.googleapis.com/b7/9e/c0/759d2c7ba8bc2a/CN218242121U.pdf" target="_blank" rel="noopener">CN218242121U</a>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:600;color:rgba(255,255,255,.76);margin-bottom:8px;">免责声明</div>
+                <div>
+                  本页面用于企业形象与业务方向展示，文案依据公开资料进行整理与抽象表达。<br/>
+                  如用于对外正式宣传，建议结合公司最新披露、资质文件与项目材料进行校对与补充。
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // copy email placeholder (auto-detect text between lines if you later replace)
+    function copyEmail(){
+      const el = document.querySelector('.emailBox .value');
+      const txt = (el && el.textContent || '').trim();
+      navigator.clipboard.writeText(txt).then(()=>{
+        toast('已复制：' + txt);
+      }).catch(()=>{
+        toast('复制失败：请手动选择复制');
+      });
+    }
+
+    // tiny toast
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.position='fixed';
+      t.style.left='50%';
+      t.style.bottom='22px';
+      t.style.transform='translateX(-50%)';
+      t.style.padding='10px 12px';
+      t.style.borderRadius='12px';
+      t.style.border='1px solid rgba(255,255,255,.14)';
+      t.style.background='rgba(0,0,0,.45)';
+      t.style.backdropFilter='blur(10px)';
+      t.style.color='rgba(255,255,255,.86)';
+      t.style.fontSize='12px';
+      t.style.zIndex='999';
+      t.style.boxShadow='0 18px 60px rgba(0,0,0,.45)';
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .25s ease'; }, 1400);
+      setTimeout(()=>{ t.remove(); }, 1750);
+    }
+
+    // Particle background (no external libs)
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+    let W=0,H=0, dpr=1;
+    const P = [];
+    const N = 70;
+    const maxLink = 120;
+    function resize(){
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      W = canvas.width = Math.floor(window.innerWidth * dpr);
+      H = canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+    }
+    function rand(a,b){ return a + Math.random()*(b-a); }
+
+    function init(){
+      P.length = 0;
+      for(let i=0;i<N;i++){
+        P.push({
+          x: rand(0,W), y: rand(0,H),
+          vx: rand(-.25,.25)*dpr,
+          vy: rand(-.25,.25)*dpr,
+          r: rand(1.2,2.4)*dpr
+        });
+      }
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+
+      // glow vignette
+      const g = ctx.createRadialGradient(W*0.25,H*0.2,0, W*0.25,H*0.2, Math.max(W,H)*0.75);
+      g.addColorStop(0,'rgba(122,211,255,.08)');
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,W,H);
+
+      // dots + links
+      for(let i=0;i<P.length;i++){
+        const a = P[i];
+        a.x += a.vx; a.y += a.vy;
+        if(a.x<0||a.x>W) a.vx *= -1;
+        if(a.y<0||a.y>H) a.vy *= -1;
+
+        // dot
+        ctx.beginPath();
+        ctx.arc(a.x,a.y,a.r,0,Math.PI*2);
+        ctx.fillStyle = 'rgba(255,255,255,.22)';
+        ctx.fill();
+
+        // links
+        for(let j=i+1;j<P.length;j++){
+          const b = P[j];
+          const dx=a.x-b.x, dy=a.y-b.y;
+          const dist = Math.sqrt(dx*dx+dy*dy);
+          if(dist < maxLink*dpr){
+            const alpha = (1 - dist/(maxLink*dpr)) * 0.22;
+            ctx.strokeStyle = `rgba(122,211,255,${alpha})`;
+            ctx.lineWidth = 1*dpr;
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y);
+            ctx.lineTo(b.x,b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', ()=>{ resize(); init(); });
+    resize(); init(); draw();
+  </script>
+</body>
+</html>
