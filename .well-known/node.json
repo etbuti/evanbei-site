@@ -119,6 +119,18 @@
       "pgp": "https://evanbei.com/keys/evanbei.asc",
       "note": "Optional: add a signed statement for stronger provenance."
     },
+   "visual_root": {
+  "root_key": "EVANBEI-VISUAL-A01",
+  "title": "West-North Direction — Official Visual Anchor (A01)",
+  "official_page": "https://evanbei.com/video/",
+  "root_json": "https://evanbei.com/data/visual-root.json",
+  "content_url": "https://evanbei.com/video/assets/evan-bei-official-presence-2026.mp4",
+  "created_utc": "2026-02-12T00:00:00Z",
+  "policy": {
+    "template_release": false,
+    "official_only_if_linked_from_evanbei_com": true
+  }
+}
     "attestations": [
       {
         "type": "onchain_tx",
