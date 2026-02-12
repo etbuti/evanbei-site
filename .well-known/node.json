@@ -140,6 +140,25 @@
       }
     ]
   },
+ "media_lineage": {
+  "version": "1.0",
+  "description": "Canonical media lineage tree of Evan Bei / billund.",
+  "roots": [
+    {
+      "id": "EVANBEI-VISUAL-A01",
+      "title": "West-North Direction — Visual Root Anchor",
+      "type": "visual_anchor",
+      "official_page": "https://evanbei.com/video/",
+      "root_json": "https://evanbei.com/data/visual-root.json",
+      "created_utc": "2026-02-12T00:00:00Z",
+      "derivatives": []
+    }
+  ],
+  "policy": {
+    "lineage_only_if_canonical": true,
+    "external_derivatives_not_authoritative": true
+  }
+}
   "schema": {
     "type": "Person",
     "sameAs": [
