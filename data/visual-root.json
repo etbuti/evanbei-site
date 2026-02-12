@@ -1,0 +1,16 @@
+{
+  "root_key": "EVANBEI-VISUAL-A01",
+  "title": "West-North Direction — Official Visual Anchor (A01)",
+  "creator": "Evan Bei / billund",
+  "type": "visual_root_anchor",
+  "status": "official",
+  "created_utc": "2026-02-12T00:00:00Z",
+  "official_page": "https://evanbei.com/video/",
+  "file": "/video/assets/evan-bei-official-presence-2026.mp4",
+  "policy": {
+    "template_release": false,
+    "derivatives_allowed": true,
+    "official_only_if_linked_from_evanbei_com": true
+  },
+  "derivatives": []
+}
