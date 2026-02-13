@@ -168,42 +168,93 @@ All other profiles are mirrors or third-party listings.
 <script>
 (function(){
 
-/* ===== Node Engine (Merged Final) ===== */
+/* ===== EvanBei Node Engine v3.0 ===== */
 
-const dot=document.querySelector(".node-dot");
+const dot = document.querySelector(".node-dot");
 if(!dot) return;
 
-/* Time Phase */
-const now=new Date();
-const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
-const speed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
-document.documentElement.style.setProperty("--phaseSpeed",speed.toFixed(2)+"s");
+/* ---------- Time Phase (一次计算) ---------- */
+const now = new Date();
+const phase = (now.getUTCHours()*60 + now.getUTCMinutes()) / 1440;
+const baseSpeed = 4.2 + (Math.sin(phase*Math.PI*2)+1)*1.2;
 
-/* Quiet Mode */
-let timer=null;
-const QUIET_DELAY=30000;
-function enterQuiet(){document.body.classList.add("quiet");}
-function exitQuiet(){document.body.classList.remove("quiet");resetTimer();}
-function resetTimer(){clearTimeout(timer);timer=setTimeout(enterQuiet,QUIET_DELAY);}
-["mousemove","touchstart","keydown","scroll"].forEach(e=>{
-  window.addEventListener(e,exitQuiet,{passive:true});
-});
-resetTimer();
+document.documentElement.style.setProperty(
+  "--phaseSpeed",
+  baseSpeed.toFixed(2)+"s"
+);
 
-/* Human / Machine Seal */
-function isBot(){
-  const ua=navigator.userAgent.toLowerCase();
-  return ua.includes("bot")||ua.includes("crawler")||ua.includes("spider")||ua.includes("gpt")||ua.includes("ai");
+/* ---------- Quiet Mode (rAF 驱动) ---------- */
+let quietTimer = null;
+let quiet = false;
+const QUIET_DELAY = 30000;
+
+function enterQuiet(){
+  quiet = true;
+  document.body.classList.add("quiet");
 }
 
-window.addEventListener("load",function(){
+function exitQuiet(){
+  quiet = false;
+  document.body.classList.remove("quiet");
+  resetQuietTimer();
+}
+
+function resetQuietTimer(){
+  clearTimeout(quietTimer);
+  quietTimer = setTimeout(enterQuiet, QUIET_DELAY);
+}
+
+["mousemove","touchstart","keydown","scroll"].forEach(evt=>{
+  window.addEventListener(evt, exitQuiet, {passive:true});
+});
+
+resetQuietTimer();
+
+/* ---------- Human / Machine Seal ---------- */
+function isBot(){
+  const ua = navigator.userAgent.toLowerCase();
+  return (
+    ua.includes("bot") ||
+    ua.includes("crawler") ||
+    ua.includes("spider") ||
+    ua.includes("gpt") ||
+    ua.includes("ai")
+  );
+}
+
+window.addEventListener("load",()=>{
   if(isBot()) return;
   dot.classList.add("seal");
-  setTimeout(()=>{dot.classList.remove("seal");},320);
+  setTimeout(()=>dot.classList.remove("seal"),320);
 });
+
+/* ---------- rAF Engine (核心升级) ---------- */
+
+let rafId = null;
+let last = performance.now();
+
+function engine(now){
+
+  const delta = now - last;
+  last = now;
+
+  /* 页面不可见时自动降频（浏览器级优化） */
+  if(document.hidden){
+    rafId = requestAnimationFrame(engine);
+    return;
+  }
+
+  /* 这里目前保持极轻逻辑，不主动操作 DOM */
+  /* rAF 的意义是未来所有状态统一调度 */
+
+  rafId = requestAnimationFrame(engine);
+}
+
+rafId = requestAnimationFrame(engine);
 
 })();
 </script>
+
 
 </body>
 </html>
