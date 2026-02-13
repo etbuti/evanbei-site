@@ -8,7 +8,9 @@
   }
 
 /* Origin Node 顶点 · 呼吸态 */
+/* Origin Node 顶点 · Presence Halo */
 .node-dot{
+  position:relative;
   width:5px;
   height:5px;
   border-radius:50%;
@@ -19,6 +21,22 @@
   transition:opacity .8s ease, transform .8s ease, background .8s ease;
 }
 
+/* Halo 层（非常轻） */
+.node-dot::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:18px;
+  height:18px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,0,0,.08) 0%, rgba(0,0,0,0) 70%);
+  opacity:.35;
+  pointer-events:none;
+  animation: haloPhase var(--phaseSpeed,4.8s) ease-in-out infinite;
+}
+
 /* 极轻微呼吸 */
 @keyframes nodeBreath{
   0%   { opacity:.62; transform:scale(1); }
@@ -26,6 +44,12 @@
   100% { opacity:.62; transform:scale(1); }
 }
 
+@keyframes haloPhase{
+  0%   { opacity:.22; transform:translate(-50%,-50%) scale(1); }
+  50%  { opacity:.42; transform:translate(-50%,-50%) scale(1.12); }
+  100% { opacity:.22; transform:translate(-50%,-50%) scale(1); }
+}
+  
 /* 让标题可以被感知变化 */
 h1{
   font-size:32px;
