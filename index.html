@@ -1,232 +1,66 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Evan Bei</title>
-
-  <!-- Canonical -->
-  <link rel="canonical" href="https://evanbei.com/">
-
-  <!-- ORCID identity binding -->
-  <link rel="me" href="https://orcid.org/0009-0000-8302-3360">
-  <link rel="author" href="https://orcid.org/0009-0000-8302-3360">
-
-  <!-- Core metadata -->
-  <meta name="author" content="Xiaojun Yin (Evan Bei)">
-  <meta name="description" content="Independent artistic researcher exploring Sound Ontology, algorithmic composition, and time-based practice.">
-  <meta name="keywords" content="Sound Ontology, Artistic Research, Independent Scholar, Algorithmic Composition, Time-Based Practice, Semantic Systems, Evan Bei">
-
-  <!-- Academic parsers (minimal & non-duplicated) -->
-  <meta name="citation_title" content="Evan Bei — Independent Artistic Research Node">
-  <meta name="citation_author" content="Xiaojun Yin">
-  <meta name="citation_author_institution" content="Independent Researcher">
-  <meta name="citation_author_orcid" content="0009-0000-8302-3360">
-  <meta name="citation_public_url" content="https://evanbei.com/">
-  <meta name="citation_fulltext_html_url" content="https://evanbei.com/definition">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="profile">
-  <meta property="og:title" content="Evan Bei — Independent Artistic Research Node">
-  <meta property="og:url" content="https://evanbei.com/">
-  <meta property="og:description" content="Independent artistic researcher working on Sound Ontology, algorithmic composition, and time-based practice.">
-  <meta property="profile:first_name" content="Xiaojun">
-  <meta property="profile:last_name" content="Yin">
-
-  <!-- Twitter card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Evan Bei — Independent Artistic Research Node">
-  <meta name="twitter:description" content="Sound Ontology · Artistic Research · Algorithmic Composition · Time-Based Practice">
-
-  <!-- === JSON-LD Research Graph v7.2 · single source of truth === -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-
-      {
-        "@type": "WebSite",
-        "@id": "https://evanbei.com/#website",
-        "url": "https://evanbei.com/",
-        "name": "Evan Bei — Independent Artistic Research Node",
-        "inLanguage": "en",
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "about": { "@id": "https://evanbei.com/#person" }
-      },
-
-      {
-        "@type": "WebPage",
-        "@id": "https://evanbei.com/#webpage",
-        "url": "https://evanbei.com/",
-        "name": "Evan Bei",
-        "isPartOf": { "@id": "https://evanbei.com/#website" },
-        "mainEntity": { "@id": "https://evanbei.com/#person" },
-        "about": { "@id": "https://evanbei.com/#person" },
-        "inLanguage": "en"
-      },
-
-      {
-        "@type": "Person",
-        "@id": "https://evanbei.com/#person",
-        "name": "Xiaojun Yin",
-        "alternateName": ["Evan Bei", "billund"],
-        "url": "https://evanbei.com/",
-        "sameAs": [
-          "https://orcid.org/0009-0000-8302-3360",
-          "https://goldisle.org"
-        ],
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "ORCID", "value": "0009-0000-8302-3360" },
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782" }
-        ],
-        "affiliation": { "@type": "Organization", "name": "Independent Researcher" },
-        "knowsAbout": [
-          "Sound Ontology",
-          "Artistic Research",
-          "Algorithmic Composition",
-          "Time-Based Practice",
-          "Semantic Systems",
-          "Independent Cultural Systems"
-        ],
-        "mainEntityOfPage": { "@id": "https://evanbei.com/#webpage" }
-      },
-
-      {
-        "@type": "CreativeWork",
-        "@id": "https://evanbei.com/#portfolio-ukcs-284760782",
-        "name": "Research Portfolio — UKCS Registered Works",
-        "identifier": "UKCS 284760782",
-        "creator": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "mainEntityOfPage": { "@id": "https://evanbei.com/#webpage" },
-        "isBasedOn": "UK Copyright Service registration anchors",
-        "hasPart": [
-          { "@id": "https://evanbei.com/#work-sound-ontology" },
-          { "@id": "https://evanbei.com/#work-sound-as-event" },
-          { "@id": "https://evanbei.com/#work-ebsa-v4" },
-          { "@id": "https://evanbei.com/#work-sse-lang" },
-          { "@id": "https://evanbei.com/#work-ebil-engine" },
-          { "@id": "https://evanbei.com/#work-west-north" },
-          { "@id": "https://evanbei.com/#work-insert-library" }
-        ]
-      },
-
-      {
-        "@type": "ScholarlyArticle",
-        "@id": "https://evanbei.com/#work-sound-ontology",
-        "name": "Sound Ontology — Integrated Master Paper",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2026",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "mainEntityOfPage": "https://evanbei.com/definition",
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-014" },
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-008" }
-        ],
-        "description": "Conceptual research manuscript exploring sound ontology and event-based sonic philosophy. Registered with UKCS; pending journal-oriented development."
-      },
-
-      {
-        "@type": "CreativeWork",
-        "@id": "https://evanbei.com/#work-sound-as-event",
-        "name": "Sound as Event — Algorithmic Ground Layer",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2026",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "mainEntityOfPage": "https://evanbei.com/definition",
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-015" },
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-010" }
-        ],
-        "description": "Artistic research framework translating sound ontology into algorithmic and compositional structures, bridging theory and sonic practice."
-      },
-
-      {
-        "@type": "SoftwareSourceCode",
-        "@id": "https://evanbei.com/#work-ebsa-v4",
-        "name": "Evan Bei Style v4.0 — Sound-Spectrum-Visual Model",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2025",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "codeRepository": "https://evanbei.com/",
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-009" }
-        ],
-        "description": "An interdisciplinary algorithm integrating musical structure, visual modeling, and conceptual sound frameworks within an independent research context."
-      },
-
-      {
-        "@type": "SoftwareSourceCode",
-        "@id": "https://evanbei.com/#work-sse-lang",
-        "name": "SSE-Lang — Constraint-Based Semantic System",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2026",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-011" }
-        ],
-        "description": "A semantic constraint language exploring structural representation and computational reasoning across interdisciplinary research domains."
-      },
-
-      {
-        "@type": "SoftwareSourceCode",
-        "@id": "https://evanbei.com/#work-ebil-engine",
-        "name": "EBIL Fragment Synthesis Engine — West & North Edition",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2025",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-006" }
-        ],
-        "description": "A modular synthesis framework developed for algorithmic music composition and fragment-based sonic generation within the West & North research line."
-      },
-
-      {
-        "@type": "CreativeWork",
-        "@id": "https://evanbei.com/#work-west-north",
-        "name": "West & North Style — Academic & Legal Enhanced Version",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2025",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-005" }
-        ],
-        "description": "A cross-cultural artistic research project combining Eurasian musical aesthetics, legal-structural design, and independent sound practice."
-      },
-
-      {
-        "@type": "CreativeWork",
-        "@id": "https://evanbei.com/#work-insert-library",
-        "name": "Evan Bei Insert Library — Method Documentation",
-        "author": { "@id": "https://evanbei.com/#person" },
-        "publisher": { "@id": "https://evanbei.com/#person" },
-        "datePublished": "2025",
-        "isPartOf": { "@id": "https://evanbei.com/#portfolio-ukcs-284760782" },
-        "identifier": [
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-001" },
-          { "@type": "PropertyValue", "propertyID": "UKCS", "value": "284760782-002" }
-        ],
-        "description": "Methodological documentation outlining modular emotional inserts and compositional tools developed for independent music and artistic research systems."
-      }
-
-    ]
+<style>
+  body{
+    font-family:Arial,sans-serif;
+    text-align:center;
+    padding:80px;
+    background:#fff;
+    color:#111;
   }
-  </script>
 
-  <style>
-    body{font-family:Arial,sans-serif;text-align:center;padding:80px;}
-    h1{font-size:32px;}
-    p{font-size:18px;}
-    a{font-size:20px;color:#000;text-decoration:none;}
-  </style>
+  /* Origin Node 顶点 */
+  .node-dot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#222;
+    margin:0 auto 12px;
+    opacity:.7;
+  }
+
+  h1{
+    font-size:32px;
+    margin:0 0 14px;
+    font-weight:600;
+  }
+
+  p{
+    font-size:18px;
+    margin:10px 0;
+  }
+
+  a{
+    font-size:20px;
+    color:#000;
+    text-decoration:none;
+  }
+
+  .meta{
+    margin-top:26px;
+    font-size:14px;
+    opacity:.65;
+    line-height:1.6;
+  }
+
+  .divider{
+    width:40px;
+    height:1px;
+    background:#ddd;
+    margin:18px auto;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:28px;
+    opacity:.8;
+    font-size:15px;
+  }
+</style>
 </head>
 
 <body>
+
+  <!-- Origin Node 顶点 -->
+  <div class="node-dot"></div>
 
   <h1>Evan Bei</h1>
 
@@ -236,54 +70,25 @@
 
   <p><a href="mailto:contact@evanbei.com">contact@evanbei.com</a></p>
 
-  <footer style="text-align:center;margin-top:28px;opacity:.8">
+  <div class="divider"></div>
 
+  <!-- Research Identity Axis -->
+  <div class="meta">
+    Research Identity · ORCID 0009-0000-8302-3360 · UKCS 284760782
+    <br>
+    Machine entry · /.well-known/node.json
+    <br>
+    Agent registry · /agent/registry.html
+  </div>
+
+  <footer>
     <p>
-      Evan Bei is an individual-origin node operating across artistic, research, and system design domains.
+      Evan Bei is an individual-origin node operating across artistic,
+      research, and system design domains.
     </p>
 
-    <p style="margin-top:14px;font-size:13px;opacity:.75">
-      Research Identity ·
-      <a href="https://orcid.org/0009-0000-8302-3360" target="_blank" rel="me noopener noreferrer">
-        ORCID 0009-0000-8302-3360
-      </a>
-      · <span title="UK Copyright Service registration">UKCS 284760782</span>
-      · <a href="/.well-known/node.json">node.json</a>
+    <p style="margin-top:12px;opacity:.7">
+      Official origin node of Evan Bei / billund<br>
+      All other profiles are mirrors or third-party listings.
     </p>
-
-    <p style="margin-top:6px;font-size:12px;opacity:.55">
-      Primary academic profile:
-      <a href="https://orcid.org/0009-0000-8302-3360" rel="me noopener noreferrer" target="_blank">ORCID</a>
-    </p>
-
-    <p>
-      <a href="https://evanbei.com/definition">Definition · Identity page</a>
-    </p>
-
-    <div class="k" style="margin-top:12px;">
-      Agent registry:
-      <a href="/agent/registry.html">/agent/registry.html</a>
-    </div>
-
-    <div style="margin:6px 0 0;font-size:12px;opacity:.45">
-      Machine entry:
-      <a href="/.well-known/node.json">/.well-known/node.json</a>
-    </div>
-
-    <!-- AIAgentsDirectory Badge (keep visible for verification) -->
-    <div style="margin-top:12px;opacity:.45">
-      <a href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=evan-bei-billund-auditable-agent"
-         target="_blank" rel="noopener noreferrer">
-        <img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024"
-             alt="Evan Bei / billund - Auditable Agent - Featured on AI Agents Directory"
-             width="200" height="50" />
-      </a>
-    </div>
-
-    <p>Official origin node of Evan Bei / billund</p>
-    <p>All other profiles are mirrors or third-party listings.</p>
-
   </footer>
-
-</body>
-</html>
