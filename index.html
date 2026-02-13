@@ -7,15 +7,23 @@
     color:#111;
   }
 
-  /* Origin Node 顶点 */
-  .node-dot{
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:#222;
-    margin:0 auto 12px;
-    opacity:.7;
-  }
+/* Origin Node 顶点 · 呼吸态 */
+.node-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#222;
+  margin:0 auto 12px;
+  opacity:.7;
+  animation: nodeBreath 4.8s ease-in-out infinite;
+}
+
+/* 极轻微呼吸 */
+@keyframes nodeBreath{
+  0%   { opacity:.62; transform:scale(1); }
+  50%  { opacity:.82; transform:scale(1.06); }
+  100% { opacity:.62; transform:scale(1); }
+}
 
   h1{
     font-size:32px;
