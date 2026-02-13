@@ -260,6 +260,21 @@ const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
 const baseSpeed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
 document.documentElement.style.setProperty("--phaseSpeed",baseSpeed.toFixed(2)+"s");
 
+/* ===== Arrival Shift Detection ===== */
+
+const ref = document.referrer.toLowerCase();
+
+const academicArrival =
+  ref.includes("orcid.org") ||
+  ref.includes("doi.org") ||
+  ref.includes("scholar") ||
+  ref.includes("research");
+
+if(academicArrival){
+  document.body.classList.add("arrival-academic");
+}
+
+  
 /* Time Gray Phase */
 const gray=Math.floor(34+Math.sin(phase*Math.PI*2)*18);
 dot.style.background=`rgb(${gray},${gray},${gray})`;
