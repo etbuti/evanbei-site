@@ -115,6 +115,18 @@ body:hover h1{
     opacity:.8;
     font-size:15px;
   }
+
+/* Quiet Mode：页面进入静默相位 */
+body.quiet .node-dot{
+  animation-duration: 9.6s !important;   /* 呼吸变慢 */
+  opacity:.5;
+}
+
+body.quiet .node-dot::after{
+  animation-duration: 9.6s !important;
+  opacity:.18;
+}
+  
 </style>
 </head>
 
@@ -211,6 +223,38 @@ body:hover h1{
     dot.style.background = "#444";   // 更浅一点
     dot.style.opacity = ".5";
   }
+
+})();
+</script>
+
+<script>
+(function(){
+
+  // === Quiet Mode Engine ===
+  let timer = null;
+  const QUIET_DELAY = 30000; // 30 秒
+
+  function enterQuiet(){
+    document.body.classList.add("quiet");
+  }
+
+  function exitQuiet(){
+    document.body.classList.remove("quiet");
+    resetTimer();
+  }
+
+  function resetTimer(){
+    clearTimeout(timer);
+    timer = setTimeout(enterQuiet, QUIET_DELAY);
+  }
+
+  // 用户行为监听
+  ["mousemove","touchstart","keydown","scroll"].forEach(evt=>{
+    window.addEventListener(evt, exitQuiet, {passive:true});
+  });
+
+  // 页面加载后开始计时
+  resetTimer();
 
 })();
 </script>
