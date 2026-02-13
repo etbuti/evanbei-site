@@ -15,7 +15,8 @@
   background:#222;
   margin:0 auto 12px;
   opacity:.7;
-  animation: nodeBreath 4.8s ease-in-out infinite;
+  animation: nodeBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
+  transition:opacity .8s ease, transform .8s ease, background .8s ease;
 }
 
 /* 极轻微呼吸 */
@@ -126,3 +127,33 @@ body:hover h1{
       All other profiles are mirrors or third-party listings.
     </p>
   </footer>
+
+<script>
+(function(){
+
+  // === Time-Phase Engine ===
+  const now = new Date();
+
+  // 使用 UTC 时间，保证全球一致性
+  const hours = now.getUTCHours();
+  const minutes = now.getUTCMinutes();
+
+  // 把一天映射到 0~1 相位
+  const phase = (hours * 60 + minutes) / 1440;
+
+  // 根据时间改变呼吸速度（4.2s ~ 6.6s）
+  const speed = 4.2 + (Math.sin(phase * Math.PI * 2) + 1) * 1.2;
+
+  // 写入 CSS 变量
+  document.documentElement.style.setProperty(
+    "--phaseSpeed",
+    speed.toFixed(2) + "s"
+  );
+
+})();
+</script>
+  
+</body>
+</html>
+
+  
