@@ -25,6 +25,32 @@
   100% { opacity:.62; transform:scale(1); }
 }
 
+/* 让标题可以被感知变化 */
+h1{
+  font-size:32px;
+  margin:0 0 14px;
+  font-weight:500;
+  transition:opacity .6s ease, letter-spacing .6s ease;
+}
+
+/* Node 点增加过渡 */
+.node-dot{
+  transition:opacity .8s ease, transform .8s ease, background .8s ease;
+}
+
+/* === Agent Awareness 区域 === */
+/* 当鼠标进入页面主体时，轻微变化 */
+body:hover .node-dot{
+  opacity:.95;
+  transform:scale(1.08);
+  background:#111;
+}
+
+body:hover h1{
+  letter-spacing:.6px;
+  opacity:.92;
+}
+  
   h1{
     font-size:32px;
     margin:0 0 14px;
