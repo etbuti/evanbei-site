@@ -98,6 +98,26 @@
 }
 </script>
 
+/* ===== Node Link Reveal ===== */
+
+.meta a{
+  color:#111;
+  text-decoration:none;
+  opacity:.72;
+  transition:opacity .35s ease, letter-spacing .35s ease;
+}
+
+/* 鼠标靠近时轻微显现 */
+.meta a:hover{
+  opacity:.95;
+  letter-spacing:.2px;
+}
+
+/* Quiet Mode 下再弱一点 */
+body.quiet .meta a{
+  opacity:.45;
+}
+  
 <style>
 body{
   font-family:Arial,sans-serif;
