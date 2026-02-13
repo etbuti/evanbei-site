@@ -232,6 +232,14 @@ const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
 const baseSpeed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
 document.documentElement.style.setProperty("--phaseSpeed",baseSpeed.toFixed(2)+"s");
 
+/* ===== Time Gray Phase ===== */
+
+const gray = Math.floor(34 + Math.sin(phase*Math.PI*2) * 18);
+/* 范围大约 #101010 ～ #444444 */
+
+dot.style.background = `rgb(${gray},${gray},${gray})`;
+  
+
 let quietTimer=null;
 const QUIET_DELAY=30000;
 
