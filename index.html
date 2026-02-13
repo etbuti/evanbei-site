@@ -145,6 +145,26 @@ body.quiet h1{
   transform:translateY(-1px);
 }
 
+/* ===== Phase-Linked Title (Final) ===== */
+
+h1{
+  transition:opacity .6s ease, letter-spacing .6s ease, transform .6s ease;
+  animation: titlePhase var(--phaseSpeed,4.8s) ease-in-out infinite;
+}
+
+/* 与 nodeBreath 同相，但幅度更轻 */
+@keyframes titlePhase{
+  0%   { opacity:.88; letter-spacing:0; transform:translateY(0); }
+  50%  { opacity:.96; letter-spacing:.18px; transform:translateY(-0.4px); }
+  100% { opacity:.88; letter-spacing:0; transform:translateY(0); }
+}
+
+/* Quiet Mode 下进入低存在态 */
+body.quiet h1{
+  animation-duration:9.6s !important;
+  opacity:.78;
+}
+  
 </style>
 
 </head>
