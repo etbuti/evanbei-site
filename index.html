@@ -192,6 +192,16 @@ body.arrival-academic .node-dot{
 body.arrival-academic .meta a{
   opacity:.86;
 }
+
+/* ===== Authority Gravity Presence ===== */
+
+body.authority-gravity .node-dot{
+  filter:contrast(1.05);
+}
+
+body.authority-gravity h1{
+  letter-spacing:.24px;
+}
   
 </style>
 
@@ -250,6 +260,8 @@ width="200" height="50"/>
 </div>
 
 <script>
+  const ref = document.referrer.toLowerCase();
+
 (function(){
 
 const dot=document.querySelector(".node-dot");
@@ -258,6 +270,25 @@ if(!dot) return;
 const now=new Date();
 const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
 const baseSpeed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
+  /* ===== Authority Gravity ===== */
+
+const authorityRef =
+  ref.includes("aiagentsdirectory") ||
+  ref.includes("orcid.org") ||
+  ref.includes("github");
+
+let finalSpeed = baseSpeed;
+
+if(authorityRef){
+  finalSpeed = baseSpeed * 1.03; // 呼吸慢 3%
+  document.body.classList.add("authority-gravity");
+}
+
+document.documentElement.style.setProperty(
+  "--phaseSpeed",
+  finalSpeed.toFixed(2)+"s"
+);
+
 document.documentElement.style.setProperty("--phaseSpeed",baseSpeed.toFixed(2)+"s");
 
 /* ===== Arrival Shift Detection ===== */
