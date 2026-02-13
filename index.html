@@ -247,6 +247,27 @@ body.quiet .agent-badge{
 body.quiet .agent-badge img{
   filter:grayscale(100%) contrast(.8);
 }
+
+/* ===== Presence Harmony (final) ===== */
+
+/* 让 meta 链接与 node 呼吸同相，但幅度极小 */
+.meta a{
+  animation: metaBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
+  animation-delay: 0s; /* 与 nodeBreath 同相 */
+}
+
+/* 幅度控制得很克制：只动一点点 opacity + 极微字距 */
+@keyframes metaBreath{
+  0%   { opacity:.70; letter-spacing:0; }
+  50%  { opacity:.82; letter-spacing:.12px; }
+  100% { opacity:.70; letter-spacing:0; }
+}
+
+/* Quiet Mode 下：同步仍在，但更安静 */
+body.quiet .meta a{
+  animation-duration: 9.6s !important;
+  opacity:.48;
+}
   
 </style>
 
