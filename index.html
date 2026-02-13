@@ -152,6 +152,42 @@ body:hover h1{
 
 })();
 </script>
+
+<script>
+(function(){
+
+  // === Origin Signal Engine ===
+  const ref = document.referrer.toLowerCase();
+  const ua  = navigator.userAgent.toLowerCase();
+
+  const dot = document.querySelector(".node-dot");
+  if(!dot) return;
+
+  // 学术来源判断
+  const academic =
+    ref.includes("orcid.org") ||
+    ref.includes("doi.org")   ||
+    ref.includes("research")  ||
+    ref.includes("scholar");
+
+  // AI / crawler 判断（极简，不做阻挡，只改变表现）
+  const bot =
+    ua.includes("bot") ||
+    ua.includes("crawler") ||
+    ua.includes("spider") ||
+    ua.includes("gpt");
+
+  if(academic){
+    dot.style.background = "#111";   // 更深一点
+    dot.style.opacity = ".85";
+  }
+  else if(bot){
+    dot.style.background = "#444";   // 更浅一点
+    dot.style.opacity = ".5";
+  }
+
+})();
+</script>
   
 </body>
 </html>
