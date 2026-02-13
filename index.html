@@ -9,9 +9,13 @@
 <link rel="canonical" href="https://evanbei.com/">
 <link rel="index" href="https://evanbei.com/">
 <link rel="root" href="https://evanbei.com/">
-
 <meta name="x-origin-authority" content="https://evanbei.com/">
 <meta name="x-primary-entity" content="Evan Bei Origin Node">
+
+<!-- ===== Latency Hint FINAL ===== -->
+<link rel="dns-prefetch" href="https://orcid.org">
+<link rel="dns-prefetch" href="https://goldisle.org">
+<link rel="dns-prefetch" href="https://evanbei.com">
 
 <!-- ===== Identity Link ===== -->
 <link rel="me" href="https://orcid.org/0009-0000-8302-3360">
@@ -90,8 +94,104 @@
 }
 </script>
 
-</head>
+<style>
+body{
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:80px;
+  background:#fff;
+  color:#111;
+}
 
+/* Origin Node */
+.node-dot{
+  position:relative;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#222;
+  margin:0 auto 12px;
+  opacity:.7;
+  animation: nodeBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
+  transition:opacity .8s ease, transform .8s ease, background .8s ease;
+}
+
+.node-dot::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:18px;
+  height:18px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,0,0,.08) 0%, rgba(0,0,0,0) 70%);
+  opacity:.35;
+  pointer-events:none;
+  animation: haloPhase var(--phaseSpeed,4.8s) ease-in-out infinite;
+}
+
+@keyframes nodeBreath{
+  0%{opacity:.62;transform:scale(1);}
+  50%{opacity:.82;transform:scale(1.06);}
+  100%{opacity:.62;transform:scale(1);}
+}
+
+@keyframes haloPhase{
+  0%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:.42;transform:translate(-50%,-50%) scale(1.12);}
+  100%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
+}
+
+body:hover .node-dot{
+  opacity:.95;
+  transform:scale(1.08);
+  background:#111;
+}
+
+h1{
+  font-size:32px;
+  margin:0 0 14px;
+  font-weight:600;
+  transition:opacity .6s ease, letter-spacing .6s ease;
+}
+
+body:hover h1{
+  letter-spacing:.6px;
+  opacity:.92;
+}
+
+p{font-size:18px;margin:10px 0;}
+a{font-size:20px;color:#000;text-decoration:none;}
+
+.meta{margin-top:26px;font-size:14px;opacity:.65;line-height:1.6;}
+.divider{width:40px;height:1px;background:#ddd;margin:18px auto;}
+footer{margin-top:28px;opacity:.8;font-size:15px;}
+
+body.quiet .node-dot{animation-duration:9.6s!important;opacity:.5;}
+body.quiet .node-dot::after{animation-duration:9.6s!important;opacity:.18;}
+
+@media (max-width:600px){
+  body{padding:60px 24px;}
+  .node-dot{width:4px;height:4px;opacity:.6;}
+  .node-dot::after{width:14px;height:14px;opacity:.18;}
+  h1{font-size:28px;}
+}
+
+@media (min-width:1400px){
+  body{padding:120px;}
+  .node-dot::after{width:24px;height:24px;opacity:.32;}
+}
+
+.node-dot.seal{animation:sealPulse .3s ease-out;}
+@keyframes sealPulse{
+  0%{transform:scale(1);opacity:.7;}
+  50%{transform:scale(1.28);opacity:1;}
+  100%{transform:scale(1);opacity:.7;}
+}
+</style>
+
+</head>
 <body>
 
 <div class="node-dot"></div>
@@ -99,9 +199,7 @@
 <h1>Evan Bei</h1>
 
 <p>Independent Scholar — Sound as Event / Time-Based Practice</p>
-
 <p><a href="https://goldisle.org">Explore My Work & Research</a></p>
-
 <p><a href="mailto:contact@evanbei.com">contact@evanbei.com</a></p>
 
 <div class="divider"></div>
@@ -117,7 +215,6 @@ Agent registry · /agent/registry.html
 Evan Bei is an individual-origin node operating across artistic,
 research, and system design domains.
 </p>
-
 <p style="margin-top:12px;opacity:.7">
 Official origin node of Evan Bei / billund<br>
 All other profiles are mirrors or third-party listings.
@@ -127,58 +224,30 @@ All other profiles are mirrors or third-party listings.
 <script>
 (function(){
 
-/* ===== EvanBei Node Engine v3.0 ===== */
-
-const dot = document.querySelector(".node-dot");
+const dot=document.querySelector(".node-dot");
 if(!dot) return;
 
-/* ---------- Time Phase (一次计算) ---------- */
-const now = new Date();
-const phase = (now.getUTCHours()*60 + now.getUTCMinutes()) / 1440;
-const baseSpeed = 4.2 + (Math.sin(phase*Math.PI*2)+1)*1.2;
+const now=new Date();
+const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
+const baseSpeed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
+document.documentElement.style.setProperty("--phaseSpeed",baseSpeed.toFixed(2)+"s");
 
-document.documentElement.style.setProperty(
-  "--phaseSpeed",
-  baseSpeed.toFixed(2)+"s"
-);
+let quietTimer=null;
+const QUIET_DELAY=30000;
 
-/* ---------- Quiet Mode (rAF 驱动) ---------- */
-let quietTimer = null;
-let quiet = false;
-const QUIET_DELAY = 30000;
-
-function enterQuiet(){
-  quiet = true;
-  document.body.classList.add("quiet");
-}
-
-function exitQuiet(){
-  quiet = false;
-  document.body.classList.remove("quiet");
-  resetQuietTimer();
-}
-
-function resetQuietTimer(){
-  clearTimeout(quietTimer);
-  quietTimer = setTimeout(enterQuiet, QUIET_DELAY);
-}
+function enterQuiet(){document.body.classList.add("quiet");}
+function exitQuiet(){document.body.classList.remove("quiet");resetQuietTimer();}
+function resetQuietTimer(){clearTimeout(quietTimer);quietTimer=setTimeout(enterQuiet,QUIET_DELAY);}
 
 ["mousemove","touchstart","keydown","scroll"].forEach(evt=>{
-  window.addEventListener(evt, exitQuiet, {passive:true});
+  window.addEventListener(evt,exitQuiet,{passive:true});
 });
 
 resetQuietTimer();
 
-/* ---------- Human / Machine Seal ---------- */
 function isBot(){
-  const ua = navigator.userAgent.toLowerCase();
-  return (
-    ua.includes("bot") ||
-    ua.includes("crawler") ||
-    ua.includes("spider") ||
-    ua.includes("gpt") ||
-    ua.includes("ai")
-  );
+  const ua=navigator.userAgent.toLowerCase();
+  return ua.includes("bot")||ua.includes("crawler")||ua.includes("spider")||ua.includes("gpt")||ua.includes("ai");
 }
 
 window.addEventListener("load",()=>{
@@ -187,33 +256,15 @@ window.addEventListener("load",()=>{
   setTimeout(()=>dot.classList.remove("seal"),320);
 });
 
-/* ---------- rAF Engine (核心升级) ---------- */
-
-let rafId = null;
-let last = performance.now();
-
-function engine(now){
-
-  const delta = now - last;
-  last = now;
-
-  /* 页面不可见时自动降频（浏览器级优化） */
-  if(document.hidden){
-    rafId = requestAnimationFrame(engine);
-    return;
-  }
-
-  /* 这里目前保持极轻逻辑，不主动操作 DOM */
-  /* rAF 的意义是未来所有状态统一调度 */
-
-  rafId = requestAnimationFrame(engine);
+let rafId=null;
+function engine(){
+  if(document.hidden){rafId=requestAnimationFrame(engine);return;}
+  rafId=requestAnimationFrame(engine);
 }
-
-rafId = requestAnimationFrame(engine);
+rafId=requestAnimationFrame(engine);
 
 })();
 </script>
-
 
 </body>
 </html>
