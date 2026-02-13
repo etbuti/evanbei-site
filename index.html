@@ -189,6 +189,41 @@ body.quiet .node-dot::after{animation-duration:9.6s!important;opacity:.18;}
   50%{transform:scale(1.28);opacity:1;}
   100%{transform:scale(1);opacity:.7;}
 }
+
+/* ===== Node Style Badge ===== */
+
+.agent-badge{
+  margin-top:28px;
+  opacity:.45;
+  transition:opacity .6s ease, filter .6s ease, transform .6s ease;
+}
+
+.agent-badge img{
+  filter:grayscale(100%) contrast(.9);
+  transition:filter .6s ease, transform .6s ease;
+}
+
+/* 鼠标靠近时恢复 */
+.agent-badge:hover{
+  opacity:.9;
+}
+
+.agent-badge:hover img{
+  filter:grayscale(0%);
+  transform:translateY(-1px);
+}
+
+/* ===== Quiet Badge Sync ===== */
+
+body.quiet .agent-badge{
+  opacity:.18;
+  transform:scale(.98);
+}
+
+body.quiet .agent-badge img{
+  filter:grayscale(100%) contrast(.8);
+}
+  
 </style>
 
 </head>
@@ -221,6 +256,20 @@ All other profiles are mirrors or third-party listings.
 </p>
 </footer>
 
+</footer>
+
+<div class="agent-badge">
+<a href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=evan-bei-billund-auditable-agent"
+target="_blank"
+rel="noopener noreferrer external">
+<img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024"
+alt="Evan Bei / billund - Featured AI Agent"
+width="200"
+height="50"/>
+</a>
+</div>
+
+  
 <script>
 (function(){
 
