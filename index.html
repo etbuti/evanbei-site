@@ -1,14 +1,19 @@
-<style>
-  body{
-    font-family:Arial,sans-serif;
-    text-align:center;
-    padding:80px;
-    background:#fff;
-    color:#111;
-  }
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Evan Bei</title>
 
-/* Origin Node 顶点 · 呼吸态 */
-/* Origin Node 顶点 · Presence Halo */
+<style>
+body{
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:80px;
+  background:#fff;
+  color:#111;
+}
+
+/* ===== Origin Node ===== */
 .node-dot{
   position:relative;
   width:5px;
@@ -21,7 +26,7 @@
   transition:opacity .8s ease, transform .8s ease, background .8s ease;
 }
 
-/* Halo 层（非常轻） */
+/* Presence Halo */
 .node-dot::after{
   content:"";
   position:absolute;
@@ -37,20 +42,26 @@
   animation: haloPhase var(--phaseSpeed,4.8s) ease-in-out infinite;
 }
 
-/* 极轻微呼吸 */
+/* Breath */
 @keyframes nodeBreath{
-  0%   { opacity:.62; transform:scale(1); }
-  50%  { opacity:.82; transform:scale(1.06); }
-  100% { opacity:.62; transform:scale(1); }
+  0%{opacity:.62;transform:scale(1);}
+  50%{opacity:.82;transform:scale(1.06);}
+  100%{opacity:.62;transform:scale(1);}
 }
 
 @keyframes haloPhase{
-  0%   { opacity:.22; transform:translate(-50%,-50%) scale(1); }
-  50%  { opacity:.42; transform:translate(-50%,-50%) scale(1.12); }
-  100% { opacity:.22; transform:translate(-50%,-50%) scale(1); }
+  0%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:.42;transform:translate(-50%,-50%) scale(1.12);}
+  100%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
 }
-  
-/* 让标题可以被感知变化 */
+
+/* Awareness */
+body:hover .node-dot{
+  opacity:.95;
+  transform:scale(1.08);
+  background:#111;
+}
+
 h1{
   font-size:32px;
   margin:0 0 14px;
@@ -58,284 +69,141 @@ h1{
   transition:opacity .6s ease, letter-spacing .6s ease;
 }
 
-  
-/* Node 点增加过渡 */
-.node-dot{
-  transition:opacity .8s ease, transform .8s ease, background .8s ease;
-}
-
-/* === Agent Awareness 区域 === */
-/* 当鼠标进入页面主体时，轻微变化 */
-body:hover .node-dot{
-  opacity:.95;
-  transform:scale(1.08);
-  background:#111;
-}
-
 body:hover h1{
   letter-spacing:.6px;
   opacity:.92;
 }
-  
- h1{
-  font-size:32px;
-  margin:0 0 14px;
-  font-weight:600;
-  transition:opacity .6s ease, letter-spacing .6s ease;
- }
 
-  p{
-    font-size:18px;
-    margin:10px 0;
-  }
+p{font-size:18px;margin:10px 0;}
+a{font-size:20px;color:#000;text-decoration:none;}
 
-  a{
-    font-size:20px;
-    color:#000;
-    text-decoration:none;
-  }
-
-  .meta{
-    margin-top:26px;
-    font-size:14px;
-    opacity:.65;
-    line-height:1.6;
-  }
-
-  .divider{
-    width:40px;
-    height:1px;
-    background:#ddd;
-    margin:18px auto;
-  }
-
-  footer{
-    text-align:center;
-    margin-top:28px;
-    opacity:.8;
-    font-size:15px;
-  }
-
-/* Quiet Mode：页面进入静默相位 */
-body.quiet .node-dot{
-  animation-duration: 9.6s !important;   /* 呼吸变慢 */
-  opacity:.5;
+.meta{
+  margin-top:26px;
+  font-size:14px;
+  opacity:.65;
+  line-height:1.6;
 }
 
+.divider{
+  width:40px;
+  height:1px;
+  background:#ddd;
+  margin:18px auto;
+}
+
+footer{
+  margin-top:28px;
+  opacity:.8;
+  font-size:15px;
+}
+
+/* Quiet Mode */
+body.quiet .node-dot{
+  animation-duration:9.6s!important;
+  opacity:.5;
+}
 body.quiet .node-dot::after{
-  animation-duration: 9.6s !important;
+  animation-duration:9.6s!important;
   opacity:.18;
 }
 
-/* ===== Adaptive Density v1.8 ===== */
-
-/* 📱 Mobile：更轻、更安静 */
+/* Adaptive Density */
 @media (max-width:600px){
-
-  body{
-    padding:60px 24px;
-  }
-
-  .node-dot{
-    width:4px;
-    height:4px;
-    opacity:.6;
-  }
-
-  .node-dot::after{
-    width:14px;
-    height:14px;
-    opacity:.18;
-  }
-
-  h1{
-    font-size:28px;
-  }
+  body{padding:60px 24px;}
+  .node-dot{width:4px;height:4px;opacity:.6;}
+  .node-dot::after{width:14px;height:14px;opacity:.18;}
+  h1{font-size:28px;}
 }
 
-/* 🖥️ Large Screen：存在感稍微扩大 */
 @media (min-width:1400px){
-
-  .node-dot::after{
-    width:24px;
-    height:24px;
-    opacity:.32;
-  }
-
-  body{
-    padding:120px;
-  }
+  body{padding:120px;}
+  .node-dot::after{width:24px;height:24px;opacity:.32;}
 }
 
-/* ===== Silent Seal v2.0 ===== */
-
-/* 初始加载脉冲（只一次） */
+/* Silent Seal */
 .node-dot.seal{
-  animation: sealPulse .3s ease-out;
+  animation:sealPulse .3s ease-out;
 }
 
 @keyframes sealPulse{
-  0%   { transform:scale(1); opacity:.7; }
-  50%  { transform:scale(1.28); opacity:1; }
-  100% { transform:scale(1); opacity:.7; }
+  0%{transform:scale(1);opacity:.7;}
+  50%{transform:scale(1.28);opacity:1;}
+  100%{transform:scale(1);opacity:.7;}
 }
-
-  
 </style>
 </head>
 
 <body>
 
-  <!-- Origin Node 顶点 -->
-  <div class="node-dot"></div>
+<div class="node-dot"></div>
 
-  <h1>Evan Bei</h1>
+<h1>Evan Bei</h1>
 
-  <p>Independent Scholar — Sound as Event / Time-Based Practice</p>
+<p>Independent Scholar — Sound as Event / Time-Based Practice</p>
 
-  <p><a href="https://goldisle.org">Explore My Work & Research</a></p>
+<p><a href="https://goldisle.org">Explore My Work & Research</a></p>
 
-  <p><a href="mailto:contact@evanbei.com">contact@evanbei.com</a></p>
+<p><a href="mailto:contact@evanbei.com">contact@evanbei.com</a></p>
 
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <!-- Research Identity Axis -->
-  <div class="meta">
-    Research Identity · ORCID 0009-0000-8302-3360 · UKCS 284760782
-    <br>
-    Machine entry · /.well-known/node.json
-    <br>
-    Agent registry · /agent/registry.html
-  </div>
+<div class="meta">
+Research Identity · ORCID 0009-0000-8302-3360 · UKCS 284760782<br>
+Machine entry · /.well-known/node.json<br>
+Agent registry · /agent/registry.html
+</div>
 
-  <footer>
-    <p>
-      Evan Bei is an individual-origin node operating across artistic,
-      research, and system design domains.
-    </p>
+<footer>
+<p>
+Evan Bei is an individual-origin node operating across artistic,
+research, and system design domains.
+</p>
 
-    <p style="margin-top:12px;opacity:.7">
-      Official origin node of Evan Bei / billund<br>
-      All other profiles are mirrors or third-party listings.
-    </p>
-  </footer>
+<p style="margin-top:12px;opacity:.7">
+Official origin node of Evan Bei / billund<br>
+All other profiles are mirrors or third-party listings.
+</p>
+</footer>
 
 <script>
 (function(){
 
-  // === Time-Phase Engine ===
-  const now = new Date();
+/* ===== Node Engine (Merged Final) ===== */
 
-  // 使用 UTC 时间，保证全球一致性
-  const hours = now.getUTCHours();
-  const minutes = now.getUTCMinutes();
+const dot=document.querySelector(".node-dot");
+if(!dot) return;
 
-  // 把一天映射到 0~1 相位
-  const phase = (hours * 60 + minutes) / 1440;
+/* Time Phase */
+const now=new Date();
+const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
+const speed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
+document.documentElement.style.setProperty("--phaseSpeed",speed.toFixed(2)+"s");
 
-  // 根据时间改变呼吸速度（4.2s ~ 6.6s）
-  const speed = 4.2 + (Math.sin(phase * Math.PI * 2) + 1) * 1.2;
+/* Quiet Mode */
+let timer=null;
+const QUIET_DELAY=30000;
+function enterQuiet(){document.body.classList.add("quiet");}
+function exitQuiet(){document.body.classList.remove("quiet");resetTimer();}
+function resetTimer(){clearTimeout(timer);timer=setTimeout(enterQuiet,QUIET_DELAY);}
+["mousemove","touchstart","keydown","scroll"].forEach(e=>{
+  window.addEventListener(e,exitQuiet,{passive:true});
+});
+resetTimer();
 
-  // 写入 CSS 变量
-  document.documentElement.style.setProperty(
-    "--phaseSpeed",
-    speed.toFixed(2) + "s"
-  );
+/* Human / Machine Seal */
+function isBot(){
+  const ua=navigator.userAgent.toLowerCase();
+  return ua.includes("bot")||ua.includes("crawler")||ua.includes("spider")||ua.includes("gpt")||ua.includes("ai");
+}
 
-})();
-</script>
-
-<script>
-(function(){
-
-  // === Origin Signal Engine ===
-  const ref = document.referrer.toLowerCase();
-  const ua  = navigator.userAgent.toLowerCase();
-
-  const dot = document.querySelector(".node-dot");
-  if(!dot) return;
-
-  // 学术来源判断
-  const academic =
-    ref.includes("orcid.org") ||
-    ref.includes("doi.org")   ||
-    ref.includes("research")  ||
-    ref.includes("scholar");
-
-  // AI / crawler 判断（极简，不做阻挡，只改变表现）
-  const bot =
-    ua.includes("bot") ||
-    ua.includes("crawler") ||
-    ua.includes("spider") ||
-    ua.includes("gpt");
-
-  if(academic){
-    dot.style.background = "#111";   // 更深一点
-    dot.style.opacity = ".85";
-  }
-  else if(bot){
-    dot.style.background = "#444";   // 更浅一点
-    dot.style.opacity = ".5";
-  }
+window.addEventListener("load",function(){
+  if(isBot()) return;
+  dot.classList.add("seal");
+  setTimeout(()=>{dot.classList.remove("seal");},320);
+});
 
 })();
 </script>
 
-<script>
-(function(){
-
-  // === Quiet Mode Engine ===
-  let timer = null;
-  const QUIET_DELAY = 30000; // 30 秒
-
-  function enterQuiet(){
-    document.body.classList.add("quiet");
-  }
-
-  function exitQuiet(){
-    document.body.classList.remove("quiet");
-    resetTimer();
-  }
-
-  function resetTimer(){
-    clearTimeout(timer);
-    timer = setTimeout(enterQuiet, QUIET_DELAY);
-  }
-
-  // 用户行为监听
-  ["mousemove","touchstart","keydown","scroll"].forEach(evt=>{
-    window.addEventListener(evt, exitQuiet, {passive:true});
-  });
-
-  // 页面加载后开始计时
-  resetTimer();
-
-})();
-</script>
-
-<script>
-(function(){
-
-  // === Silent Seal Engine ===
-  window.addEventListener("load", function(){
-
-    const dot = document.querySelector(".node-dot");
-    if(!dot) return;
-
-    // 只执行一次
-    dot.classList.add("seal");
-
-    // 动画结束后移除 class（保持干净）
-    setTimeout(()=>{
-      dot.classList.remove("seal");
-    }, 320);
-
-  });
-
-})();
-</script>
-  
 </body>
 </html>
-
-  
