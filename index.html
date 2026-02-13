@@ -166,6 +166,20 @@ body.quiet .node-dot::after{
     padding:120px;
   }
 }
+
+/* ===== Silent Seal v2.0 ===== */
+
+/* 初始加载脉冲（只一次） */
+.node-dot.seal{
+  animation: sealPulse .3s ease-out;
+}
+
+@keyframes sealPulse{
+  0%   { transform:scale(1); opacity:.7; }
+  50%  { transform:scale(1.28); opacity:1; }
+  100% { transform:scale(1); opacity:.7; }
+}
+
   
 </style>
 </head>
@@ -295,6 +309,28 @@ body.quiet .node-dot::after{
 
   // 页面加载后开始计时
   resetTimer();
+
+})();
+</script>
+
+<script>
+(function(){
+
+  // === Silent Seal Engine ===
+  window.addEventListener("load", function(){
+
+    const dot = document.querySelector(".node-dot");
+    if(!dot) return;
+
+    // 只执行一次
+    dot.classList.add("seal");
+
+    // 动画结束后移除 class（保持干净）
+    setTimeout(()=>{
+      dot.classList.remove("seal");
+    }, 320);
+
+  });
 
 })();
 </script>
