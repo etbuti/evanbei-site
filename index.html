@@ -4,27 +4,42 @@
 <meta charset="utf-8">
 <title>Evan Bei</title>
   
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context":"https://schema.org",
-  "@type":"Person",
-  "name":"Evan Bei",
-  "alternateName":"Xiaojun Yin",
+  "@type":"SoftwareAgent",
+  "name":"Evan Bei Origin Node",
   "url":"https://evanbei.com",
+  "applicationCategory":"ResearchAgent",
+
   "sameAs":[
     "https://orcid.org/0009-0000-8302-3360",
-    "https://goldisle.org"
+    "https://goldisle.org",
+    "https://evanbei.com/.well-known/node.json",
+    "https://evanbei.com/agent/registry.html"
   ],
-  "description":"Independent origin node operating across artistic, research, and system design domains.",
+
+  "creator":{
+    "@type":"Person",
+    "name":"Evan Bei",
+    "alternateName":"Xiaojun Yin",
+    "sameAs":"https://orcid.org/0009-0000-8302-3360"
+  },
+
   "identifier":"UKCS 284760782",
-  "knowsAbout":[
-    "Sound as Event",
-    "Time-Based Practice",
-    "Algorithmic Composition",
-    "Sound Ontology"
-  ]
+  "description":"Auditable origin node operating across artistic, research, and system design domains.",
+  "softwareRequirements":"Origin Node Engine v3.0",
+
+  "interactionStatistic":{
+    "@type":"InteractionCounter",
+    "interactionType":"https://schema.org/UseAction",
+    "name":"Agent Presence Interface"
+  },
+
+  "mainEntityOfPage":"https://evanbei.com/.well-known/node.json"
 }
 </script>
+
 
 <script type="application/ld+json">
 {
