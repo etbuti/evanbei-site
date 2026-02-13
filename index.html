@@ -250,39 +250,76 @@ width="200" height="50"/>
 <script>
 (function(){
 
-/* ===== EvanBei Origin Node Engine v4 CLEAN ===== */
+/* ===== EvanBei Origin Node Engine v4.1 · Single Phase Core ===== */
 
 const dot = document.querySelector(".node-dot");
 if(!dot) return;
 
-const ref = document.referrer.toLowerCase();
 const ua  = navigator.userAgent.toLowerCase();
+const ref = (document.referrer || "").toLowerCase();
 
-/* Phase core (UTC) */
-const now = new Date();
-const phase = (now.getUTCHours()*60 + now.getUTCMinutes()) / 1440;
+const STATE = {
+  baseSpeed: 0,
+  phaseMul: 1.0,
+  isBot: (
+    ua.includes("bot") ||
+    ua.includes("crawler") ||
+    ua.includes("spider") ||
+    ua.includes("gpt") ||
+    ua.includes("ai")
+  )
+};
 
-let speed = 4.2 + (Math.sin(phase*Math.PI*2)+1)*1.2;
+/* ---------- Single Phase Core ---------- */
+function phaseCore(){
+  const now = new Date();
+  const phase = (now.getUTCHours()*60 + now.getUTCMinutes()) / 1440;
 
-/* Authority Gravity */
-if(ref.includes("aiagentsdirectory") || ref.includes("orcid.org") || ref.includes("github")){
-  speed *= 1.03;
-  document.body.classList.add("authority-gravity");
+  // base speed from UTC phase
+  let speed = 4.2 + (Math.sin(phase*Math.PI*2)+1)*1.2;
+
+  // authority gravity (slower)
+  const authority =
+    ref.includes("aiagentsdirectory") ||
+    ref.includes("orcid.org") ||
+    ref.includes("github");
+
+  if(authority){
+    speed *= 1.03;
+    document.body.classList.add("authority-gravity");
+  }else{
+    document.body.classList.remove("authority-gravity");
+  }
+
+  // academic arrival hint
+  const academic =
+    ref.includes("orcid.org") ||
+    ref.includes("doi.org") ||
+    ref.includes("scholar") ||
+    ref.includes("research");
+
+  if(academic){
+    document.body.classList.add("arrival-academic");
+  }else{
+    document.body.classList.remove("arrival-academic");
+  }
+
+  // apply phase speed (with background multiplier)
+  STATE.baseSpeed = speed;
+  document.documentElement.style.setProperty(
+    "--phaseSpeed",
+    (STATE.baseSpeed * STATE.phaseMul).toFixed(2) + "s"
+  );
+
+  // time gray phase (visual root tint)
+  const gray = Math.floor(34 + Math.sin(phase*Math.PI*2) * 18);
+  dot.style.background = `rgb(${gray},${gray},${gray})`;
 }
 
-/* Arrival Shift (academic) */
-if(ref.includes("orcid.org") || ref.includes("doi.org") || ref.includes("scholar") || ref.includes("research")){
-  document.body.classList.add("arrival-academic");
-}
+/* initial */
+phaseCore();
 
-/* Apply speed */
-document.documentElement.style.setProperty("--phaseSpeed", speed.toFixed(2)+"s");
-
-/* Time Gray Phase */
-const gray = Math.floor(34 + Math.sin(phase*Math.PI*2) * 18);
-dot.style.background = `rgb(${gray},${gray},${gray})`;
-
-/* Quiet Mode */
+/* ---------- Quiet Mode ---------- */
 let quietTimer = null;
 const QUIET_DELAY = 30000;
 
@@ -297,19 +334,32 @@ function resetQuietTimer(){
 });
 resetQuietTimer();
 
-/* Human Seal */
-function isBot(){
-  return ua.includes("bot") || ua.includes("crawler") || ua.includes("spider") || ua.includes("gpt") || ua.includes("ai");
+/* ---------- Human Seal (fast + safe) ---------- */
+if(!STATE.isBot){
+  // next frame is enough; avoids waiting full window load
+  requestAnimationFrame(()=>{
+    dot.classList.add("seal");
+    setTimeout(()=>dot.classList.remove("seal"), 320);
+  });
 }
-window.addEventListener("load",()=>{
-  if(isBot()) return;
-  dot.classList.add("seal");
-  setTimeout(()=>dot.classList.remove("seal"),320);
+
+/* ---------- Stability Patch · Background Phase ---------- */
+document.addEventListener("visibilitychange", ()=>{
+  STATE.phaseMul = document.hidden ? 1.15 : 1.0;
+  // re-apply speed with new mul (no re-tagging needed)
+  document.documentElement.style.setProperty(
+    "--phaseSpeed",
+    (STATE.baseSpeed * STATE.phaseMul).toFixed(2) + "s"
+  );
 });
 
-/* rAF presence loop (future scheduling point) */
+/* ---------- Presence loop (future scheduling point) ---------- */
 requestAnimationFrame(function engine(){
-  if(!document.hidden) requestAnimationFrame(engine);
+  if(!document.hidden){
+    requestAnimationFrame(engine);
+  }else{
+    setTimeout(()=>requestAnimationFrame(engine), 800);
+  }
 });
 
 })();
