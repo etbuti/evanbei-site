@@ -164,6 +164,19 @@ body.quiet h1{
   animation-duration:9.6s !important;
   opacity:.78;
 }
+
+/* ===== Quiet Drift · Final Micro Phase ===== */
+
+body.quiet h1{
+  animation-duration:9.6s !important;
+  opacity:.78;
+  transform:translateY(-0.6px); /* 极轻微上移 */
+}
+
+/* 为了避免 hover 时冲突，加入平滑过渡 */
+body.quiet .node-dot:hover + h1{
+  transform:translateY(-0.3px);
+}
   
 </style>
 
