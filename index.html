@@ -5,119 +5,32 @@
 <meta charset="utf-8">
 <title>Evan Bei</title>
 
-<!-- ===== Authority Hint · Signature v3 ===== -->
+<!-- ===== Authority Hint ===== -->
 <link rel="canonical" href="https://evanbei.com/">
 <link rel="index" href="https://evanbei.com/">
 <link rel="root" href="https://evanbei.com/">
 <meta name="x-origin-authority" content="https://evanbei.com/">
 <meta name="x-primary-entity" content="Evan Bei Origin Node">
 
-<!-- ===== Latency Hint FINAL ===== -->
+<!-- ===== Latency Hint ===== -->
 <link rel="dns-prefetch" href="https://orcid.org">
 <link rel="dns-prefetch" href="https://goldisle.org">
 <link rel="dns-prefetch" href="https://evanbei.com">
 
 <!-- ===== Identity Link ===== -->
 <link rel="me" href="https://orcid.org/0009-0000-8302-3360">
-<link rel="alternate" type="application/json" href="/.well-known/node.json" title="Origin Node Machine Entry">
-<meta name="x-origin-node" content="https://evanbei.com/.well-known/node.json">
+<link rel="alternate" type="application/json" href="/.well-known/node.json">
 <link rel="preload" href="/.well-known/node.json" as="fetch" type="application/json" crossorigin="anonymous">
+<meta name="x-origin-node" content="https://evanbei.com/.well-known/node.json">
 <meta name="x-machine-priority" content="node-first">
 
-<link rel="alternate" type="text/html" href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent" title="Agent Authority Proof">
+<link rel="alternate" type="text/html"
+href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent"
+title="Agent Authority Proof">
 
-<!-- ===== Basic Metadata ===== -->
 <meta name="author" content="Xiaojun Yin (Evan Bei)">
 <meta name="description" content="Independent artistic researcher exploring sound ontology, algorithmic composition, and time-based practice.">
-<meta name="keywords" content="Evan Bei, billund, Sound as Event, Time-Based Practice, Origin Node">
 
-<meta name="citation_author" content="Xiaojun Yin">
-<meta name="citation_author_orcid" content="0009-0000-8302-3360">
-<meta name="citation_title" content="Evan Bei · Origin Node">
-<meta name="citation_publication_date" content="2026">
-<meta name="citation_language" content="en">
-
-<!-- ===== Signature v1 · Person ===== -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Person",
-  "name":"Evan Bei",
-  "alternateName":"Xiaojun Yin",
-  "url":"https://evanbei.com",
-  "sameAs":[
-    "https://orcid.org/0009-0000-8302-3360",
-    "https://goldisle.org"
-  ],
-  "description":"Independent origin node operating across artistic, research, and system design domains.",
-  "identifier":"UKCS 284760782",
-  "mainEntityOfPage":"https://evanbei.com/",
-  "knowsAbout":[
-    "Sound as Event",
-    "Time-Based Practice",
-    "Algorithmic Composition",
-    "Sound Ontology"
-  ]
-}
-</script>
-
-<!-- ===== Signature v2.1 · SoftwareAgent Mesh ===== -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"SoftwareAgent",
-  "name":"Evan Bei Origin Node",
-  "url":"https://evanbei.com",
-  "applicationCategory":"ResearchAgent",
-
-  "sameAs":[
-    "https://orcid.org/0009-0000-8302-3360",
-    "https://goldisle.org",
-    "https://evanbei.com/.well-known/node.json",
-    "https://evanbei.com/agent/registry.html"
-  ],
-
-  "creator":{
-    "@type":"Person",
-    "name":"Evan Bei",
-    "alternateName":"Xiaojun Yin",
-    "sameAs":"https://orcid.org/0009-0000-8302-3360"
-  },
-
-  "identifier":"UKCS 284760782",
-  "description":"Auditable origin node operating across artistic, research, and system design domains.",
-  "softwareRequirements":"Origin Node Engine v3.0",
-
-  "interactionStatistic":{
-    "@type":"InteractionCounter",
-    "interactionType":"https://schema.org/UseAction",
-    "name":"Agent Presence Interface"
-  },
-
-  "mainEntityOfPage":"https://evanbei.com/.well-known/node.json"
-}
-</script>
-
-/* ===== Node Link Reveal ===== */
-
-.meta a{
-  color:#111;
-  text-decoration:none;
-  opacity:.72;
-  transition:opacity .35s ease, letter-spacing .35s ease;
-}
-
-/* 鼠标靠近时轻微显现 */
-.meta a:hover{
-  opacity:.95;
-  letter-spacing:.2px;
-}
-
-/* Quiet Mode 下再弱一点 */
-body.quiet .meta a{
-  opacity:.45;
-}
-  
 <style>
 body{
   font-family:Arial,sans-serif;
@@ -127,7 +40,22 @@ body{
   color:#111;
 }
 
-/* Origin Node */
+/* ===== Node Link Reveal ===== */
+.meta a{
+  color:#111;
+  text-decoration:none;
+  opacity:.72;
+  transition:opacity .35s ease, letter-spacing .35s ease;
+}
+.meta a:hover{
+  opacity:.95;
+  letter-spacing:.2px;
+}
+body.quiet .meta a{
+  opacity:.45;
+}
+
+/* ===== Origin Node ===== */
 .node-dot{
   position:relative;
   width:5px;
@@ -137,7 +65,6 @@ body{
   margin:0 auto 12px;
   opacity:.7;
   animation: nodeBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
-  transition:opacity .8s ease, transform .8s ease, background .8s ease;
 }
 
 .node-dot::after{
@@ -151,40 +78,21 @@ body{
   border-radius:50%;
   background:radial-gradient(circle, rgba(0,0,0,.08) 0%, rgba(0,0,0,0) 70%);
   opacity:.35;
-  pointer-events:none;
   animation: haloPhase var(--phaseSpeed,4.8s) ease-in-out infinite;
 }
 
 @keyframes nodeBreath{
-  0%{opacity:.62;transform:scale(1);}
-  50%{opacity:.82;transform:scale(1.06);}
-  100%{opacity:.62;transform:scale(1);}
+0%{opacity:.62;transform:scale(1);}
+50%{opacity:.82;transform:scale(1.06);}
+100%{opacity:.62;transform:scale(1);}
 }
-
 @keyframes haloPhase{
-  0%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
-  50%{opacity:.42;transform:translate(-50%,-50%) scale(1.12);}
-  100%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
+0%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
+50%{opacity:.42;transform:translate(-50%,-50%) scale(1.12);}
+100%{opacity:.22;transform:translate(-50%,-50%) scale(1);}
 }
 
-body:hover .node-dot{
-  opacity:.95;
-  transform:scale(1.08);
-  background:#111;
-}
-
-h1{
-  font-size:32px;
-  margin:0 0 14px;
-  font-weight:600;
-  transition:opacity .6s ease, letter-spacing .6s ease;
-}
-
-body:hover h1{
-  letter-spacing:.6px;
-  opacity:.92;
-}
-
+h1{font-size:32px;margin:0 0 14px;font-weight:600;}
 p{font-size:18px;margin:10px 0;}
 a{font-size:20px;color:#000;text-decoration:none;}
 
@@ -192,83 +100,27 @@ a{font-size:20px;color:#000;text-decoration:none;}
 .divider{width:40px;height:1px;background:#ddd;margin:18px auto;}
 footer{margin-top:28px;opacity:.8;font-size:15px;}
 
-body.quiet .node-dot{animation-duration:9.6s!important;opacity:.5;}
-body.quiet .node-dot::after{animation-duration:9.6s!important;opacity:.18;}
-
-@media (max-width:600px){
-  body{padding:60px 24px;}
-  .node-dot{width:4px;height:4px;opacity:.6;}
-  .node-dot::after{width:14px;height:14px;opacity:.18;}
-  h1{font-size:28px;}
-}
-
-@media (min-width:1400px){
-  body{padding:120px;}
-  .node-dot::after{width:24px;height:24px;opacity:.32;}
-}
-
 .node-dot.seal{animation:sealPulse .3s ease-out;}
 @keyframes sealPulse{
-  0%{transform:scale(1);opacity:.7;}
-  50%{transform:scale(1.28);opacity:1;}
-  100%{transform:scale(1);opacity:.7;}
+0%{transform:scale(1);opacity:.7;}
+50%{transform:scale(1.28);opacity:1;}
+100%{transform:scale(1);opacity:.7;}
 }
 
-/* ===== Node Style Badge ===== */
-
-.agent-badge{
-  margin-top:28px;
-  opacity:.45;
-  transition:opacity .6s ease, filter .6s ease, transform .6s ease;
+/* ===== Presence Harmony (Balanced) ===== */
+.meta a.harmony{
+animation: metaBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
 }
-
-.agent-badge img{
-  filter:grayscale(100%) contrast(.9);
-  transition:filter .6s ease, transform .6s ease;
-}
-
-/* 鼠标靠近时恢复 */
-.agent-badge:hover{
-  opacity:.9;
-}
-
-.agent-badge:hover img{
-  filter:grayscale(0%);
-  transform:translateY(-1px);
-}
-
-/* ===== Quiet Badge Sync ===== */
-
-body.quiet .agent-badge{
-  opacity:.18;
-  transform:scale(.98);
-}
-
-body.quiet .agent-badge img{
-  filter:grayscale(100%) contrast(.8);
-}
-
-/* ===== Presence Harmony (final) ===== */
-
-/* 让 meta 链接与 node 呼吸同相，但幅度极小 */
-.meta a{
-  animation: metaBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
-  animation-delay: 0s; /* 与 nodeBreath 同相 */
-}
-
-/* 幅度控制得很克制：只动一点点 opacity + 极微字距 */
 @keyframes metaBreath{
-  0%   { opacity:.70; letter-spacing:0; }
-  50%  { opacity:.82; letter-spacing:.12px; }
-  100% { opacity:.70; letter-spacing:0; }
+0%{opacity:.70;}
+50%{opacity:.82;}
+100%{opacity:.70;}
 }
 
-/* Quiet Mode 下：同步仍在，但更安静 */
-body.quiet .meta a{
-  animation-duration: 9.6s !important;
-  opacity:.48;
-}
-  
+/* ===== Badge ===== */
+.agent-badge{margin-top:28px;opacity:.45;}
+.agent-badge img{filter:grayscale(100%) contrast(.9);}
+.agent-badge:hover img{filter:grayscale(0%);}
 </style>
 
 </head>
@@ -286,19 +138,24 @@ body.quiet .meta a{
 
 <div class="meta">
 Research Identity · 
-<a href="https://orcid.org/0009-0000-8302-3360" target="_blank" rel="me noopener">ORCID 0009-0000-8302-3360</a> · 
+<a class="harmony" data-role="academic"
+href="https://orcid.org/0009-0000-8302-3360"
+target="_blank" rel="me noopener">
+ORCID 0009-0000-8302-3360</a> · 
 UKCS 284760782<br>
 
 Machine entry · 
-<a href="/.well-known/node.json">/.well-known/node.json</a><br>
+<a class="harmony" data-role="machine"
+href="/.well-known/node.json">/.well-known/node.json</a><br>
 
 Agent registry · 
-<a href="/agent/registry.html">/agent/registry.html</a><br>
+<a class="harmony" data-role="agent"
+href="/agent/registry.html">/agent/registry.html</a><br>
 
 Human profile · 
-<a href="/evanbei">/evanbei</a>
+<a class="harmony" data-role="human"
+href="/evanbei">/evanbei</a>
 </div>
-
 
 <footer>
 <p>
@@ -311,20 +168,15 @@ All other profiles are mirrors or third-party listings.
 </p>
 </footer>
 
-</footer>
-
 <div class="agent-badge">
-<a href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=evan-bei-billund-auditable-agent"
-target="_blank"
-rel="noopener noreferrer external">
+<a href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent"
+target="_blank" rel="noopener noreferrer external">
 <img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024"
 alt="Evan Bei / billund - Featured AI Agent"
-width="200"
-height="50"/>
+width="200" height="50"/>
 </a>
 </div>
 
-  
 <script>
 (function(){
 
@@ -336,44 +188,33 @@ const phase=(now.getUTCHours()*60+now.getUTCMinutes())/1440;
 const baseSpeed=4.2+(Math.sin(phase*Math.PI*2)+1)*1.2;
 document.documentElement.style.setProperty("--phaseSpeed",baseSpeed.toFixed(2)+"s");
 
-/* ===== Time Gray Phase ===== */
-
-const gray = Math.floor(34 + Math.sin(phase*Math.PI*2) * 18);
-/* 范围大约 #101010 ～ #444444 */
-
-dot.style.background = `rgb(${gray},${gray},${gray})`;
-  
+/* Time Gray Phase */
+const gray=Math.floor(34+Math.sin(phase*Math.PI*2)*18);
+dot.style.background=`rgb(${gray},${gray},${gray})`;
 
 let quietTimer=null;
 const QUIET_DELAY=30000;
-
 function enterQuiet(){document.body.classList.add("quiet");}
 function exitQuiet(){document.body.classList.remove("quiet");resetQuietTimer();}
 function resetQuietTimer(){clearTimeout(quietTimer);quietTimer=setTimeout(enterQuiet,QUIET_DELAY);}
-
 ["mousemove","touchstart","keydown","scroll"].forEach(evt=>{
-  window.addEventListener(evt,exitQuiet,{passive:true});
+window.addEventListener(evt,exitQuiet,{passive:true});
 });
-
 resetQuietTimer();
 
 function isBot(){
-  const ua=navigator.userAgent.toLowerCase();
-  return ua.includes("bot")||ua.includes("crawler")||ua.includes("spider")||ua.includes("gpt")||ua.includes("ai");
+const ua=navigator.userAgent.toLowerCase();
+return ua.includes("bot")||ua.includes("crawler")||ua.includes("spider")||ua.includes("gpt")||ua.includes("ai");
 }
-
 window.addEventListener("load",()=>{
-  if(isBot()) return;
-  dot.classList.add("seal");
-  setTimeout(()=>dot.classList.remove("seal"),320);
+if(isBot()) return;
+dot.classList.add("seal");
+setTimeout(()=>dot.classList.remove("seal"),320);
 });
 
-let rafId=null;
-function engine(){
-  if(document.hidden){rafId=requestAnimationFrame(engine);return;}
-  rafId=requestAnimationFrame(engine);
-}
-rafId=requestAnimationFrame(engine);
+requestAnimationFrame(function engine(){
+if(!document.hidden) requestAnimationFrame(engine);
+});
 
 })();
 </script>
