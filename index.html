@@ -121,6 +121,23 @@ animation: metaBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
 .agent-badge{margin-top:28px;opacity:.45;}
 .agent-badge img{filter:grayscale(100%) contrast(.9);}
 .agent-badge:hover img{filter:grayscale(0%);}
+
+/* ===== Title Presence Hover ===== */
+
+h1{
+  transition:opacity .5s ease, letter-spacing .5s ease, transform .5s ease;
+}
+
+body:hover h1{
+  letter-spacing:.5px;
+  opacity:.92;
+}
+
+body.quiet h1{
+  opacity:.78;
+}
+
+  
 </style>
 
 </head>
@@ -129,25 +146,7 @@ animation: metaBreath var(--phaseSpeed,4.8s) ease-in-out infinite;
 <div class="node-dot"></div>
 
 <h1>Evan Bei</h1>
-
-/* ===== Title Presence Hover ===== */
-
-h1{
-  transition:opacity .5s ease, letter-spacing .5s ease, transform .5s ease;
-}
-
-/* 鼠标进入页面时轻微被唤醒 */
-body:hover h1{
-  letter-spacing:.5px;
-  opacity:.92;
-}
-
-/* Quiet Mode 下更安静 */
-body.quiet h1{
-  opacity:.78;
-}
-
-  
+ 
 <p>Independent Scholar — Sound as Event / Time-Based Practice</p>
 <p><a href="https://goldisle.org">Explore My Work & Research</a></p>
 <p><a href="mailto:contact@evanbei.com">contact@evanbei.com</a></p>
