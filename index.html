@@ -126,6 +126,46 @@ body.quiet .node-dot::after{
   animation-duration: 9.6s !important;
   opacity:.18;
 }
+
+/* ===== Adaptive Density v1.8 ===== */
+
+/* 📱 Mobile：更轻、更安静 */
+@media (max-width:600px){
+
+  body{
+    padding:60px 24px;
+  }
+
+  .node-dot{
+    width:4px;
+    height:4px;
+    opacity:.6;
+  }
+
+  .node-dot::after{
+    width:14px;
+    height:14px;
+    opacity:.18;
+  }
+
+  h1{
+    font-size:28px;
+  }
+}
+
+/* 🖥️ Large Screen：存在感稍微扩大 */
+@media (min-width:1400px){
+
+  .node-dot::after{
+    width:24px;
+    height:24px;
+    opacity:.32;
+  }
+
+  body{
+    padding:120px;
+  }
+}
   
 </style>
 </head>
