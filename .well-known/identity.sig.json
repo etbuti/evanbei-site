@@ -1,0 +1,15 @@
+{
+  "subject": "Evan Bei",
+  "legal_name": "Xiaojun Yin",
+  "identity_root": "https://evanbei.com/",
+  "claims": [
+    "https://goldisle.org/",
+    "https://portal.goldisle.org/",
+    "https://aisland.uk/"
+  ],
+  "key_type": "ed25519",
+  "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID4j6J+tgLj4JDh0aM4EdfKKNaDBv0wZKDrMJ0joSUHn Evan Bei Identity Root",
+  "issued_at": "2026-02-14T00:00:00Z",
+  "version": "1.0",
+  "ssh_signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPiPon62AuPgkOHRozgR18oo1oM\nG/TBkoOswnSOhJQecAAAAQZXZhbmJlaV9pZGVudGl0eQAAAAAAAAAGc2hhNTEyAAAAUwAA\nAAtzc2gtZWQyNTUxOQAAAEDVBJGd0JWFb+Svj+FFP0JFoO4ZS+ag1+1eNmdQY77sGeW1kX\n8BPYkvxUAIpjhbbNTqlNhqUQ1AHTU0DzM+yrYM\n-----END SSH SIGNATURE-----"
+}
