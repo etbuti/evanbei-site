@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+# Primary sitemap
 Sitemap: https://evanbei.com/sitemap.xml
