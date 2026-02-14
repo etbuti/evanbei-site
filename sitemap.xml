@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Root identity -->
+  <url><loc>https://evanbei.com/</loc></url>
+  <url><loc>https://evanbei.com/about/</loc></url>
+
+  <!-- Portal / Node -->
   <url><loc>https://evanbei.com/portal/</loc></url>
   <url><loc>https://evanbei.com/node/</loc></url>
 
+  <!-- Well-known identity -->
   <url><loc>https://evanbei.com/.well-known/node.json</loc></url>
   <url><loc>https://evanbei.com/well-known/node.json</loc></url>
+  <url><loc>https://evanbei.com/.well-known/agent.json</loc></url>
 
+  <!-- Agent structure -->
   <url><loc>https://evanbei.com/agent/manifest.json</loc></url>
   <url><loc>https://evanbei.com/agent/protocol.json</loc></url>
   <url><loc>https://evanbei.com/agent/access-policy.json</loc></url>
   <url><loc>https://evanbei.com/agent/capability-map.json</loc></url>
+  <url><loc>https://evanbei.com/agent/registry.html</loc></url>
+  <url><loc>https://evanbei.com/agent/registry.json</loc></url>
 
+  <!-- Node health -->
   <url><loc>https://evanbei.com/node/health.html</loc></url>
   <url><loc>https://evanbei.com/node/checksums.json</loc></url>
 
- <url><loc>https://evanbei.com/agent/registry.html</loc></url>
- <url><loc>https://evanbei.com/agent/registry.json</loc></url>
-
+  <!-- External gate -->
   <url><loc>https://gate.evanbei.com/principles.html</loc></url>
 
-<url><loc>https://evanbei.com/.well-known/agent.json</loc></url>
-  
 </urlset>
