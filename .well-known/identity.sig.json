@@ -3,6 +3,7 @@
   "legal_name": "Xiaojun Yin",
   "identity_root": "https://evanbei.com/",
   "did": "did:web:evanbei.com",
+  "identity_state": "frozen-v1",
   "claims": [
     "https://goldisle.org/",
     "https://portal.goldisle.org/",
@@ -12,5 +13,5 @@
   "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID4j6J+tgLj4JDh0aM4EdfKKNaDBv0wZKDrMJ0joSUHn Evan Bei Identity Root",
   "issued_at": "2026-02-14T00:00:00Z",
   "version": "1.0",
-  "ssh_signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPiPon62AuPgkOHRozgR18oo1oM\nG/TBkoOswnSOhJQecAAAAQZXZhbmJlaV9pZGVudGl0eQAAAAAAAAAGc2hhNTEyAAAAUwAA\nAAtzc2gtZWQyNTUxOQAAAEAxs+dleF4iTxxMzK+p3jYjDiyBd/3iZjVeeUoFoOolNE287+\n6eJqCXF6bshuMFzJWymzTGpF7ixZ2Y2osrvQEA\n-----END SSH SIGNATURE-----"
+  "ssh_signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPiPon62AuPgkOHRozgR18oo1oM\nG/TBkoOswnSOhJQecAAAAQZXZhbmJlaV9pZGVudGl0eQAAAAAAAAAGc2hhNTEyAAAAUwAA\nAAtzc2gtZWQyNTUxOQAAAECi+DztfbJ9itL0WmAMe4IC30WcsxhpvwqzVrxW20e0IyZR+B\nhWcx9PDLr4dGoHCuF3czMFxFlZl/d7OstrnTsC\n-----END SSH SIGNATURE-----"
 }
