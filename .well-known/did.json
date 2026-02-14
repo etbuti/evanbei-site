@@ -1,0 +1,39 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1"
+  ],
+  "id": "did:web:evanbei.com",
+  "alsoKnownAs": [
+    "https://evanbei.com/"
+  ],
+  "verificationMethod": [
+    {
+      "id": "did:web:evanbei.com#key-azPbi1lh",
+      "type": "Ed25519VerificationKey2020",
+      "controller": "did:web:evanbei.com",
+      "publicKeyMultibase": "z5Ba332cdn5mVjw3VpswYQG6g62hC3nqm9G99Y5mxeFjt"
+    }
+  ],
+  "authentication": [
+    "did:web:evanbei.com#key-azPbi1lh"
+  ],
+  "assertionMethod": [
+    "did:web:evanbei.com#key-azPbi1lh"
+  ],
+  "service": [
+  {
+    "id": "did:web:evanbei.com#identity",
+    "type": "EvanBeiIdentitySignature",
+    "serviceEndpoint": "https://evanbei.com/.well-known/identity.sig.json"
+  },
+  {
+    "id": "did:web:evanbei.com#portal",
+    "type": "PortalNode",
+    "serviceEndpoint": "https://portal.goldisle.org/"
+  }
+ ]
+}
+
+
+
+
