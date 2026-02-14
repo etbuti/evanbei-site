@@ -1,0 +1,11 @@
+/.well-known/did.json
+  Content-Type: application/did+json
+  Access-Control-Allow-Origin: *
+
+/.well-known/identity.sig.json
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+
+/
+  Link: <https://evanbei.com/.well-known/did.json>; rel="did"
+  Link: <https://evanbei.com/.well-known/identity.sig.json>; rel="identity"
