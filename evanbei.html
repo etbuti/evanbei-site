@@ -200,6 +200,31 @@ left: calc(50% - 460px);
     @media (prefers-reduced-motion: reduce){
       .origin-seal, .origin-seal img{ animation: none !important; }
     }
+
+/* ===== Inline Authority Seal (beside title) ===== */
+
+.title-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* 新的标题旁印章 */
+.origin-seal-inline{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+
+  filter: drop-shadow(0 0 10px rgba(180,120,255,.28));
+
+  animation:
+    seal-rotate 22s linear infinite,
+    seal-glow 3.8s ease-in-out infinite,
+    seal-float 6.5s ease-in-out infinite;
+
+  opacity:.55;
+}
+    
   </style>
 </head>
 
