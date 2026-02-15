@@ -8,8 +8,8 @@
   "entity_type": "person_or_studio",
   "node_version": "1.0",
 
-  "node_page": "https://evanbei.com/node/"，
-"machine_entry": "https://evanbei.com/.well-known/node.json",
+  "node_page": "https://evanbei.com/node/",
+  "machine_entry": "https://evanbei.com/.well-known/node.json",
 
   "wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
   "pgp": "https://evanbei.com/keys/evanbei.asc",
@@ -28,17 +28,17 @@
     "data_minimization": true
   },
 
-"agent": {
-  "manifest": "https://evanbei.com/agent/manifest.json",
-  "protocol": "https://evanbei.com/agent/protocol.json",
-  "access_policy": "https://evanbei.com/agent/access-policy.json",
-  "capability_map": "https://evanbei.com/agent/capability-map.json",
-  "checksums": "https://evanbei.com/node/checksums.json",
-  "registry": "https://evanbei.com/agent/registry.json",
-  "registry_page": "https://evanbei.com/agent/registry.html"，
-  "well_known_agent": "https://evanbei.com/.well-known/agent.json"
-},
-  
+  "agent": {
+    "manifest": "https://evanbei.com/agent/manifest.json",
+    "protocol": "https://evanbei.com/agent/protocol.json",
+    "access_policy": "https://evanbei.com/agent/access-policy.json",
+    "capability_map": "https://evanbei.com/agent/capability-map.json",
+    "checksums": "https://evanbei.com/node/checksums.json",
+    "registry": "https://evanbei.com/agent/registry.json",
+    "registry_page": "https://evanbei.com/agent/registry.html",
+    "well_known_agent": "https://evanbei.com/.well-known/agent.json"
+  },
+
   "schema": {
     "type": "Person",
     "sameAs": ["https://goldisle.org/", "https://aisland.uk/"],
@@ -165,4 +165,3 @@
     }
   ]
 }
-
