@@ -171,6 +171,76 @@ def main():
     OUT_KPI.write_text(json.dumps(kpi, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_THRESH.write_text(json.dumps(thresh, ensure_ascii=False, indent=2), encoding="utf-8")
 
+# --- Dual advisor (already added previously) ---
+advisor = dual_residency_advisor(kpi, thresh)
+(Path("out/dual_advisor.json")).write_text(
+    json.dumps(advisor, ensure_ascii=False, indent=2),
+    encoding="utf-8"
+)
+
+# --- Residency Autopilot ---
+# 你当前在英国，因此“继续英国”从明天开始模拟（今天已计入现状）
+tomorrow = today + dt.timedelta(days=1)
+
+# 假设：若你从现在起回中国并一直待着，也从明天开始模拟
+# （如果你想把“今天”也算进中国那边，把 tomorrow 改成 today 即可）
+autopilot = {
+    "as_of": today.isoformat(),
+    "assumptions": {
+        "uk_continue_from": tomorrow.isoformat(),
+        "cn_switch_from": tomorrow.isoformat(),
+        "count_method": ledger.get("meta", {}).get("count_method", "inclusive"),
+        "note": "simulation assumes continuous daily presence in the target country from the start date."
+    },
+    "uk": {},
+    "cn": {},
+    "recommended_moves": []
+}
+
+# UK rolling 12m trigger + buffer
+uk_threshold = int(t["uk"]["rolling_day_threshold"])
+uk_buffer = 170  # 你可改：160/170/175/180
+autopilot["uk"]["current_rolling_12m_days"] = thresh["uk"]["rolling_12m_days"]
+autopilot["uk"]["buffer"] = simulate_buffer_date(stays, "GB", tomorrow, uk_buffer, "uk_rolling")
+autopilot["uk"]["threshold"] = simulate_threshold_date(stays, "GB", tomorrow, uk_threshold, "uk_rolling")
+
+# China calendar-year trigger + buffer
+cn_threshold = int(t["cn"]["calendar_year_day_threshold"])
+cn_buffer = 170  # 你可改
+autopilot["cn"]["current_calendar_year_days"] = thresh["cn"]["calendar_year_days"]
+autopilot["cn"]["buffer"] = simulate_buffer_date(stays, "CN", tomorrow, cn_buffer, "cn_calendar")
+autopilot["cn"]["threshold"] = simulate_threshold_date(stays, "CN", tomorrow, cn_threshold, "cn_calendar")
+
+# Simple actionable recommendations
+uk_buf_date = autopilot["uk"]["buffer"]["buffer_date"]
+uk_trig_date = autopilot["uk"]["threshold"]["trigger_date"]
+cn_buf_date = autopilot["cn"]["buffer"]["buffer_date"]
+cn_trig_date = autopilot["cn"]["threshold"]["trigger_date"]
+
+if uk_buf_date:
+    autopilot["recommended_moves"].append(
+        f"UK预警线({uk_buffer})预计触达日：{uk_buf_date}；建议在此日前安排离境/第三地缓冲。"
+    )
+if uk_trig_date:
+    autopilot["recommended_moves"].append(
+        f"UK 183(rolling)预计触达日：{uk_trig_date}；这之前务必规划停留结构。"
+    )
+
+if cn_buf_date:
+    autopilot["recommended_moves"].append(
+        f"中国预警线({cn_buffer})预计触达日：{cn_buf_date}（按当年累计）；建议在此日前安排海外窗口。"
+    )
+if cn_trig_date:
+    autopilot["recommended_moves"].append(
+        f"中国 183(公历年)预计触达日：{cn_trig_date}；这之前务必规划停留结构。"
+    )
+
+(Path("out/residency_autopilot.json")).write_text(
+    json.dumps(autopilot, ensure_ascii=False, indent=2),
+    encoding="utf-8"
+)
+
+    
     print("OK")
     print("Wrote:", OUT_KPI)
     print("Wrote:", OUT_THRESH)
@@ -183,3 +253,102 @@ advisor = dual_residency_advisor(kpi, thresh)
     json.dumps(advisor, ensure_ascii=False, indent=2),
     encoding="utf-8"
 )
+
+def compute_uk_rolling_days(stays, day, rolling_days=365):
+    window_start = day - dt.timedelta(days=rolling_days - 1)
+    uk_roll = dayset_for_country(stays, "GB", window_start, day)
+    return len(uk_roll), window_start
+
+def compute_cn_calendar_days(stays, day):
+    year_start = dt.date(day.year, 1, 1)
+    cn_year = dayset_for_country(stays, "CN", year_start, day)
+    return len(cn_year), year_start
+
+def simulate_threshold_date(
+    stays,
+    country: str,
+    start_day: dt.date,
+    threshold: int,
+    mode: str,
+    max_forward_days: int = 800,
+):
+    """
+    mode:
+      - "uk_rolling": rolling 365-day window count for GB
+      - "cn_calendar": calendar-year count for CN (current year)
+    assumption:
+      from start_day onward, person stays in 'country' every day (inclusive).
+    returns:
+      dict with trigger_date, days_needed, and a small trace
+    """
+    d = start_day
+    trace = []
+    for i in range(max_forward_days + 1):
+        # Build an "assumed presence" stay from start_day -> d for simulation
+        sim_stays = list(stays) + [{
+            "country": country,
+            "entry": start_day.isoformat(),
+            "exit": d.isoformat()
+        }]
+
+        if mode == "uk_rolling":
+            count, win_start = compute_uk_rolling_days(sim_stays, d, 365)
+            trace_item = {"day": d.isoformat(), "count": count, "window_start": win_start.isoformat()}
+        elif mode == "cn_calendar":
+            count, ystart = compute_cn_calendar_days(sim_stays, d)
+            trace_item = {"day": d.isoformat(), "count": count, "year_start": ystart.isoformat()}
+        else:
+            raise ValueError("unknown mode")
+
+        if i in (0, 1, 7, 30, 60, 120) or count >= threshold - 3:
+            trace.append(trace_item)
+
+        if count >= threshold:
+            return {
+                "trigger_date": d.isoformat(),
+                "days_forward": i,
+                "count_on_trigger": count,
+                "trace": trace[-12:],  # keep last few
+            }
+
+        d = d + dt.timedelta(days=1)
+
+    return {
+        "trigger_date": None,
+        "days_forward": None,
+        "count_on_trigger": None,
+        "trace": trace[-12:],
+        "note": "not reached within simulation horizon"
+    }
+
+def simulate_buffer_date(
+    stays,
+    country: str,
+    start_day: dt.date,
+    buffer_value: int,
+    mode: str,
+    max_forward_days: int = 800,
+):
+    """Same as simulate_threshold_date but for buffer (early warning) point."""
+    d = start_day
+    for i in range(max_forward_days + 1):
+        sim_stays = list(stays) + [{
+            "country": country,
+            "entry": start_day.isoformat(),
+            "exit": d.isoformat()
+        }]
+        if mode == "uk_rolling":
+            count, _ = compute_uk_rolling_days(sim_stays, d, 365)
+        elif mode == "cn_calendar":
+            count, _ = compute_cn_calendar_days(sim_stays, d)
+        else:
+            raise ValueError("unknown mode")
+
+        if count >= buffer_value:
+            return {"buffer_date": d.isoformat(), "days_forward": i, "count": count}
+        d = d + dt.timedelta(days=1)
+
+    return {"buffer_date": None, "days_forward": None, "count": None}
+
+
+
