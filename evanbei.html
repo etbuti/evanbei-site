@@ -7,10 +7,8 @@
   <title>Evan Bei — Sound as Event</title>
   <meta name="description" content="Independent research and publication on sound as event: time, decision, embodiment, execution." />
 
-  <!-- Avoid conflict with site root: bind this page to /evanbei/ -->
   <link rel="canonical" href="https://evanbei.com/evanbei/" />
 
-  <!-- Academic / Scholarly Metadata -->
   <meta name="author" content="Xiaojun Yin (Evan Bei)">
   <meta name="citation_author" content="Xiaojun Yin">
   <meta name="citation_author_orcid" content="0009-0000-8302-3360">
@@ -20,13 +18,11 @@
   <meta name="citation_keywords" content="Sound Studies, Time-Based Practice, Conceptual Research, Sound as Event, Independent Publishing, ISBN">
   <link rel="me" href="https://orcid.org/0009-0000-8302-3360">
 
-  <!-- Open Graph (scoped to /evanbei/ page) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Evan Bei — Sound as Event" />
   <meta property="og:description" content="Independent research and publication node: Sound as Event programme." />
   <meta property="og:url" content="https://evanbei.com/evanbei/" />
 
-  <!-- Schema.org JSON-LD: Researcher + Programme + Works + Publishing Action -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -54,13 +50,8 @@
         "alternateName": "Xiaojun Yin",
         "jobTitle": "Independent Researcher & Publisher",
         "url": "https://evanbei.com/evanbei/",
-        "sameAs": [
-          "https://orcid.org/0009-0000-8302-3360"
-        ],
-        "homeLocation": {
-          "@type": "Place",
-          "name": "London, UK"
-        },
+        "sameAs": ["https://orcid.org/0009-0000-8302-3360"],
+        "homeLocation": { "@type": "Place", "name": "London, UK" },
         "knowsAbout": [
           "Sound studies",
           "Time-based practice",
@@ -123,10 +114,7 @@
         "target": {
           "@type": "EntryPoint",
           "urlTemplate": "mailto:contact@evanbei.com?subject=ISBN%20Publication%20Inquiry%20(%2Fevanbei%2F)&body=Title%3A%0AFormat%20(book%2Fcatalogue%2Fresearch)%3A%0AISBN%20needed%3A%20Yes%2FNo%0ANotes%3A%0A",
-          "actionPlatform": [
-            "http://schema.org/DesktopWebPlatform",
-            "http://schema.org/MobileWebPlatform"
-          ]
+          "actionPlatform": ["http://schema.org/DesktopWebPlatform","http://schema.org/MobileWebPlatform"]
         }
       }
     ]
@@ -157,37 +145,7 @@
     .mark-anchor a{color:#aaa;text-decoration:none;}
     .mark-anchor .usage a{color:#bbb;font-size:10px;}
 
-    /* ===== Origin Seal (watermark) · B add-on ===== */
-  /* ===== Origin Seal · Top-Left Authority Placement ===== */
-.origin-seal{
-  position: fixed;
- top: 14px;
-left: calc(50% - 460px);
-
-  width: 86px;
-  height: 86px;
-
-  opacity: .38; /* 左上角建议更克制一点 */
-  z-index: 9999;
-
-  animation: seal-float 6.5s ease-in-out infinite;
-}
-
-/* hover slightly stronger, like a living seal */
-.origin-seal:hover{
-  opacity: .65;
-}
-
-    .origin-seal img{
-      width: 100%;
-      height: 100%;
-      display: block;
-      border-radius: 50%;
-      pointer-events: none;
-      filter: drop-shadow(0 0 12px rgba(180,120,255,.28));
-      animation: seal-rotate 22s linear infinite, seal-glow 3.8s ease-in-out infinite;
-    }
-    .origin-seal:hover{ opacity: .72; }
+    /* ===== Animations shared ===== */
     @keyframes seal-rotate{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
     @keyframes seal-glow{
       0%,100%{ filter: drop-shadow(0 0 10px rgba(185,120,255,.22)); }
@@ -197,34 +155,70 @@ left: calc(50% - 460px);
       0%,100%{ transform: translateY(0); }
       50%    { transform: translateY(-6px); }
     }
-    @media (prefers-reduced-motion: reduce){
-      .origin-seal, .origin-seal img{ animation: none !important; }
+
+    /* ===== Title Authority Layout v2 ===== */
+    h1.title-row{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin: 0 0 6px;
+    }
+    .origin-seal-inline{
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      opacity:.58;
+      pointer-events:none;
+
+      filter: drop-shadow(0 0 10px rgba(180,120,255,.28));
+      animation: seal-rotate 22s linear infinite, seal-glow 3.8s ease-in-out infinite, seal-float 6.5s ease-in-out infinite;
     }
 
-/* ===== Inline Authority Seal (beside title) ===== */
+    /* Optional: tighten subtitle to align nicely under title */
+    .sub{
+      margin-top: 2px;
+    }
 
-.title-row{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
+    /* ===== Origin Seal watermark (top-left aligned to content edge) ===== */
+    .origin-seal{
+      position: fixed;
+      top: 14px;
+      /* align to the left edge of the centered main column */
+      left: max(14px, calc(50% - (var(--w) / 2) + 0px));
 
-/* 新的标题旁印章 */
-.origin-seal-inline{
-  width:64px;
-  height:64px;
-  border-radius:50%;
+      width: 86px;
+      height: 86px;
 
-  filter: drop-shadow(0 0 10px rgba(180,120,255,.28));
+      opacity: .26; /* watermark should be quieter than inline seal */
+      z-index: 10;
 
-  animation:
-    seal-rotate 22s linear infinite,
-    seal-glow 3.8s ease-in-out infinite,
-    seal-float 6.5s ease-in-out infinite;
+      animation: seal-float 6.5s ease-in-out infinite;
+    }
+    .origin-seal img{
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: drop-shadow(0 0 12px rgba(180,120,255,.20));
+      animation: seal-rotate 22s linear infinite, seal-glow 3.8s ease-in-out infinite;
+    }
+    .origin-seal:hover{ opacity: .48; }
 
-  opacity:.55;
-}
-    
+    /* On small screens, watermark becomes smaller and moves to safe corner */
+    @media (max-width: 920px){
+      .origin-seal{
+        left: 14px;
+        top: 10px;
+        width: 64px;
+        height: 64px;
+        opacity: .22;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .origin-seal, .origin-seal img, .origin-seal-inline{ animation: none !important; }
+    }
   </style>
 </head>
 
@@ -303,7 +297,7 @@ left: calc(50% - 460px);
 
 </main>
 
-<!-- ✅ Origin Seal watermark node (needs /assets/origin-seal.png) -->
+<!-- ✅ Watermark Seal (quiet) -->
 <a class="origin-seal" href="/.well-known/node.json" title="Origin Seal · Identity Root" aria-label="Origin Seal">
   <img src="/assets/origin-seal.png" alt="Origin Seal">
 </a>
