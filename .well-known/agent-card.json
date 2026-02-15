@@ -10,7 +10,7 @@
   "identity_root": "did:web:evanbei.com",
   "transport": {
     "type": "json-rpc",
-    "endpoint": "https://evanbei.com/agent/rpc",
+    "endpoint": "https://rpc.evanbei.com/agent/rpc",
     "streaming": ["sse"]
   },
   "capabilities": {
