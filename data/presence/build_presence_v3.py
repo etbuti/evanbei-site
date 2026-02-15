@@ -245,6 +245,47 @@ if cn_trig_date:
     print("Wrote:", OUT_KPI)
     print("Wrote:", OUT_THRESH)
 
+# ===============================
+# Live Residency Gauge
+# ===============================
+
+def make_bar(value, total, width=20):
+    ratio = min(max(value / total, 0), 1)
+    filled = int(ratio * width)
+    return "█" * filled + "░" * (width - filled)
+
+def print_live_gauge(thresh):
+
+    uk_days = thresh["uk"]["rolling_12m_days"]
+    cn_days = thresh["cn"]["calendar_year_days"]
+
+    uk_total = 183
+    cn_total = 183
+
+    uk_bar = make_bar(uk_days, uk_total)
+    cn_bar = make_bar(cn_days, cn_total)
+
+    print("\n==============================")
+    print("   EVANBEI RESIDENCY GAUGE")
+    print("==============================")
+
+    print(f"UK Rolling 12M : {uk_bar}  {uk_days} / {uk_total}")
+    print(f"China Calendar : {cn_bar}  {cn_days} / {cn_total}")
+
+    # 风险提示
+    if uk_days >= 170:
+        print("⚠️  UK approaching threshold.")
+    elif uk_days < 120:
+        print("✓  UK safe zone.")
+
+    if cn_days >= 170:
+        print("⚠️  China approaching threshold.")
+    elif cn_days < 120:
+        print("✓  China safe zone.")
+
+    print("==============================\n")
+
+
 if __name__ == "__main__":
     main()
 
