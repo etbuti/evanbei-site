@@ -13,6 +13,51 @@ OUTDIR.mkdir(exist_ok=True)
 OUT_KPI = OUTDIR / "kpi_presence.json"
 OUT_THRESH = OUTDIR / "kpi_thresholds.json"
 
+def dual_residency_advisor(kpi, thresholds):
+
+    uk_days = thresholds["uk"]["rolling_12m_days"]
+    cn_days = thresholds["cn"]["calendar_year_days"]
+
+    advice = {
+        "mode": "balanced_global",
+        "uk_status": "",
+        "cn_status": "",
+        "advice": []
+    }
+
+    # --- UK 判断 ---
+    if uk_days >= 183:
+        advice["uk_status"] = "HIGH_RISK"
+        advice["advice"].append("⚠️ UK rolling days exceed 183 — consider reducing UK presence.")
+    elif uk_days >= 150:
+        advice["uk_status"] = "APPROACHING"
+        advice["advice"].append("UK days approaching threshold — consider scheduling non-UK travel.")
+    else:
+        advice["uk_status"] = "SAFE"
+
+    # --- China 判断 ---
+    if cn_days >= 183:
+        advice["cn_status"] = "HIGH_RISK"
+        advice["advice"].append("⚠️ China calendar days exceed 183 — global IIT risk increases.")
+    elif cn_days >= 150:
+        advice["cn_status"] = "APPROACHING"
+        advice["advice"].append("China days approaching threshold — consider offshore period.")
+    else:
+        advice["cn_status"] = "SAFE"
+
+    # --- 双边策略 ---
+    if advice["uk_status"] == "APPROACHING" and advice["cn_status"] == "SAFE":
+        advice["advice"].append("→ 建议短期转移到中国或第三地。")
+
+    if advice["cn_status"] == "APPROACHING" and advice["uk_status"] == "SAFE":
+        advice["advice"].append("→ 建议短期转移到英国或第三地。")
+
+    if advice["cn_status"] == "SAFE" and advice["uk_status"] == "SAFE":
+        advice["advice"].append("✓ 当前双阈值均安全，可自由安排。")
+
+    return advice
+
+
 def parse_date(s: str) -> dt.date:
     return dt.date.fromisoformat(s)
 
@@ -132,3 +177,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+advisor = dual_residency_advisor(kpi, thresh)
+(Path("out/dual_advisor.json")).write_text(
+    json.dumps(advisor, ensure_ascii=False, indent=2),
+    encoding="utf-8"
+)
