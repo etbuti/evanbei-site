@@ -1,0 +1,78 @@
+meta:
+  schema: "evanbei.presence-ledger.v3"
+  owner:
+    legal_name: "Xiaojun Yin"
+    public_name: "Evan Bei"
+  timezone: "Europe/London"
+  count_method: "inclusive"   # 入境日+离境日都计入
+  updated_utc: "2026-02-15T00:00:00Z"
+
+thresholds:
+  uk:
+    rolling_days_window: 365
+    rolling_day_threshold: 183
+    tax_year:
+      starts_month: 4
+      starts_day: 6       # UK tax year starts 6 April
+      ends_month: 4
+      ends_day: 5
+  cn:
+    calendar_year_day_threshold: 183
+    six_year_rule:
+      enabled: true
+      reset_if_single_trip_outside_days_greater_than: 30  # 预留，不做精确判定（缺少每次离境时长）
+
+stays:
+  # -------------------------
+  # United Kingdom (GB)
+  # -------------------------
+  - country: "GB"
+    entry: "2025-01-21"
+    exit:  "2025-03-12"
+    place: "London"
+    note: "UK-1"
+
+  - country: "GB"
+    entry: "2025-06-11"
+    exit:  "2025-07-20"
+    place: "London"
+    note: "UK-2 to Calais"
+
+  - country: "GB"
+    entry: "2025-07-25"     # 你确认：这天从Calais入境英国
+    exit:  "2025-08-09"     # 你确认：这天离境且算英国（签证最后一天）
+    place: "London"
+    note: "UK-3 (visa end day counted)"
+
+  - country: "GB"
+    entry: "2025-12-15"
+    exit:  "2026-01-18"
+    place: "London"
+    note: "UK-4"
+
+  - country: "GB"
+    entry: "2026-01-22"
+    exit:  null             # still in UK
+    place: "London"
+    note: "UK-5 current"
+
+  # -------------------------
+  # China (CN)  —— 依据你记录闭合的“可计算区间”
+  # -------------------------
+  - country: "CN"
+    entry: "2025-03-12"     # 你写：入境中国
+    exit:  "2025-06-11"     # 你写：06-11 中国出境（重庆）
+    place: "Qingdao/China"
+    note: "CN-1 inferred by next exit"
+
+  - country: "CN"
+    entry: "2025-08-13"     # 你确认：肯定入境中国
+    exit:  "2025-09-12"     # 你写：中国出境
+    place: "China"
+    note: "CN-2"
+
+  - country: "CN"
+    entry: "2025-10-13"     # 你写：中国入境
+    exit:  "2025-12-15"     # 你写：12-15 入境英国 => 推定当天离境中国
+    place: "China"
+    note: "CN-3 inferred by next UK entry"
