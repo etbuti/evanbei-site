@@ -219,6 +219,20 @@
     @media (prefers-reduced-motion: reduce){
       .origin-seal, .origin-seal img, .origin-seal-inline{ animation: none !important; }
     }
+
+/* ===== Authority-aware Seal (subtle) ===== */
+.origin-seal.authority-on{
+  opacity: .42; /* a touch stronger than default .26 */
+}
+.origin-seal.authority-on img{
+  filter: drop-shadow(0 0 14px rgba(200,140,255,.32));
+}
+
+.origin-seal-inline.authority-on{
+  opacity: .68; /* a touch stronger than default .58 */
+  filter: drop-shadow(0 0 14px rgba(200,140,255,.38));
+}
+    
   </style>
 </head>
 
@@ -302,5 +316,28 @@
   <img src="/assets/origin-seal.png" alt="Origin Seal">
 </a>
 
+<script>
+(function(){
+  const ref = (document.referrer || "").toLowerCase();
+
+  // authority sources you care about
+  const isAuthority =
+    ref.includes("orcid.org") ||
+    ref.includes("aiagentsdirectory.com") ||
+    ref.includes("goldisle.org") ||
+    ref.includes("aisland.uk") ||
+    ref.includes("github");
+
+  if(!isAuthority) return;
+
+  const watermark = document.querySelector(".origin-seal");
+  const inlineSeal = document.querySelector(".origin-seal-inline");
+
+  if(watermark) watermark.classList.add("authority-on");
+  if(inlineSeal) inlineSeal.classList.add("authority-on");
+})();
+</script>
+
+  
 </body>
 </html>
