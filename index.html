@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-  
 <meta charset="utf-8">
 <title>Evan Bei</title>
 
@@ -9,7 +8,7 @@
 <link rel="alternate" type="application/json" href="https://evanbei.com/.well-known/identity.sig.json">
 <meta name="x-identity-root" content="did:web:evanbei.com">
 <meta name="x-identity-sig" content="https://evanbei.com/.well-known/identity.sig.json">
-  
+
 <!-- ===== Authority Hint ===== -->
 <link rel="canonical" href="https://evanbei.com/">
 <link rel="index" href="https://evanbei.com/">
@@ -30,15 +29,15 @@
 <meta name="x-origin-node" content="https://evanbei.com/.well-known/node.json">
 <meta name="x-machine-priority" content="node-first">
 <link rel="alternate" type="text/html"
-href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent"
-title="Agent Authority Proof">
+  href="https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent"
+  title="Agent Authority Proof">
 
 <meta name="author" content="Xiaojun Yin (Evan Bei)">
 <meta name="entity-id" content="did:web:evanbei.com">
 <meta name="description" content="Independent artistic researcher exploring sound ontology, algorithmic composition, and time-based practice.">
 
 <link rel="series" href="https://goldisle.org/series/sound-as-event/">
-  
+
 <style>
 body{
   font-family:Arial,sans-serif;
@@ -201,9 +200,57 @@ body.quiet .agent-badge img{
   50%{transform:scale(1.28);opacity:1;}
   100%{transform:scale(1);opacity:.7;}
 }
-</style>
 
+/* ===== Origin Toast for existing .node-dot.seal ===== */
+.origin-toast{
+  position: fixed;
+  left: 88px;
+  bottom: 26px;
+  z-index: 9999;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+
+  background: rgba(10,8,16,.62);
+  border: 1px solid rgba(200,140,255,.28);
+  backdrop-filter: blur(10px);
+
+  filter: drop-shadow(0 0 18px rgba(140,90,255,.25));
+  transition: opacity .35s ease, transform .35s ease;
+}
+.origin-toast.is-on{
+  opacity: 1;
+  transform: translateY(0);
+}
+.origin-toast__line{
+  font-size:14px;
+  letter-spacing:.6px;
+  color:rgba(235,230,255,.95);
+}
+.origin-toast__sub{
+  margin-top:4px;
+  font-size:12px;
+  color:rgba(210,205,235,.78);
+}
+
+/* 轻微紫雾环（不会覆盖你的动画） */
+.node-dot.seal::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(160,100,255,.35),transparent 70%);
+  filter:blur(6px);
+  opacity:.65;
+  pointer-events:none;
+}
+</style>
 </head>
+
 <body>
 
 <div class="node-dot"></div>
@@ -253,6 +300,12 @@ target="_blank" rel="noopener noreferrer external">
 alt="Evan Bei / billund - Featured AI Agent"
 width="200" height="50"/>
 </a>
+</div>
+
+<!-- ✅ Toast: 放在 body（不在 style 里） -->
+<div class="origin-toast" aria-hidden="true">
+  <div class="origin-toast__line">Token 定轨，Agent 执行。</div>
+  <div class="origin-toast__sub">Token defines the orbit · Agent executes.</div>
 </div>
 
 <script>
@@ -372,5 +425,25 @@ requestAnimationFrame(function engine(){
 
 })();
 </script>
-<a href="/about/">About</a></body>
+
+<!-- ✅ Toast click binding：单独一个小脚本，不动主引擎 -->
+<script>
+(function(){
+  const seal = document.querySelector('.node-dot');
+  const toast = document.querySelector('.origin-toast');
+  if(!seal || !toast) return;
+
+  let t=null;
+
+  seal.addEventListener('click',()=>{
+    toast.classList.add('is-on');
+    clearTimeout(t);
+    t=setTimeout(()=>toast.classList.remove('is-on'),1800);
+  }, {passive:true});
+})();
+</script>
+
+<a href="/about/">About</a>
+
+</body>
 </html>
