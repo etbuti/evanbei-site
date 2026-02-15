@@ -122,7 +122,7 @@
         "description": "Independent publication node supporting the production of internationally standardised ISBN publications within an independent research context.",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "mailto:toptrust@gmail.com?subject=ISBN%20Publication%20Inquiry%20(%2Fevanbei%2F)&body=Title%3A%0AFormat%20(book%2Fcatalogue%2Fresearch)%3A%0AISBN%20needed%3A%20Yes%2FNo%0ANotes%3A%0A",
+          "urlTemplate": "mailto:contact@evanbei.com?subject=ISBN%20Publication%20Inquiry%20(%2Fevanbei%2F)&body=Title%3A%0AFormat%20(book%2Fcatalogue%2Fresearch)%3A%0AISBN%20needed%3A%20Yes%2FNo%0ANotes%3A%0A",
           "actionPlatform": [
             "http://schema.org/DesktopWebPlatform",
             "http://schema.org/MobileWebPlatform"
@@ -156,6 +156,40 @@
     }
     .mark-anchor a{color:#aaa;text-decoration:none;}
     .mark-anchor .usage a{color:#bbb;font-size:10px;}
+
+    /* ===== Origin Seal (watermark) · B add-on ===== */
+    .origin-seal{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 86px;
+      height: 86px;
+      opacity: .46;
+      z-index: 9999;
+      animation: seal-float 6.5s ease-in-out infinite;
+    }
+    .origin-seal img{
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: drop-shadow(0 0 12px rgba(180,120,255,.28));
+      animation: seal-rotate 22s linear infinite, seal-glow 3.8s ease-in-out infinite;
+    }
+    .origin-seal:hover{ opacity: .72; }
+    @keyframes seal-rotate{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
+    @keyframes seal-glow{
+      0%,100%{ filter: drop-shadow(0 0 10px rgba(185,120,255,.22)); }
+      50%    { filter: drop-shadow(0 0 18px rgba(200,140,255,.38)); }
+    }
+    @keyframes seal-float{
+      0%,100%{ transform: translateY(0); }
+      50%    { transform: translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .origin-seal, .origin-seal img{ animation: none !important; }
+    }
   </style>
 </head>
 
@@ -165,8 +199,8 @@
 <h1>Evan Bei</h1>
 <div class="sub">Independent Researcher · Independent Publication Node</div>
 <div class="meta">
-London, UK · Contact: <a href="mailto:contact@evanbei.com">contact@evanbei.com</a>
-· Publisher: <a href="https://goldisle.org/publishing/">Goldisle Publishing</a>
+  London, UK · Contact: <a href="mailto:contact@evanbei.com">contact@evanbei.com</a>
+  · Publisher: <a href="https://goldisle.org/publishing/">Goldisle Publishing</a>
 </div>
 
 <div class="hr"></div>
@@ -191,5 +225,49 @@ London, UK · Contact: <a href="mailto:contact@evanbei.com">contact@evanbei.com<
   Research outputs are registered with the UK Copyright Service (UKCS). Registration reference: 284760782-015.
 </p>
 <ul>
-  <li><strong>Breath as Event</strong> — resear
+  <li><strong>Breath as Event</strong> — research manuscript (PDF). Focus: embodied initiation, thresholds, and structural conditions.</li>
+  <li><strong>Pulse as Event: Temporal Decision Structures in Sound-Based Practice</strong> — research manuscript. Focus: temporal decision, recurrence, and operational phase logic.</li>
+  <li><strong>Voice as Event</strong> — research manuscript. Focus: execution, presence, address, and situated agency.</li>
+</ul>
 
+<h2>Reading / Access</h2>
+<p class="meta">
+  Selected publications and editions may be released via Goldisle Publishing, with internationally standardised ISBN metadata when applicable.
+  For access requests, citations, or edition inquiries:
+  <a href="mailto:contact@evanbei.com?subject=Sound%20as%20Event%20Access%20Request%20(%2Fevanbei%2F)&body=Hello%20Evan%2C%0A%0ARequest%3A%20(access%2Fcitation%2Fedition%20info)%0AWork%3A%20(Breath%2FPulse%2FVoice)%0AContext%3A%0A%0AThanks%2C%0A">email contact@evanbei.com</a>.
+</p>
+
+<h2>Machine Entry</h2>
+<p class="meta">
+  Canonical machine-readable identity root: <a href="/.well-known/node.json">/.well-known/node.json</a>.
+  This page is a human-readable scope for the <em>Sound as Event</em> programme.
+</p>
+
+<h2>Notes on Publishing</h2>
+<p class="meta">
+  Publishing is treated as a durable archival practice rather than a promotional channel.
+  Where relevant, editions may include: ISBN metadata, stable file naming, and long-term provenance markers.
+</p>
+
+<div class="mark-anchor">
+  <div>Official research node: <a href="https://evanbei.com/evanbei/">evanbei.com/evanbei/</a></div>
+  <div class="usage">
+    <a href="/">Site root</a> ·
+    <a href="/definition.html">Definition</a> ·
+    <a href="/.well-known/node.json">node.json</a> ·
+    <a href="https://orcid.org/0009-0000-8302-3360" rel="me noopener" target="_blank">ORCID</a>
+  </div>
+  <div style="margin-top:8px;">
+    <span>All other profiles are mirrors or third-party listings.</span>
+  </div>
+</div>
+
+</main>
+
+<!-- ✅ Origin Seal watermark node (needs /assets/origin-seal.png) -->
+<a class="origin-seal" href="/.well-known/node.json" title="Origin Seal · Identity Root" aria-label="Origin Seal">
+  <img src="/assets/origin-seal.png" alt="Origin Seal">
+</a>
+
+</body>
+</html>
