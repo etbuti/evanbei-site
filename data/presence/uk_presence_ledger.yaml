@@ -1,0 +1,30 @@
+identity:
+  name: "Xiaojun Yin (Evan Bei)"
+  base_location: "London, United Kingdom"
+  ledger_version: "1.0"
+
+rules:
+  count_method: "arrival_day_and_departure_day_inclusive"
+  timezone: "Europe/London"
+
+travel_log:
+
+  - entry: 2025-03-12
+    exit: 2025-05-01
+    location: "United Kingdom"
+    note: ""
+
+  - entry: 2025-07-20
+    exit: 2025-10-02
+    location: "United Kingdom"
+    note: ""
+
+  - entry: 2025-12-15
+    exit: null
+    location: "United Kingdom"
+    note: "current stay"
+
+summary:
+  auto_calculate_days: true
+  tax_residency_threshold: 183
+  rolling_window: "12_months"
