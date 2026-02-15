@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "schema": "evanbei.presence-ledger.v2",
+    "owner": { "legal_name": "Xiaojun Yin", "public_name": "Evan Bei" },
+    "timezone": "Europe/London",
+    "count_method": "uk_inclusive",
+    "rolling_window_days": 365,
+    "updated_utc": "2026-02-15T00:00:00Z"
+  },
+  "sources": [
+    { "id": "manual", "type": "manual", "trust": 0.7, "note": "manual ledger" },
+    { "id": "ukvi", "type": "ukvi", "trust": 1.0, "note": "UKVI/eVisa travel history" },
+    { "id": "timeline", "type": "google_timeline", "trust": 0.8, "note": "Google Timeline" }
+  ],
+  "stays": [
+    { "entry": "2025-03-12", "exit": "2025-05-01", "country": "GB", "place": "London", "source": "manual", "note": "" },
+    { "entry": "2025-07-20", "exit": "2025-10-02", "country": "GB", "place": "London", "source": "manual", "note": "" },
+    { "entry": "2025-12-15", "exit": null, "country": "GB", "place": "London", "source": "manual", "note": "current stay" }
+  ]
+}
