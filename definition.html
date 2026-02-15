@@ -205,6 +205,82 @@
       flex-wrap:wrap;
     }
     .sep{color:rgba(255,255,255,.22)}
+
+    /* ===============================
+       Origin Protocol Add-on (clean)
+       =============================== */
+
+    /* Make the header dot clickable, without changing layout */
+    .dot.origin-trigger{
+      cursor: pointer;
+      position: relative;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .dot.origin-trigger:hover{
+      transform: scale(1.08);
+      opacity: .95;
+    }
+    .dot.origin-trigger::after{
+      content:"";
+      position:absolute;
+      inset:-10px;
+      border-radius:50%;
+      background: radial-gradient(circle, rgba(160,120,255,.30), transparent 70%);
+      filter: blur(6px);
+      opacity:.55;
+      pointer-events:none;
+      transition: opacity .25s ease;
+    }
+    .dot.origin-trigger:hover::after{ opacity:.78; }
+
+    /* Toast */
+    .origin-toast{
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 9999;
+
+      padding: 10px 12px;
+      border-radius: 14px;
+
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+
+      background: rgba(10,8,16,.62);
+      border: 1px solid rgba(200,140,255,.28);
+      backdrop-filter: blur(10px);
+
+      filter: drop-shadow(0 0 18px rgba(140,90,255,.25));
+      transition: opacity .35s ease, transform .35s ease;
+      max-width: min(460px, calc(100vw - 40px));
+    }
+    .origin-toast.is-on{
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .origin-toast__line{
+      font-size:14px;
+      letter-spacing:.6px;
+      color:rgba(235,230,255,.95);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .origin-toast__sub{
+      margin-top:4px;
+      font-size:12px;
+      color:rgba(210,205,235,.78);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    /* Optional: reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .origin-toast{ transition:none; }
+      .dot.origin-trigger{ transition:none; }
+    }
   </style>
 </head>
 
@@ -212,7 +288,8 @@
   <div class="wrap">
     <header>
       <div class="mark">
-        <div class="dot" aria-hidden="true"></div>
+        <!-- ✅ 只加了一个 class：origin-trigger，用来绑定点击 -->
+        <div class="dot origin-trigger" aria-label="Origin Seal trigger" role="button" tabindex="0"></div>
         <div>
           <div class="name">Evan Bei</div>
           <div class="tag">Definition · Identity page</div>
@@ -315,6 +392,12 @@
     </main>
   </div>
 
+  <!-- ✅ Origin toast (放 body，绝不放进 style) -->
+  <div class="origin-toast" aria-hidden="true">
+    <div class="origin-toast__line">Token 定轨，Agent 执行。</div>
+    <div class="origin-toast__sub">Token defines the orbit · Agent executes.</div>
+  </div>
+
   <script>
     // Display a deterministic "last updated" stamp without needing a build step.
     // Edit this string when you update the page content.
@@ -325,6 +408,33 @@
     } catch (e) {
       el.textContent = UPDATED_UTC;
     }
+  </script>
+
+  <!-- ✅ Origin Protocol binding: click the header dot -->
+  <script>
+  (function(){
+    const trigger = document.querySelector('.dot.origin-trigger');
+    const toast = document.querySelector('.origin-toast');
+    if(!trigger || !toast) return;
+
+    let t = null;
+
+    function showToast(){
+      toast.classList.add('is-on');
+      clearTimeout(t);
+      t = setTimeout(()=>toast.classList.remove('is-on'), 1800);
+    }
+
+    trigger.addEventListener('click', showToast, {passive:true});
+
+    // keyboard accessibility (Enter / Space)
+    trigger.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        showToast();
+      }
+    });
+  })();
   </script>
 </body>
 </html>
