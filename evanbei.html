@@ -318,9 +318,9 @@
 
 <script>
 (function(){
+
   const ref = (document.referrer || "").toLowerCase();
 
-  // authority sources you care about
   const isAuthority =
     ref.includes("orcid.org") ||
     ref.includes("aiagentsdirectory.com") ||
@@ -330,11 +330,34 @@
 
   if(!isAuthority) return;
 
-  const watermark = document.querySelector(".origin-seal");
+  const watermark  = document.querySelector(".origin-seal");
   const inlineSeal = document.querySelector(".origin-seal-inline");
 
-  if(watermark) watermark.classList.add("authority-on");
+  // add steady authority state
+  if(watermark)  watermark.classList.add("authority-on");
   if(inlineSeal) inlineSeal.classList.add("authority-on");
+
+  // ===== gentle awakening pulse (once) =====
+  function awaken(el){
+    if(!el) return;
+
+    el.style.transition = "filter .6s ease, opacity .6s ease, transform .6s ease";
+
+    el.style.filter = "drop-shadow(0 0 26px rgba(210,160,255,.65))";
+    el.style.transform = "scale(1.04)";
+
+    setTimeout(()=>{
+      el.style.filter = "";
+      el.style.transform = "";
+    }, 600);
+  }
+
+  // next frame, avoid layout jump
+  requestAnimationFrame(()=>{
+    awaken(watermark?.querySelector("img"));
+    awaken(inlineSeal);
+  });
+
 })();
 </script>
 
