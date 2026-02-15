@@ -1,0 +1,4 @@
+Evan Bei Origin Node
+agent-card: https://evanbei.com/.well-known/agent-card.json
+legacy-agent-discovery: https://evanbei.com/.well-known/agent.json
+rpc: https://evanbei.com/agent/rpc
