@@ -1,0 +1,29 @@
+{
+  "schema": "agent-card",
+  "version": "0.1",
+  "entity": "Evan Bei / billund",
+  "authority": {
+    "canonical": "https://evanbei.com/",
+    "node": "https://evanbei.com/.well-known/node.json",
+    "legacy_agent_discovery": "https://evanbei.com/.well-known/agent.json"
+  },
+  "identity_root": "did:web:evanbei.com",
+  "transport": {
+    "type": "json-rpc",
+    "endpoint": "https://evanbei.com/agent/rpc",
+    "streaming": ["sse"]
+  },
+  "capabilities": {
+    "map": "https://evanbei.com/agent/capability-map.json",
+    "policy": "https://evanbei.com/agent/access-policy.json",
+    "protocol": "https://evanbei.com/agent/protocol.json"
+  },
+  "trust": {
+    "signature_namespace": "evanbei_identity",
+    "canonicalization_ref": "https://evanbei.com/.well-known/node.json#canonicalization"
+  },
+  "audit": {
+    "health": "https://evanbei.com/node/health.html",
+    "checksums": "https://evanbei.com/node/checksums.json"
+  }
+}
