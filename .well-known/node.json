@@ -174,3 +174,9 @@
   "publishingPrinciples": "https://gate.evanbei.com/principles.html",
   "contactUrl": "https://evanbei.com/portal/"
 }
+{
+  "presence": {
+    "rolling_12m": "/data/presence/presence_rolling_12m.json",
+    "tax_flags": "/data/presence/presence_tax_flags.json"
+  }
+}
