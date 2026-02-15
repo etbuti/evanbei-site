@@ -1,0 +1,47 @@
+meta:
+  schema: "evanbei.presence-ledger.v2"
+  owner:
+    legal_name: "Xiaojun Yin"
+    public_name: "Evan Bei"
+  timezone: "Europe/London"
+  count_method: "uk_inclusive"   # arrival day + departure day 都算在境内
+  rolling_window_days: 365
+  updated_utc: "2026-02-15T00:00:00Z"
+
+sources:
+  - id: "manual"
+    type: "manual"
+    trust: 0.7
+    note: "手动录入，适合作为主账本"
+  - id: "ukvi"
+    type: "ukvi"
+    trust: 1.0
+    note: "UKVI/eVisa/Border records（未来可导入）"
+  - id: "timeline"
+    type: "google_timeline"
+    trust: 0.8
+    note: "Google Timeline（未来可导入）"
+
+stays:
+  # 你以后只需要持续追加这一段（entry/exit）
+  # exit: null 表示仍在英国
+  - entry: "2025-03-12"
+    exit:  "2025-05-01"
+    country: "GB"
+    place: "London"
+    source: "manual"
+    note: ""
+
+  - entry: "2025-07-20"
+    exit:  "2025-10-02"
+    country: "GB"
+    place: "London"
+    source: "manual"
+    note: ""
+
+  - entry: "2025-12-15"
+    exit:  null
+    country: "GB"
+    place: "London"
+    source: "manual"
+    note: "current stay"
