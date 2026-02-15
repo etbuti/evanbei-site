@@ -158,16 +158,26 @@
     .mark-anchor .usage a{color:#bbb;font-size:10px;}
 
     /* ===== Origin Seal (watermark) · B add-on ===== */
-    .origin-seal{
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      width: 86px;
-      height: 86px;
-      opacity: .46;
-      z-index: 9999;
-      animation: seal-float 6.5s ease-in-out infinite;
-    }
+  /* ===== Origin Seal · Top-Left Authority Placement ===== */
+.origin-seal{
+  position: fixed;
+  left: 18px;
+  top: 18px;
+
+  width: 86px;
+  height: 86px;
+
+  opacity: .38; /* 左上角建议更克制一点 */
+  z-index: 9999;
+
+  animation: seal-float 6.5s ease-in-out infinite;
+}
+
+/* hover slightly stronger, like a living seal */
+.origin-seal:hover{
+  opacity: .65;
+}
+
     .origin-seal img{
       width: 100%;
       height: 100%;
