@@ -15,7 +15,7 @@
     "trace_builder": "https://evanbei.com/agent/trace.html",
     "wallet_sign": "https://evanbei.com/agent/sign.html",
     "invite_check": "https://evanbei.com/agent/invite-check.html",
-    "invite_keys": "https://evanbei.com/agent/invite-keys.json"
+    "invite_keys": "https://evanbei.com/agent/invite-keys.json",
     "well_known_agent": "https://evanbei.com/.well-known/agent.json"
   },
   "audit": {
