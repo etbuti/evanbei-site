@@ -42,6 +42,27 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
 .nh-pill--ok{background:#22c55e}
 .nh-pill--warn{background:#f59e0b}
 .nh-pill--bad{background:#ef4444}
+  /* ===== Node Status Header ===== */
+.node-status{
+  margin:8px 0 18px;
+  font-size:13px;
+  letter-spacing:.06em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  opacity:.85;
+}
+.node-led{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:#999;
+  box-shadow:0 0 0 4px rgba(0,0,0,.05);
+}
+.node-led.ok{ background:#22c55e; }
+.node-led.warn{ background:#f59e0b; }
+.node-led.bad{ background:#ef4444; }
+
 </style>
 </head>
 
@@ -50,6 +71,11 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
   <h1>Agent Registry</h1>
   <p class="k">A human-facing directory for this node’s machine entry, capabilities, policies, and audit links.</p>
 
+<div class="node-status" id="node-status">
+  <span class="node-led" id="node-led"></span>
+  <span class="node-text">EVANBEI NODE · CHECKING…</span>
+</div>
+  
   <div class="card">
     <h3>Identity</h3>
 
@@ -151,6 +177,16 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
   const dot=document.getElementById("nh-dot");
   const sum=document.getElementById("nh-summary");
 
+  // Node Status Header (optional UI)
+  const statusLed=document.getElementById("node-led");
+  const statusText=document.querySelector(".node-text");
+
+  function setStatus(state, text){
+    if(!statusLed || !statusText) return;
+    statusLed.className = "node-led " + state; // ok | warn | bad
+    statusText.textContent = text;
+  }
+
   function setOverall(state, text){
     dot.className="nh-dot nh-dot--"+state;
     sum.textContent=text;
@@ -184,6 +220,7 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
 
     grid.innerHTML="";
     setOverall("idle","checking…");
+    setStatus("warn","EVANBEI NODE · CHECKING…");
 
     let hardFail=0;
     let softFail=0;
@@ -216,10 +253,13 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
 
     if(hardFail===0 && softFail===0){
       setOverall("ok","all green");
+      setStatus("ok","EVANBEI NODE · ACTIVE · VERIFIED");
     }else if(hardFail===0){
       setOverall("warn","partial (optional missing)");
+      setStatus("warn","EVANBEI NODE · ACTIVE · PARTIAL");
     }else{
       setOverall("bad","critical failed");
+      setStatus("bad","EVANBEI NODE · ERROR");
     }
   }
 
@@ -227,6 +267,7 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
   setInterval(run,60000);
 })();
 </script>
+
 
 </body>
 </html>
