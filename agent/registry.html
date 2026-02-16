@@ -52,16 +52,58 @@ pre{overflow:auto;padding:12px;border-radius:12px;background:rgba(0,0,0,.04)}
   gap:8px;
   opacity:.85;
 }
-.node-led{
-  width:8px;
-  height:8px;
-  border-radius:999px;
-  background:#999;
-  box-shadow:0 0 0 4px rgba(0,0,0,.05);
+/* ===== Node Status Header ===== */
+.node-status{
+  margin:8px 0 10px;
+  font-size:13px;
+  letter-spacing:.06em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  opacity:.85;
 }
-.node-led.ok{ background:#22c55e; }
-.node-led.warn{ background:#f59e0b; }
-.node-led.bad{ background:#ef4444; }
+
+/* West-North breathing LED */
+@keyframes wn-breathe {
+  0%   { transform:scale(0.92); filter:brightness(0.85); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 0 0 rgba(0,0,0,0); }
+  50%  { transform:scale(1.10); filter:brightness(1.10); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 10px 2px currentColor; }
+  100% { transform:scale(0.92); filter:brightness(0.85); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 0 0 rgba(0,0,0,0); }
+}
+@keyframes wn-warn {
+  0%,100% { transform:scale(1); filter:brightness(0.95); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 0 0 rgba(0,0,0,0); }
+  50%     { transform:scale(1.06); filter:brightness(1.05); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 7px 1px currentColor; }
+}
+@keyframes wn-bad {
+  0%,70%,100% { transform:scale(1); filter:brightness(1.0); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 0 0 rgba(0,0,0,0); }
+  80%         { transform:scale(1.10); filter:brightness(1.15); box-shadow:0 0 0 4px rgba(0,0,0,.05), 0 0 12px 2px currentColor; }
+}
+
+.node-led{
+  width:8px;height:8px;border-radius:999px;
+  background:#999;
+  color:transparent; /* used by currentColor glow */
+  box-shadow:0 0 0 4px rgba(0,0,0,.05);
+  display:inline-block;
+  transform-origin:center;
+}
+
+/* states (script already sets: class="node-led ok|warn|bad") */
+.node-led.ok{
+  background:#22c55e;
+  color:#22c55e;
+  animation: wn-breathe 2.8s ease-in-out infinite;
+}
+.node-led.warn{
+  background:#f59e0b;
+  color:#f59e0b;
+  animation: wn-warn 1.8s ease-in-out infinite;
+}
+.node-led.bad{
+  background:#ef4444;
+  color:#ef4444;
+  animation: wn-bad 1.2s ease-in-out infinite;
+}
+
 
 </style>
 </head>
