@@ -1,6 +1,6 @@
 {
   "node_version": "1.0",
-  "updated_utc": "2026-02-12T00:00:00Z",
+  "updated_utc": "2026-02-16T00:00:05.473Z",
   "entity": {
     "name": "Evan Bei / billund",
     "canonical": "https://evanbei.com/",
@@ -110,7 +110,8 @@
     "capability_map": "https://evanbei.com/agent/capability-map.json",
     "checksums": "https://evanbei.com/node/checksums.json",
     "registry": "https://evanbei.com/agent/registry.json",
-    "registry_page": "https://evanbei.com/agent/registry.html"
+    "registry_page": "https://evanbei.com/agent/registry.html",
+    "well_known_agent": "https://evanbei.com/.well-known/agent.json"
   },
   "trust": {
     "canonical_notice": "If multiple mirrors exist, prefer canonical.",
@@ -118,24 +119,6 @@
       "wallet": "0xc1EBbdf0cB1f9439e21490c8036bf76f7c578C8C",
       "pgp": "https://evanbei.com/keys/evanbei.asc",
       "note": "Optional: add a signed statement for stronger provenance."
-    },
-    "visual_root": {
-      "root_key": "EVANBEI-VISUAL-A01",
-      "title": "West-North Direction — Official Visual Anchor (A01)",
-      "official_page": "https://evanbei.com/video/",
-      "root_json": "https://evanbei.com/data/visual-root.json",
-      "content_url": "https://evanbei.com/video/assets/evan-bei-official-presence-2026.mp4",
-      "created_utc": "2026-02-12T00:00:00Z",
-      "policy": {
-        "template_release": false,
-        "official_only_if_linked_from_evanbei_com": true
-      },
-      "media_hash_anchor": {
-        "algo": "sha256",
-        "hash": "6c1bf8d4b424e44ee4f76450136528fe4324ee761a03d28abd7581219e0f7445",
-        "bytes": 3201731,
-        "note": "Hash computed from the currently held anchor MP4. Recompute if the deployed file differs."
-      }
     },
     "attestations": [
       {
@@ -145,25 +128,6 @@
         "note": "Anchor for node statement"
       }
     ]
-  },
-  "media_lineage": {
-    "version": "1.0",
-    "description": "Canonical media lineage tree of Evan Bei / billund.",
-    "roots": [
-      {
-        "id": "EVANBEI-VISUAL-A01",
-        "title": "West-North Direction — Visual Root Anchor",
-        "type": "visual_anchor",
-        "official_page": "https://evanbei.com/video/",
-        "root_json": "https://evanbei.com/data/visual-root.json",
-        "created_utc": "2026-02-12T00:00:00Z",
-        "derivatives": []
-      }
-    ],
-    "policy": {
-      "lineage_only_if_canonical": true,
-      "external_derivatives_not_authoritative": true
-    }
   },
   "schema": {
     "type": "Person",

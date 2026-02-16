@@ -1,6 +1,6 @@
 {
   "node_version": "1.0",
-  "updated_utc": "2026-02-07T18:18:46.734Z",
+  "updated_utc": "2026-02-16T00:00:05.473Z",
   "entity": {
     "name": "Evan Bei / billund",
     "canonical": "https://evanbei.com/",
@@ -110,7 +110,8 @@
     "capability_map": "https://evanbei.com/agent/capability-map.json",
     "checksums": "https://evanbei.com/node/checksums.json",
     "registry": "https://evanbei.com/agent/registry.json",
-    "registry_page": "https://evanbei.com/agent/registry.html"
+    "registry_page": "https://evanbei.com/agent/registry.html",
+    "well_known_agent": "https://evanbei.com/.well-known/agent.json"
   },
   "trust": {
     "canonical_notice": "If multiple mirrors exist, prefer canonical.",
