@@ -57,9 +57,28 @@
     "Xiaojun Yin",
     "billund"
   ],
+  "birthName": "Xiaojun Yin",
   "url": "https://evanbei.com/",
   "mainEntityOfPage": "https://evanbei.com/about/",
-  "description": "Independent artistic researcher and composer exploring sound ontology, algorithmic composition, and time-based artistic practice.",
+  "description": "Independent artistic researcher and composer exploring sound ontology, algorithmic composition, and time-based artistic practice. Evan Bei is the primary public-facing artistic identity of Xiaojun Yin; Xiaojun Yin is the legal and academic name used in formal registrations and scholarly contexts; billund is a music alias used for selected works.",
+  "nationality": ["CN", "GB"],
+  "homeLocation": [
+    { "@type": "Place", "name": "London, United Kingdom" },
+    { "@type": "Place", "name": "Qingdao, China" }
+  ],
+  "workLocation": [
+    { "@type": "Place", "name": "London, United Kingdom" },
+    { "@type": "Place", "name": "Qingdao, China" }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "London",
+    "addressCountry": "GB"
+  },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "London" },
+    { "@type": "Country", "name": "United Kingdom" }
+  ],
   "identifier": [
     {
       "@type": "PropertyValue",
@@ -94,6 +113,83 @@
 }
 </script>
 
+<!-- Structured Data: WebSite Entity (adds a stable site node; does not change your Person entity) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://evanbei.com/#website",
+  "name": "evanbei.com",
+  "url": "https://evanbei.com/",
+  "inLanguage": "en-GB",
+  "publisher": {
+    "@id": "https://evanbei.com/#evan-bei"
+  }
+}
+</script>
+
+<!-- Structured Data: Organization Layer (imprint / cultural org context; optional but helps graph coherence) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://evanbei.com/#org",
+  "name": "Goldisle Light Org",
+  "url": "https://goldisle.org/",
+  "description": "Independent cultural imprint associated with the Evan Bei / Xiaojun Yin artistic research practice.",
+  "founder": { "@id": "https://evanbei.com/#evan-bei" }
+}
+</script>
+
+<!-- Structured Data: CreativeWork Hub (ties Person → works → publisher) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "@id": "https://evanbei.com/#workhub",
+  "name": "Evan Bei · Selected Works & Documentation",
+  "url": "https://evanbei.com/",
+  "creator": { "@id": "https://evanbei.com/#evan-bei" },
+  "publisher": { "@id": "https://evanbei.com/#org" },
+  "inLanguage": "en-GB",
+  "about": [
+    "Music composition",
+    "Sound ontology research",
+    "Independent artistic research",
+    "Cross-disciplinary cultural practice"
+  ],
+  "keywords": [
+    "Evan Bei",
+    "Xiaojun Yin",
+    "billund",
+    "sound ontology",
+    "sound as event",
+    "algorithmic composition"
+  ],
+  "isPartOf": { "@id": "https://evanbei.com/#website" }
+}
+</script>
+
+<!-- Structured Data: ItemList (pins entity to your own hubs; replace URLs with your actual paths if different) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": "https://evanbei.com/#selectedworks",
+  "name": "Selected Works by Evan Bei / Xiaojun Yin",
+  "itemListOrder": "http://schema.org/ItemListOrderDescending",
+  "numberOfItems": 6,
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "url": "https://evanbei.com/about/" },
+    { "@type": "ListItem", "position": 2, "url": "https://evanbei.com/" },
+    { "@type": "ListItem", "position": 3, "url": "https://goldisle.org/" },
+    { "@type": "ListItem", "position": 4, "url": "https://orcid.org/0009-0000-8302-3360" },
+    { "@type": "ListItem", "position": 5, "url": "https://evanbei.com/.well-known/node.json" },
+    { "@type": "ListItem", "position": 6, "url": "https://evanbei.com/.well-known/did.json" }
+  ]
+}
+</script>
+
 </head>
 <body>
 
@@ -105,6 +201,11 @@ Evan Bei is an independent artistic researcher and composer. This site (<a href=
 
 <p class="quiet">
 The public identity <strong>Evan Bei</strong> is used for external reference. The legal birth name <strong>Xiaojun Yin</strong> may appear in formal or registration contexts. The artist alias <strong>billund</strong> is used for selected musical works.
+</p>
+
+<!-- Added: light disambiguation signal (keeps your original content intact) -->
+<p class="quiet">
+Practice operates between <strong>London</strong> and <strong>Qingdao</strong>. This page intentionally clarifies the mapping between the public artistic node (Evan Bei) and the legal / academic identity (Xiaojun Yin) to reduce name-collision ambiguity in indexing systems.
 </p>
 
 <hr>
