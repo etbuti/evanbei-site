@@ -19,190 +19,112 @@
 <meta name="x-primary-entity" content="Evan Bei">
 <meta name="x-identity-root" content="did:web:evanbei.com">
 
-<!-- Identity links (ORCID-aligned) -->
+<!-- Identity links -->
 <link rel="me" href="https://orcid.org/0009-0000-8302-3360">
 <link rel="alternate" type="application/json" href="/.well-known/node.json">
 <link rel="alternate" type="application/did+json" href="https://evanbei.com/.well-known/did.json">
 <link rel="alternate" type="application/json" href="https://evanbei.com/.well-known/identity.sig.json">
 
-<!-- Scholarly / citation hints -->
 <meta name="citation_author" content="Xiaojun Yin">
 <meta name="citation_author_institution" content="Independent Researcher">
 <meta name="citation_author_orcid" content="0009-0000-8302-3360">
 <meta name="citation_author_email" content="contact@evanbei.com">
 
-<!-- Latency hints -->
 <link rel="dns-prefetch" href="https://orcid.org">
 
 <style>
-  body{
-    font-family: Arial, sans-serif;
-    max-width: 760px;
-    margin: 80px auto;
-    padding: 0 20px;
-    line-height: 1.7;
-  }
-  h1{font-size:32px;margin:0 0 18px 0;}
-  h2{font-size:20px;margin:26px 0 10px 0;}
-  p{font-size:18px;margin:12px 0;}
-  hr{border:0;border-top:1px solid #ddd;margin:26px 0;}
-  a{color:#000;text-decoration:none;border-bottom:1px solid #ddd;}
-  a:hover{border-bottom-color:#000;}
-  small{color:#666;}
-  .quiet{color:#444;}
+body{font-family:Arial,sans-serif;max-width:760px;margin:80px auto;padding:0 20px;line-height:1.7;}
+h1{font-size:32px;margin:0 0 18px;}
+h2{font-size:20px;margin:26px 0 10px;}
+p{font-size:18px;margin:12px 0;}
+hr{border:0;border-top:1px solid #ddd;margin:26px 0;}
+a{color:#000;text-decoration:none;border-bottom:1px solid #ddd;}
+a:hover{border-bottom-color:#000;}
+small{color:#666;}
+.quiet{color:#444;}
 </style>
 
-<!-- =========================================================
-     Structured Data: Person Entity (wording ORCID-aligned)
-     ========================================================= -->
+<!-- =============================
+     Person Entity (UNIFIED CORE)
+     ============================= -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": "https://evanbei.com/#person",
-  "name": "Evan Bei",
-  "alternateName": ["Xiaojun Yin", "billund", "Xiaojun Yin (Evan Bei)"],
-  "birthName": "Xiaojun Yin",
-  "url": "https://evanbei.com/",
-  "mainEntityOfPage": "https://evanbei.com/about/",
-  "email": "mailto:contact@evanbei.com",
-  "description": "Xiaojun Yin (Evan Bei) is an independent interdisciplinary researcher working across sound ontology, artistic research, algorithmic composition, and cultural system design. His work integrates music practice, computational frameworks, and conceptual research exploring sound as an event-based structure.",
-  "disambiguatingDescription": "Evan Bei is the primary public-facing artistic identity of Xiaojun Yin. billund is a music alias used for selected works.",
-  "nationality": ["CN", "GB"],
-  "homeLocation": [
-    { "@type": "Place", "name": "London, United Kingdom" },
-    { "@type": "Place", "name": "Qingdao, China" }
-  ],
-  "workLocation": [
-    { "@type": "Place", "name": "London, United Kingdom" },
-    { "@type": "Place", "name": "Qingdao, China" }
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "London",
-    "addressCountry": "GB"
-  },
-  "areaServed": [
-    { "@type": "AdministrativeArea", "name": "London" },
-    { "@type": "Country", "name": "United Kingdom" }
-  ],
-  "affiliation": [
-    { "@type": "Organization", "name": "Independent Researcher" },
-    { "@type": "Organization", "name": "Evan Bei Studio" }
-  ],
-  "identifier": [
-    {
-      "@type": "PropertyValue",
-      "propertyID": "ORCID",
-      "value": "0009-0000-8302-3360",
-      "url": "https://orcid.org/0009-0000-8302-3360"
-    }
-  ],
-  "contactPoint": [
-    {
-      "@type": "ContactPoint",
-      "contactType": "general inquiries",
-      "email": "contact@evanbei.com",
-      "url": "https://evanbei.com/"
-    }
-  ],
-  "sameAs": [
-    "https://orcid.org/0009-0000-8302-3360"
-  ],
-  "knowsAbout": [
-    "Sound ontology",
-    "Artistic research",
-    "Algorithmic composition",
-    "Cultural system design",
-    "Sound as event-based structure",
-    "Time-based artistic practice",
-    "Computational frameworks",
-    "Semantic systems",
-    "AI-related cultural structures"
-  ],
-  "isPartOf": {
-    "@type": "WebSite",
-    "@id": "https://evanbei.com/#website",
-    "url": "https://evanbei.com/",
-    "name": "evanbei.com"
-  }
+ "@context":"https://schema.org",
+ "@type":"Person",
+ "@id":"https://evanbei.com/#person",
+ "name":"Evan Bei",
+ "alternateName":["Xiaojun Yin","billund","Xiaojun Yin (Evan Bei)"],
+ "birthName":"Xiaojun Yin",
+ "url":"https://evanbei.com/",
+ "mainEntityOfPage":"https://evanbei.com/about/",
+ "email":"mailto:contact@evanbei.com",
+
+ "description":"Xiaojun Yin (Evan Bei) is an independent interdisciplinary researcher working across sound ontology, artistic research, algorithmic composition, and cultural system design. His work integrates music practice, computational frameworks, and conceptual research exploring sound as an event-based structure.",
+
+ "disambiguatingDescription":"Evan Bei is the primary public artistic identity; Xiaojun Yin is the legal and academic name; billund is a music alias used for selected works.",
+
+ "nationality":[
+   {"@type":"Country","name":"China"},
+   {"@type":"Country","name":"United Kingdom"}
+ ],
+
+ "homeLocation":[
+   {"@type":"Place","name":"London, United Kingdom"},
+   {"@type":"Place","name":"Qingdao, China"}
+ ],
+
+ "affiliation":[
+   {"@type":"Organization","name":"Independent Researcher"},
+   {"@type":"Organization","name":"Evan Bei Studio"}
+ ],
+
+ "identifier":[
+   {
+     "@type":"PropertyValue",
+     "propertyID":"ORCID",
+     "value":"0009-0000-8302-3360",
+     "url":"https://orcid.org/0009-0000-8302-3360"
+   }
+ ],
+
+ "sameAs":[
+   "https://orcid.org/0009-0000-8302-3360"
+ ],
+
+ "knowsAbout":[
+   "Sound ontology",
+   "Artistic research",
+   "Algorithmic composition",
+   "Cultural system design",
+   "Sound as event-based structure"
+ ],
+
+ "isPartOf":{"@id":"https://evanbei.com/#website"}
 }
 </script>
 
-<!-- Structured Data: WebSite Entity -->
+<!-- WebSite Node (UNIFIED) -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://evanbei.com/#website",
-  "name": "evanbei.com",
-  "url": "https://evanbei.com/",
-  "inLanguage": "en-GB",
-  "publisher": { "@id": "https://evanbei.com/#person" }
+ "@context":"https://schema.org",
+ "@type":"WebSite",
+ "@id":"https://evanbei.com/#website",
+ "name":"evanbei.com",
+ "url":"https://evanbei.com/",
+ "inLanguage":"en-GB",
+ "publisher":{"@id":"https://evanbei.com/#person"}
 }
 </script>
 
-<!-- Structured Data: Organization Layer -->
+<!-- Organization Layer -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://evanbei.com/#org",
-  "name": "Goldisle Light Org",
-  "url": "https://goldisle.org/",
-  "description": "Independent cultural imprint associated with the Evan Bei / Xiaojun Yin artistic research practice.",
-  "founder": { "@id": "https://evanbei.com/#person" }
-}
-</script>
-
-<!-- Structured Data: CreativeWork Hub -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "@id": "https://evanbei.com/#workhub",
-  "name": "Evan Bei · Selected Works & Documentation",
-  "url": "https://evanbei.com/",
-  "creator": { "@id": "https://evanbei.com/#person" },
-  "publisher": { "@id": "https://evanbei.com/#org" },
-  "inLanguage": "en-GB",
-  "about": [
-    "Music composition",
-    "Sound ontology research",
-    "Independent artistic research",
-    "Cross-disciplinary cultural practice"
-  ],
-  "keywords": [
-    "Evan Bei",
-    "Xiaojun Yin",
-    "billund",
-    "sound ontology",
-    "artistic research",
-    "algorithmic composition",
-    "sound as event",
-    "cultural system design"
-  ],
-  "isPartOf": { "@id": "https://evanbei.com/#website" }
-}
-</script>
-
-<!-- Structured Data: ItemList -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "@id": "https://evanbei.com/#selectedworks",
-  "name": "Selected Works & Identity References (Evan Bei / Xiaojun Yin)",
-  "itemListOrder": "http://schema.org/ItemListOrderDescending",
-  "numberOfItems": 6,
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "url": "https://evanbei.com/about/" },
-    { "@type": "ListItem", "position": 2, "url": "https://evanbei.com/" },
-    { "@type": "ListItem", "position": 3, "url": "https://goldisle.org/" },
-    { "@type": "ListItem", "position": 4, "url": "https://orcid.org/0009-0000-8302-3360" },
-    { "@type": "ListItem", "position": 5, "url": "https://evanbei.com/.well-known/node.json" },
-    { "@type": "ListItem", "position": 6, "url": "https://evanbei.com/.well-known/did.json" }
-  ]
+ "@context":"https://schema.org",
+ "@type":"Organization",
+ "@id":"https://evanbei.com/#org",
+ "name":"Goldisle Light Org",
+ "url":"https://goldisle.org/",
+ "founder":{"@id":"https://evanbei.com/#person"}
 }
 </script>
 
@@ -222,7 +144,8 @@ Current research directions focus on Sound Ontology, AI-related cultural structu
 </p>
 
 <p class="quiet">
-Operating between artistic creation and research methodology, his practice bridges independent music production, algorithmic modeling, and experimental research frameworks under the Evan Bei Studio and related cultural initiatives.
+Operating between artistic creation and research methodology, his practice bridges independent music production,
+algorithmic modeling, and experimental research frameworks under the Evan Bei Studio and related cultural initiatives.
 </p>
 
 <hr>
@@ -234,10 +157,9 @@ The legal and academic name <strong>Xiaojun Yin</strong> may appear in formal re
 The artist alias <strong>billund</strong> is used for selected musical works.
 </p>
 
-<!-- Keeps your original mapping intent, but aligns wording -->
 <p class="quiet">
 Practice operates between <strong>London</strong> and <strong>Qingdao</strong>.
-This page clarifies the mapping between the public artistic node (Evan Bei) and the legal / academic identity (Xiaojun Yin) to reduce name-collision ambiguity in indexing systems.
+This page clarifies the mapping between the public artistic node (Evan Bei) and the legal / academic identity (Xiaojun Yin).
 </p>
 
 <p class="quiet">
