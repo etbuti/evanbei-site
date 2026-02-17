@@ -379,6 +379,12 @@ document.addEventListener("keydown", async function(e){
   }
 
 });
+
+const params=new URLSearchParams(location.search);
+if(params.get("pid")) document.getElementById("pid").value=params.get("pid");
+if(params.get("sig")) document.getElementById("sig").value=params.get("sig");
+
+  
 </script>
 
 </body>
