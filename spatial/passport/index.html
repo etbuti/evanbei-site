@@ -155,97 +155,82 @@ fetch('./')
 </script>
 
 <script>
-
-// ===============================
-// Spatial Control Panel Shortcuts
-// G = Generator
-// C = Charter
-// S = Silence
-// ===============================
-
 document.addEventListener("keydown", function(e){
 
-  // 防止在输入框时误触
-  if(document.activeElement.tagName==="INPUT") return;
-  if(document.activeElement.tagName==="TEXTAREA") return;
+  // 防止在输入框里误触
+  const t = document.activeElement && document.activeElement.tagName;
+  if(t==="INPUT" || t==="TEXTAREA") return;
 
-  const k=e.key.toLowerCase();
+  const k = (e.key || "").toLowerCase();
 
-  if(k==="g"){
-    window.location.href="generator.html";
-  }
+  // ===== Quick Jump =====
+  if(k==="g") return (window.location.href="generator.html");
+  if(k==="c") return (window.location.href="charter.html");
+  if(k==="s") return (window.location.href="silence.html");
 
-  if(k==="c"){
-    window.location.href="charter.html";
-  }
+  // ===== Helpers =====
+  function getMaxPageNumberFromDirectoryHTML(html){
+    const div=document.createElement("div");
+    div.innerHTML=html;
 
-  if(k==="s"){
-    window.location.href="silence.html";
-  }
+    const links=[...div.querySelectorAll("a")];
+    let max=0;
 
-});
+    links.forEach(a=>{
+      const href=a.getAttribute("href") || "";
+      // 只认 pageXX.html 这种
+      if(!/^page\d+\.html$/i.test(href)) return;
 
-</script>
+      const m=href.match(/(\d+)/);
+      if(!m) return;
 
-<script>
-
-document.addEventListener("keydown", function(e){
-
-  if(document.activeElement.tagName==="INPUT") return;
-  if(document.activeElement.tagName==="TEXTAREA") return;
-
-  const k=e.key.toLowerCase();
-
-  // ===== 旧快捷键 =====
-  if(k==="g") window.location.href="generator.html";
-  if(k==="c") window.location.href="charter.html";
-  if(k==="s") window.location.href="silence.html";
-
-  // ==========================================
-  // 🟦 N = New Passport (Auto Number)
-  // ==========================================
-  if(k==="n"){
-
-    fetch('./')
-    .then(r=>r.text())
-    .then(html=>{
-
-      const div=document.createElement('div');
-      div.innerHTML=html;
-
-      const links=[...div.querySelectorAll('a')];
-
-      let max=0;
-
-      links.forEach(a=>{
-        const href=a.getAttribute('href');
-        if(!href) return;
-        if(!href.includes('page')) return;
-
-        const m=href.match(/(\d+)/);
-        if(!m) return;
-
-        const n=parseInt(m[1]);
-        if(n>max) max=n;
-      });
-
-      const next=max+1;
-      const num=String(next).padStart(3,'0');
-
-      const pid="EB-SP-PASS-"+num;
-      const sig="EB-SP-XXXX";
-
-      window.location.href=
-        "generator.html?pid="+pid+"&sig="+sig;
-
+      const n=parseInt(m[1],10);
+      if(Number.isFinite(n) && n>max) max=n;
     });
 
+    return max;
+  }
+
+  // ==========================================
+  // N = New Passport (Auto Number -> Generator)
+  // ==========================================
+  if(k==="n"){
+    fetch("./")
+      .then(r=>r.text())
+      .then(html=>{
+        const max=getMaxPageNumberFromDirectoryHTML(html);
+        const next=max+1;
+
+        const num3=String(next).padStart(3,"0");
+        const pid="EB-SP-PASS-"+num3;
+        const sig="EB-SP-XXXX";
+
+        window.location.href="generator.html?pid="+encodeURIComponent(pid)+"&sig="+encodeURIComponent(sig);
+      });
+    return;
+  }
+
+  // ==========================================
+  // I = Inspect Latest Passport (Open pageXX)
+  // ==========================================
+  if(k==="i"){
+    fetch("./")
+      .then(r=>r.text())
+      .then(html=>{
+        const max=getMaxPageNumberFromDirectoryHTML(html);
+        if(max<=0){
+          // 没有 page01.html 时，给个兜底
+          window.location.href="generator.html";
+          return;
+        }
+        const filename="page"+String(max).padStart(2,"0")+".html";
+        window.location.href=filename;
+      });
+    return;
   }
 
 });
 </script>
-
-
   
 </body>
 </html>
