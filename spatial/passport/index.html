@@ -2,15 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Spatial Passport Registry</title>
+<title>Spatial Control Panel</title>
 
 <style>
 body{
   font-family:Arial, sans-serif;
   background:#fff;
   color:#111;
-  max-width:760px;
-  margin:80px auto;
+  max-width:820px;
+  margin:70px auto;
+}
+
+h3{
+  margin-top:50px;
+}
+
+.panel a{
+  display:inline-block;
+  margin:6px 14px 6px 0;
+  text-decoration:none;
+  color:#000;
+  opacity:.8;
 }
 
 .item{
@@ -24,27 +36,47 @@ body{
   height:60px;
   object-fit:cover;
   margin-right:16px;
-  opacity:.85;
 }
 
-a{
+.registry a{
   text-decoration:none;
   color:#000;
 }
 
 .small{
   opacity:.5;
-  margin-bottom:30px;
+  margin-bottom:20px;
 }
 </style>
 </head>
 
 <body>
 
-<h3>Spatial Passport</h3>
-<p class="small">Registry · Auto Preview</p>
+<h2>Spatial Passport · Control Panel</h2>
+<p class="small">evanbei.com internal layer</p>
 
-<div id="list"></div>
+<!-- ============================= -->
+<!-- 🟦 功能操作区 -->
+<!-- ============================= -->
+
+<h3>Tools</h3>
+
+<div class="panel">
+
+<a href="generator.html">Generator</a>
+<a href="charter.html">Charter</a>
+<a href="silence.html">Silence</a>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- 🟦 展示层 Registry -->
+<!-- ============================= -->
+
+<h3>Passport Registry</h3>
+
+<div id="list" class="registry"></div>
 
 <script>
 fetch('./')
@@ -58,7 +90,7 @@ fetch('./')
 
   const list=document.getElementById('list');
 
-  const items=[];   // ⭐ 新增：先收集，再排序
+  const items=[];
 
   links.forEach(a=>{
 
@@ -69,17 +101,18 @@ fetch('./')
     if(href.startsWith('_')) return;
     if(href==='index.html') return;
     if(href==='generator.html') return;
+    if(href==='charter.html') return;
+    if(href==='silence.html') return;
 
     fetch(href)
     .then(r=>r.text())
     .then(page=>{
 
-      const m=page.match(/<img src="([^"]+)"/);
-      if(!m) return;
+      const imgMatch=page.match(/<img src="([^"]+)"/);
+      if(!imgMatch) return;
 
-      const img=m[1];
+      const img=imgMatch[1];
 
-      // ⭐ 关键：从文件名提取编号
       const numMatch=href.match(/(\d+)/);
       const order=numMatch ? parseInt(numMatch[1]) : 9999;
 
@@ -93,7 +126,6 @@ fetch('./')
 
   function render(){
 
-    // ⭐ 按编号排序
     items.sort((a,b)=>a.order-b.order);
 
     list.innerHTML='';
@@ -121,7 +153,6 @@ fetch('./')
 
 });
 </script>
-
 
 </body>
 </html>
