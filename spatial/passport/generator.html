@@ -5,37 +5,12 @@
 <title>Spatial Passport Generator</title>
 
 <style>
-body{
- font-family:Arial;
- max-width:720px;
- margin:60px auto;
-}
-
-.row{
- margin:14px 0;
-}
-
-input{
- padding:8px;
- width:260px;
-}
-
-.hint{
- margin-left:12px;
- font-size:12px;
- opacity:.45;
-}
-
-button{
- padding:8px 14px;
- margin-top:16px;
-}
-
-textarea{
- width:100%;
- height:280px;
- margin-top:24px;
-}
+body{ font-family:Arial; max-width:720px; margin:60px auto; }
+.row{ margin:14px 0; }
+input{ padding:8px; width:260px; }
+.hint{ margin-left:12px; font-size:12px; opacity:.45; }
+button{ padding:8px 14px; margin-top:16px; }
+textarea{ width:100%; height:300px; margin-top:24px; }
 </style>
 </head>
 
@@ -50,9 +25,15 @@ Image name:<br>
 </div>
 
 <div class="row">
+Location:<br>
+<input id="loc" value="London">
+<span class="hint">London / Qingdao / others</span>
+</div>
+
+<div class="row">
 Signature:<br>
 <input id="sig" value="EB-SP-000X">
-<span class="hint">自动跟随 Page ID 编号</span>
+<span class="hint">自动跟随 Page ID 编号（可手动覆盖）</span>
 </div>
 
 <div class="row">
@@ -66,56 +47,53 @@ Page ID:<br>
 <textarea id="out"></textarea>
 
 <script>
-
 // ===============================
-// ⭐ 自动同步编号逻辑
+// ⭐ 自动同步编号逻辑（可锁定）
 // ===============================
 let sigLocked=false;
-
 const pidInput=document.getElementById("pid");
 const sigInput=document.getElementById("sig");
 
-// 如果用户手动修改 Signature，就锁定
-sigInput.addEventListener("input",()=>{
- sigLocked=true;
-});
+sigInput.addEventListener("input",()=>{ sigLocked=true; });
 
-// 当 PageID 改变时自动推算 Signature
 pidInput.addEventListener("input",()=>{
-
- if(sigLocked) return;
-
- const v=pidInput.value;
- const m=v.match(/(\d+)/);
-
- if(!m) return;
-
- const num=m[1].padStart(4,"0");
- sigInput.value="EB-SP-"+num;
+  if(sigLocked) return;
+  const v=pidInput.value;
+  const m=v.match(/(\d+)/);
+  if(!m) return;
+  const num=m[1].padStart(4,"0");
+  sigInput.value="EB-SP-"+num;
 });
 
 // ===============================
-// Generate HTML
+// Generate HTML（写入 location meta）
 // ===============================
 function gen(){
 
-const img=document.getElementById('img').value;
-const sig=document.getElementById('sig').value;
-const pid=document.getElementById('pid').value;
+  const img=document.getElementById('img').value.trim();
+  const sig=document.getElementById('sig').value.trim();
+  const pid=document.getElementById('pid').value.trim();
+  const loc=document.getElementById('loc').value.trim();
 
-const html=`<!doctype html>
+  const html=`<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>${pid}</title>
+
+<!-- machine-readable tag for gallery filter -->
+<meta name="x-sp-location" content="${loc}">
+
 <style>
 body{font-family:Arial;max-width:720px;margin:80px auto;}
 img{width:100%;margin:30px 0;}
+.small{opacity:.55;font-size:12px;}
 </style>
 </head>
 <body>
 
 <h3>${pid}</h3>
+<p class="small">Location: ${loc}</p>
 
 <img src="../images/${img}">
 
@@ -134,25 +112,16 @@ BufferZone: Organic Divider
 </body>
 </html>`;
 
-document.getElementById('out').value=html;
+  document.getElementById('out').value=html;
 }
 
 // ===============================
-// URL 自动填充
+// URL 自动填充（Control Panel N 用）
 // ===============================
 const params=new URLSearchParams(location.search);
-
-if(params.get("pid")){
- document.getElementById("pid").value=params.get("pid");
-}
-
-if(params.get("sig")){
- document.getElementById("sig").value=params.get("sig");
-}
-
+if(params.get("pid")) pidInput.value=params.get("pid");
+if(params.get("sig")) sigInput.value=params.get("sig");
 </script>
 
 </body>
 </html>
-
-
