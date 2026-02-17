@@ -52,7 +52,7 @@ Image name:<br>
 <div class="row">
 Signature:<br>
 <input id="sig" value="EB-SP-000X">
-<span class="hint">建议：EB-SP-0001 / EB-SP-0002 …</span>
+<span class="hint">自动跟随 Page ID 编号</span>
 </div>
 
 <div class="row">
@@ -67,6 +67,36 @@ Page ID:<br>
 
 <script>
 
+// ===============================
+// ⭐ 自动同步编号逻辑
+// ===============================
+let sigLocked=false;
+
+const pidInput=document.getElementById("pid");
+const sigInput=document.getElementById("sig");
+
+// 如果用户手动修改 Signature，就锁定
+sigInput.addEventListener("input",()=>{
+ sigLocked=true;
+});
+
+// 当 PageID 改变时自动推算 Signature
+pidInput.addEventListener("input",()=>{
+
+ if(sigLocked) return;
+
+ const v=pidInput.value;
+ const m=v.match(/(\d+)/);
+
+ if(!m) return;
+
+ const num=m[1].padStart(4,"0");
+ sigInput.value="EB-SP-"+num;
+});
+
+// ===============================
+// Generate HTML
+// ===============================
 function gen(){
 
 const img=document.getElementById('img').value;
@@ -107,7 +137,9 @@ BufferZone: Organic Divider
 document.getElementById('out').value=html;
 }
 
-// 自动填充 URL 参数
+// ===============================
+// URL 自动填充
+// ===============================
 const params=new URLSearchParams(location.search);
 
 if(params.get("pid")){
@@ -122,4 +154,5 @@ if(params.get("sig")){
 
 </body>
 </html>
+
 
