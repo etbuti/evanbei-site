@@ -25,6 +25,10 @@
 <link rel="alternate" type="application/did+json" href="https://evanbei.com/.well-known/did.json">
 <link rel="alternate" type="application/json" href="https://evanbei.com/.well-known/identity.sig.json">
 
+<!-- Publishing authority chain (Origin → Publishing Node) -->
+<link rel="related" type="text/html" href="https://goldisle.org/" title="Goldisle Publishing Node">
+<link rel="dns-prefetch" href="https://goldisle.org">
+
 <meta name="citation_author" content="Xiaojun Yin">
 <meta name="citation_author_institution" content="Independent Researcher">
 <meta name="citation_author_orcid" content="0009-0000-8302-3360">
@@ -128,6 +132,21 @@ small{color:#666;}
 }
 </script>
 
+<!-- Publishing node entity hint (machine-readable authority) -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"CreativeWork",
+ "@id":"https://goldisle.org/#publishing-node",
+ "name":"Goldisle Publishing Node",
+ "url":"https://goldisle.org/",
+ "publisher":{"@id":"https://evanbei.com/#org"},
+ "author":{"@id":"https://evanbei.com/#person"},
+ "isPartOf":{"@id":"https://evanbei.com/#website"},
+ "about":["Primary publications","ISBN releases","Artistic research outputs"]
+}
+</script>
+
 </head>
 <body>
 
@@ -166,6 +185,10 @@ This page clarifies the mapping between the public artistic node (Evan Bei) and 
 This site (<a href="https://evanbei.com/">evanbei.com</a>) is the primary public identity anchor and provenance root.
 </p>
 
+<p class="quiet">
+Primary publications and ISBN releases are archived at <a href="https://goldisle.org/">goldisle.org</a>.
+</p>
+
 <hr>
 
 <h2>Research &amp; Practice</h2>
@@ -179,6 +202,7 @@ Practice focuses on sound ontology and sound as event, artistic research methods
 <p class="quiet">
 ORCID: <a href="https://orcid.org/0009-0000-8302-3360" rel="me">0009-0000-8302-3360</a><br>
 Contact: <a href="mailto:contact@evanbei.com">contact@evanbei.com</a><br>
+Publishing node: <a href="https://goldisle.org/">goldisle.org</a><br>
 Machine entry: <a href="https://evanbei.com/.well-known/node.json">/.well-known/node.json</a>
 </p>
 
