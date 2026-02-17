@@ -55,30 +55,25 @@ h3{
 <h2>Spatial Passport · Control Panel</h2>
 <p class="small">evanbei.com internal layer</p>
 
-<!-- ============================= -->
-<!-- 🟦 功能操作区 -->
-<!-- ============================= -->
-
 <h3>Tools</h3>
 
 <div class="panel">
-
 <a href="generator.html">Generator</a>
 <a href="charter.html">Charter</a>
 <a href="silence.html">Silence</a>
-
 </div>
-
-
-<!-- ============================= -->
-<!-- 🟦 展示层 Registry -->
-<!-- ============================= -->
 
 <h3>Passport Registry</h3>
 
 <div id="list" class="registry"></div>
 
+<!-- ============================= -->
+<!-- 🟦 Registry Loader -->
+<!-- ============================= -->
 <script>
+
+function loadRegistry(){
+
 fetch('./')
 .then(r=>r.text())
 .then(html=>{
@@ -87,7 +82,6 @@ fetch('./')
   div.innerHTML=html;
 
   const links=[...div.querySelectorAll('a')];
-
   const list=document.getElementById('list');
 
   const items=[];
@@ -152,24 +146,30 @@ fetch('./')
   }
 
 });
+}
+
+loadRegistry();
+
 </script>
 
+<!-- ============================= -->
+<!-- 🟦 Keyboard Control System -->
+<!-- ============================= -->
 <script>
+
 document.addEventListener("keydown", function(e){
 
-  // 防止在输入框里误触
   const t = document.activeElement && document.activeElement.tagName;
   if(t==="INPUT" || t==="TEXTAREA") return;
 
   const k = (e.key || "").toLowerCase();
 
-  // ===== Quick Jump =====
   if(k==="g") return (window.location.href="generator.html");
   if(k==="c") return (window.location.href="charter.html");
   if(k==="s") return (window.location.href="silence.html");
 
-  // ===== Helpers =====
   function getMaxPageNumberFromDirectoryHTML(html){
+
     const div=document.createElement("div");
     div.innerHTML=html;
 
@@ -178,7 +178,6 @@ document.addEventListener("keydown", function(e){
 
     links.forEach(a=>{
       const href=a.getAttribute("href") || "";
-      // 只认 pageXX.html 这种
       if(!/^page\d+\.html$/i.test(href)) return;
 
       const m=href.match(/(\d+)/);
@@ -191,46 +190,49 @@ document.addEventListener("keydown", function(e){
     return max;
   }
 
-  // ==========================================
-  // N = New Passport (Auto Number -> Generator)
-  // ==========================================
+  // N = New
   if(k==="n"){
     fetch("./")
-      .then(r=>r.text())
-      .then(html=>{
-        const max=getMaxPageNumberFromDirectoryHTML(html);
-        const next=max+1;
+    .then(r=>r.text())
+    .then(html=>{
+      const max=getMaxPageNumberFromDirectoryHTML(html);
+      const next=max+1;
 
-        const num3=String(next).padStart(3,"0");
-        const pid="EB-SP-PASS-"+num3;
-        const sig="EB-SP-XXXX";
+      const num3=String(next).padStart(3,"0");
+      const pid="EB-SP-PASS-"+num3;
+      const sig="EB-SP-XXXX";
 
-        window.location.href="generator.html?pid="+encodeURIComponent(pid)+"&sig="+encodeURIComponent(sig);
-      });
+      window.location.href="generator.html?pid="+encodeURIComponent(pid)+"&sig="+encodeURIComponent(sig);
+    });
     return;
   }
 
-  // ==========================================
-  // I = Inspect Latest Passport (Open pageXX)
-  // ==========================================
+  // I = Inspect Latest
   if(k==="i"){
     fetch("./")
-      .then(r=>r.text())
-      .then(html=>{
-        const max=getMaxPageNumberFromDirectoryHTML(html);
-        if(max<=0){
-          // 没有 page01.html 时，给个兜底
-          window.location.href="generator.html";
-          return;
-        }
-        const filename="page"+String(max).padStart(2,"0")+".html";
-        window.location.href=filename;
-      });
+    .then(r=>r.text())
+    .then(html=>{
+      const max=getMaxPageNumberFromDirectoryHTML(html);
+      if(max<=0){
+        window.location.href="generator.html";
+        return;
+      }
+      const filename="page"+String(max).padStart(2,"0")+".html";
+      window.location.href=filename;
+    });
+    return;
+  }
+
+  // R = Reload Registry
+  if(k==="r"){
+    window.scrollTo({top:0,behavior:"smooth"});
+    location.reload();
     return;
   }
 
 });
+
 </script>
-  
+
 </body>
 </html>
