@@ -58,6 +58,8 @@ fetch('./')
 
   const list=document.getElementById('list');
 
+  const items=[];   // ⭐ 新增：先收集，再排序
+
   links.forEach(a=>{
 
     const href=a.getAttribute('href');
@@ -77,15 +79,36 @@ fetch('./')
 
       const img=m[1];
 
+      // ⭐ 关键：从文件名提取编号
+      const numMatch=href.match(/(\d+)/);
+      const order=numMatch ? parseInt(numMatch[1]) : 9999;
+
+      items.push({href,img,order});
+
+      render();
+
+    });
+
+  });
+
+  function render(){
+
+    // ⭐ 按编号排序
+    items.sort((a,b)=>a.order-b.order);
+
+    list.innerHTML='';
+
+    items.forEach(it=>{
+
       const wrap=document.createElement('div');
       wrap.className="item";
 
       const image=document.createElement('img');
-      image.src=img;
+      image.src=it.img;
 
       const link=document.createElement('a');
-      link.href=href;
-      link.textContent=href.replace('.html','');
+      link.href=it.href;
+      link.textContent=it.href.replace('.html','');
 
       wrap.appendChild(image);
       wrap.appendChild(link);
@@ -94,10 +117,11 @@ fetch('./')
 
     });
 
-  });
+  }
 
 });
 </script>
+
 
 </body>
 </html>
