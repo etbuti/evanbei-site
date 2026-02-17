@@ -9,7 +9,7 @@ body{ font-family:Arial; max-width:720px; margin:60px auto; }
 .row{ margin:14px 0; }
 input{ padding:8px; width:260px; }
 .hint{ margin-left:12px; font-size:12px; opacity:.45; }
-button{ padding:8px 14px; margin-top:16px; }
+button{ padding:8px 14px; margin-right:10px; margin-top:16px; }
 textarea{ width:100%; height:300px; margin-top:24px; }
 </style>
 </head>
@@ -43,8 +43,9 @@ Page ID:<br>
 </div>
 
 <button onclick="gen()">Generate</button>
+<button onclick="downloadHtml()">Download HTML</button>
 
-<textarea id="out"></textarea>
+<textarea id="out" placeholder="Generated HTML will appear here..."></textarea>
 
 <script>
 // ===============================
@@ -66,16 +67,16 @@ pidInput.addEventListener("input",()=>{
 });
 
 // ===============================
-// Generate HTML（写入 location meta）
+// 生成 HTML 字符串
 // ===============================
-function gen(){
+function buildHtml(){
 
   const img=document.getElementById('img').value.trim();
   const sig=document.getElementById('sig').value.trim();
   const pid=document.getElementById('pid').value.trim();
   const loc=document.getElementById('loc').value.trim();
 
-  const html=`<!doctype html>
+  return `<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -111,8 +112,49 @@ BufferZone: Organic Divider
 
 </body>
 </html>`;
+}
 
-  document.getElementById('out').value=html;
+// ===============================
+// 显示生成结果
+// ===============================
+function gen(){
+  document.getElementById('out').value = buildHtml();
+}
+
+// ===============================
+// PageID -> pageXX.html 文件名
+// ===============================
+function pageFilenameFromPid(pid){
+  const m = (pid || "").match(/(\d+)/);
+  if(!m) return "page00.html";
+  const n = parseInt(m[1],10);
+  if(!Number.isFinite(n)) return "page00.html";
+  return "page" + String(n).padStart(2,"0") + ".html";
+}
+
+// ===============================
+// 下载 HTML 文件（自动对齐编号）
+// ===============================
+function downloadHtml(){
+
+  const pid=document.getElementById('pid').value.trim();
+  const filename = pageFilenameFromPid(pid);
+  const html = buildHtml();
+
+  // 同时把输出框更新一下，方便你看
+  document.getElementById('out').value = html;
+
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;   // ⭐ 自动按编号命名
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
 }
 
 // ===============================
