@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spatial Passport Index</title>
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  background:#fff;
+  color:#111;
+  max-width:680px;
+  margin:80px auto;
+}
+a{
+  text-decoration:none;
+  color:#000;
+  display:block;
+  margin:10px 0;
+}
+.small{
+  opacity:.5;
+  font-size:12px;
+  margin-bottom:30px;
+}
+</style>
+</head>
+
+<body>
+
+<h3>Spatial Passport</h3>
+<p class="small">Auto Index</p>
+
+<div id="list"></div>
+
+<script>
+fetch('./')
+.then(r=>r.text())
+.then(html=>{
+  const div=document.createElement('div');
+  div.innerHTML=html;
+
+  const links=[...div.querySelectorAll('a')];
+
+  const list=document.getElementById('list');
+
+  links.forEach(a=>{
+    const href=a.getAttribute('href');
+
+    if(!href) return;
+    if(!href.endsWith('.html')) return;
+    if(href.startsWith('_')) return;
+    if(href==='index.html') return;
+
+    const el=document.createElement('a');
+    el.href=href;
+    el.textContent=href.replace('.html','');
+    list.appendChild(el);
+  });
+});
+</script>
+
+</body>
+</html>
