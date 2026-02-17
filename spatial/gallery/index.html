@@ -101,17 +101,14 @@ function extractFirstImage(html){
 
 // ⭐ 自动识别 Location / Node
 function detectGroup(html){
-
-  const text = html.toLowerCase();
-
-  if(text.includes("ldn-node") || text.includes("london"))
-    return "london";
-
-  if(text.includes("qingdao") || text.includes("qd-node"))
-    return "qingdao";
-
+  const m = html.match(/<meta\s+name="x-sp-location"\s+content="([^"]+)"/i);
+  if(!m) return "others";
+  const loc=(m[1]||"").toLowerCase();
+  if(loc==="london") return "london";
+  if(loc==="qingdao") return "qingdao";
   return "others";
 }
+
 
 async function loadPage(i){
   const url = "../passport/page"+pad2(i)+".html";
