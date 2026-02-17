@@ -24,6 +24,7 @@
 
   <!-- =========================
        ORCID / Scholarly Linking
+       (UNIFIED CORE)
        ========================= -->
   <link rel="me" href="https://orcid.org/0009-0000-8302-3360" />
   <meta name="citation_author" content="Xiaojun Yin" />
@@ -31,30 +32,28 @@
   <meta name="citation_author_orcid" content="0009-0000-8302-3360" />
   <meta name="citation_author_email" content="contact@evanbei.com" />
 
-  <!-- JSON-LD: Person (ORCID-aligned enhancement) -->
+  <!-- JSON-LD: Person (UNIFIED @id + sameAs + wording strength) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "@id": "https://evanbei.com/#person",
+
     "name": "Evan Bei",
     "alternateName": ["billund", "Xiaojun Yin", "Xiaojun Yin (Evan Bei)"],
+    "birthName": "Xiaojun Yin",
+
     "url": "https://evanbei.com/",
+    "mainEntityOfPage": "https://evanbei.com/definition.html",
     "email": "mailto:contact@evanbei.com",
-    "homeLocation": {
-      "@type": "Place",
-      "name": "London, United Kingdom"
-    },
+
+    "homeLocation": { "@type": "Place", "name": "London, United Kingdom" },
+
     "affiliation": [
-      {
-        "@type": "Organization",
-        "name": "Independent Researcher"
-      },
-      {
-        "@type": "Organization",
-        "name": "Evan Bei Studio"
-      }
+      { "@type": "Organization", "name": "Independent Researcher" },
+      { "@type": "Organization", "name": "Evan Bei Studio" }
     ],
+
     "identifier": [
       {
         "@type": "PropertyValue",
@@ -66,18 +65,35 @@
     "sameAs": [
       "https://orcid.org/0009-0000-8302-3360"
     ],
-    "disambiguatingDescription": "Independent interdisciplinary researcher working across sound ontology, artistic research, algorithmic composition, and cultural system design.",
+
+    "disambiguatingDescription": "Evan Bei is the primary public artistic identity; Xiaojun Yin is the legal and academic name; billund is a music alias used for selected works.",
+
     "knowsAbout": [
       "Sound ontology",
       "Artistic research",
       "Algorithmic composition",
       "Cultural system design",
       "Sound as event-based structure",
-      "Computational frameworks",
-      "Semantic systems",
-      "AI-related cultural structures"
+      "AI agents",
+      "Decentralized web structures"
     ],
-    "description": "Independent artist and builder based in London. Working across music, AI agents, and decentralized web structures. Founder of a small cultural framework exploring sound, systems, and narrative."
+
+    "description": "Independent artist and builder based in London. Working across music, AI agents, and decentralized web structures. Founder of a small cultural framework exploring sound, systems, and narrative.",
+
+    "isPartOf": { "@id": "https://evanbei.com/#website" }
+  }
+  </script>
+
+  <!-- JSON-LD: WebSite (UNIFIED) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://evanbei.com/#website",
+    "name": "evanbei.com",
+    "url": "https://evanbei.com/",
+    "inLanguage": "en-GB",
+    "publisher": { "@id": "https://evanbei.com/#person" }
   }
   </script>
 
@@ -251,8 +267,6 @@
     /* ===============================
        Origin Protocol Add-on (clean)
        =============================== */
-
-    /* Make the header dot clickable, without changing layout */
     .dot.origin-trigger{
       cursor: pointer;
       position: relative;
@@ -275,24 +289,19 @@
     }
     .dot.origin-trigger:hover::after{ opacity:.78; }
 
-    /* Toast */
     .origin-toast{
       position: fixed;
       left: 20px;
       bottom: 20px;
       z-index: 9999;
-
       padding: 10px 12px;
       border-radius: 14px;
-
       opacity: 0;
       transform: translateY(8px);
       pointer-events: none;
-
       background: rgba(10,8,16,.62);
       border: 1px solid rgba(200,140,255,.28);
       backdrop-filter: blur(10px);
-
       filter: drop-shadow(0 0 18px rgba(140,90,255,.25));
       transition: opacity .35s ease, transform .35s ease;
       max-width: min(460px, calc(100vw - 40px));
@@ -317,8 +326,6 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-
-    /* Optional: reduced motion */
     @media (prefers-reduced-motion: reduce){
       .origin-toast{ transition:none; }
       .dot.origin-trigger{ transition:none; }
@@ -330,7 +337,6 @@
   <div class="wrap">
     <header>
       <div class="mark">
-        <!-- ✅ 只加了一个 class：origin-trigger，用来绑定点击 -->
         <div class="dot origin-trigger" aria-label="Origin Seal trigger" role="button" tabindex="0"></div>
         <div>
           <div class="name">Evan Bei</div>
@@ -395,9 +401,6 @@
             </a>
           </div>
 
-          <!-- =========================
-               ORCID (minimal + stable)
-               ========================= -->
           <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0">
 
           <h2>ORCID</h2>
@@ -410,9 +413,6 @@
             <a href="https://orcid.org/0009-0000-8302-3360" rel="me">0009-0000-8302-3360</a>
           </p>
 
-          <!-- =========================
-               Biography (ORCID-aligned)
-               ========================= -->
           <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0">
 
           <h2>Biography</h2>
@@ -450,9 +450,6 @@
             <a class="btn" href="/portal/portal.json" aria-label="Open portal.json (if available)">
               <strong>portal.json</strong> <span>optional</span>
             </a>
-            <a class="btn" href="https://orcid.org/0009-0000-8302-3360" aria-label="Open ORCID profile">
-              <strong>ORCID</strong> <span>profile</span>
-            </a>
           </div>
 
           <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0">
@@ -479,25 +476,18 @@
     </main>
   </div>
 
-  <!-- ✅ Origin toast (放 body，绝不放进 style) -->
   <div class="origin-toast" aria-hidden="true">
     <div class="origin-toast__line">Token 定轨，Agent 执行。</div>
     <div class="origin-toast__sub">Token defines the orbit · Agent executes.</div>
   </div>
 
   <script>
-    // Display a deterministic "last updated" stamp without needing a build step.
-    // Edit this string when you update the page content.
     const UPDATED_UTC = "2026-02-17T00:00:00Z";
     const el = document.getElementById("updated");
-    try {
-      el.textContent = new Date(UPDATED_UTC).toUTCString();
-    } catch (e) {
-      el.textContent = UPDATED_UTC;
-    }
+    try { el.textContent = new Date(UPDATED_UTC).toUTCString(); }
+    catch (e) { el.textContent = UPDATED_UTC; }
   </script>
 
-  <!-- ✅ Origin Protocol binding: click the header dot -->
   <script>
   (function(){
     const trigger = document.querySelector('.dot.origin-trigger');
@@ -505,7 +495,6 @@
     if(!trigger || !toast) return;
 
     let t = null;
-
     function showToast(){
       toast.classList.add('is-on');
       clearTimeout(t);
@@ -513,8 +502,6 @@
     }
 
     trigger.addEventListener('click', showToast, {passive:true});
-
-    // keyboard accessibility (Enter / Space)
     trigger.addEventListener('keydown', (e)=>{
       if(e.key === 'Enter' || e.key === ' '){
         e.preventDefault();
