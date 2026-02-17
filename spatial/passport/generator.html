@@ -78,6 +78,21 @@ BufferZone: Organic Divider</p>
 
 document.getElementById('out').value=html;
 }
+
+// =====================================
+// Auto Fill from URL
+// =====================================
+const params=new URLSearchParams(location.search);
+
+if(params.get("pid")){
+  document.getElementById("pid").value=params.get("pid");
+}
+
+if(params.get("sig")){
+  document.getElementById("sig").value=params.get("sig");
+}
+
+ 
 </script>
 
 </body>
