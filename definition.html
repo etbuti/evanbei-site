@@ -22,19 +22,61 @@
   <!-- Canonical -->
   <link rel="canonical" href="https://evanbei.com/definition.html" />
 
-  <!-- JSON-LD: Person -->
+  <!-- =========================
+       ORCID / Scholarly Linking
+       ========================= -->
+  <link rel="me" href="https://orcid.org/0009-0000-8302-3360" />
+  <meta name="citation_author" content="Xiaojun Yin" />
+  <meta name="citation_author_institution" content="Independent Researcher" />
+  <meta name="citation_author_orcid" content="0009-0000-8302-3360" />
+  <meta name="citation_author_email" content="contact@evanbei.com" />
+
+  <!-- JSON-LD: Person (ORCID-aligned enhancement) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://evanbei.com/#person",
     "name": "Evan Bei",
-    "alternateName": ["billund", "Xiaojun Yin"],
+    "alternateName": ["billund", "Xiaojun Yin", "Xiaojun Yin (Evan Bei)"],
     "url": "https://evanbei.com/",
     "email": "mailto:contact@evanbei.com",
     "homeLocation": {
       "@type": "Place",
       "name": "London, United Kingdom"
     },
+    "affiliation": [
+      {
+        "@type": "Organization",
+        "name": "Independent Researcher"
+      },
+      {
+        "@type": "Organization",
+        "name": "Evan Bei Studio"
+      }
+    ],
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "ORCID",
+        "value": "0009-0000-8302-3360",
+        "url": "https://orcid.org/0009-0000-8302-3360"
+      }
+    ],
+    "sameAs": [
+      "https://orcid.org/0009-0000-8302-3360"
+    ],
+    "disambiguatingDescription": "Independent interdisciplinary researcher working across sound ontology, artistic research, algorithmic composition, and cultural system design.",
+    "knowsAbout": [
+      "Sound ontology",
+      "Artistic research",
+      "Algorithmic composition",
+      "Cultural system design",
+      "Sound as event-based structure",
+      "Computational frameworks",
+      "Semantic systems",
+      "AI-related cultural structures"
+    ],
     "description": "Independent artist and builder based in London. Working across music, AI agents, and decentralized web structures. Founder of a small cultural framework exploring sound, systems, and narrative."
   }
   </script>
@@ -352,6 +394,47 @@
               <strong>aisland.uk</strong> <span>portal</span>
             </a>
           </div>
+
+          <!-- =========================
+               ORCID (minimal + stable)
+               ========================= -->
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0">
+
+          <h2>ORCID</h2>
+          <p>
+            For academic attribution and a persistent research identifier, my ORCID record is maintained as an external authority reference.
+            I use it to anchor authorship across publications, datasets, and long-form works that may appear in multiple venues over time.
+          </p>
+          <p class="mono" style="margin:0">
+            ORCID iD:
+            <a href="https://orcid.org/0009-0000-8302-3360" rel="me">0009-0000-8302-3360</a>
+          </p>
+
+          <!-- =========================
+               Biography (ORCID-aligned)
+               ========================= -->
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0">
+
+          <h2>Biography</h2>
+          <p>
+            <b>Xiaojun Yin (Evan Bei)</b> is an independent interdisciplinary researcher working across
+            <b>sound ontology</b>, <b>artistic research</b>, <b>algorithmic composition</b>, and <b>cultural system design</b>.
+            His work integrates music practice, computational frameworks, and conceptual research exploring sound as an event-based structure.
+          </p>
+          <p>
+            Registered research outputs include conceptual manuscripts, software frameworks, and artistic research works
+            archived with the UK Copyright Service (UKCS). Current research directions focus on Sound Ontology,
+            AI-related cultural structures, semantic systems, and cross-disciplinary artistic technologies.
+          </p>
+          <p style="margin-bottom:0">
+            Operating between artistic creation and research methodology, his practice bridges independent music production,
+            algorithmic modeling, and experimental research frameworks under the Evan Bei Studio and related cultural initiatives.
+          </p>
+
+          <p class="mono" style="margin:10px 0 0">
+            ORCID-aligned biography ·
+            <a href="https://orcid.org/0009-0000-8302-3360" rel="me">0009-0000-8302-3360</a>
+          </p>
         </article>
 
         <aside class="card">
@@ -367,6 +450,9 @@
             <a class="btn" href="/portal/portal.json" aria-label="Open portal.json (if available)">
               <strong>portal.json</strong> <span>optional</span>
             </a>
+            <a class="btn" href="https://orcid.org/0009-0000-8302-3360" aria-label="Open ORCID profile">
+              <strong>ORCID</strong> <span>profile</span>
+            </a>
           </div>
 
           <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0">
@@ -375,7 +461,8 @@
           <p class="mono" style="margin-bottom:0">
             Primary name: Evan Bei<br/>
             Alternate: billund / Xiaojun Yin<br/>
-            Location: London, UK
+            Location: London, UK<br/>
+            ORCID: <a href="https://orcid.org/0009-0000-8302-3360" rel="me">0009-0000-8302-3360</a>
           </p>
         </aside>
       </section>
@@ -401,7 +488,7 @@
   <script>
     // Display a deterministic "last updated" stamp without needing a build step.
     // Edit this string when you update the page content.
-    const UPDATED_UTC = "2026-02-11T00:00:00Z";
+    const UPDATED_UTC = "2026-02-17T00:00:00Z";
     const el = document.getElementById("updated");
     try {
       el.textContent = new Date(UPDATED_UTC).toUTCString();
