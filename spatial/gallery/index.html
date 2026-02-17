@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spatial Gallery · Evan Bei</title>
+<link rel="canonical" href="https://evanbei.com/spatial/gallery/">
+<meta name="robots" content="index,follow">
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  background:#fff;
+  color:#111;
+  max-width:900px;
+  margin:70px auto;
+  padding:0 18px;
+}
+h2{ margin:0 0 10px; }
+.small{ opacity:.6; font-size:12px; margin:0 0 24px; }
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:14px;
+}
+
+.card{
+  border:1px solid rgba(0,0,0,.10);
+  border-radius:16px;
+  overflow:hidden;
+  background:#fff;
+}
+.card img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  display:block;
+}
+.card .cap{
+  padding:10px 12px;
+  font-size:12px;
+  opacity:.85;
+}
+a{ text-decoration:none; color:#000; }
+
+.note{
+  opacity:.55;
+  font-size:12px;
+  margin-top:22px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Spatial Gallery</h2>
+<p class="small">Selected entries from the Spatial Passport.</p>
+
+<div class="grid" id="grid"></div>
+<p class="note">This gallery is read-only.</p>
+
+<script>
+/*
+  重要：外部 Gallery 不依赖目录列表。
+  它扫描 /spatial/passport/page01..page200.html
+  抓缩略图并链接到对应 pageXX（外部只读）
+*/
+const MAX_SCAN = 200;
+
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+async function exists(url){
+  try{
+    const r = await fetch(url, { method:"HEAD", cache:"no-store" });
+    return r.ok;
+  }catch(e){
+    try{
+      const r2 = await fetch(url, { method:"GET", cache:"no-store" });
+      return r2.ok;
+    }catch(e2){
+      return false;
+    }
+  }
+}
+
+function extractFirstImage(html){
+  const m = html.match(/<img\s+[^>]*src="([^"]+)"/i);
+  return m ? m[1] : null;
+}
+
+async function loadPage(i){
+  const url = "../passport/page"+pad2(i)+".html";
+  const ok = await exists(url);
+  if(!ok) return null;
+
+  const html = await fetch(url, { cache:"no-store" }).then(r=>r.text());
+  const img = extractFirstImage(html);
+  return { i, url, img };
+}
+
+(async function(){
+  const grid=document.getElementById("grid");
+  const found=[];
+
+  const BATCH=10;
+  for(let start=1; start<=MAX_SCAN; start+=BATCH){
+    const tasks=[];
+    for(let j=start; j<start+BATCH && j<=MAX_SCAN; j++){
+      tasks.push(loadPage(j));
+    }
+    const res=await Promise.all(tasks);
+    res.filter(Boolean).forEach(x=>found.push(x));
+  }
+
+  found.sort((a,b)=>a.i-b.i);
+
+  found.forEach(it=>{
+    const a=document.createElement("a");
+    a.href=it.url;
+
+    const card=document.createElement("div");
+    card.className="card";
+
+    const img=document.createElement("img");
+    img.src=it.img || "";
+    img.alt="page"+pad2(it.i);
+
+    const cap=document.createElement("div");
+    cap.className="cap";
+    cap.textContent="page"+pad2(it.i);
+
+    card.appendChild(img);
+    card.appendChild(cap);
+    a.appendChild(card);
+
+    grid.appendChild(a);
+  });
+
+})();
+</script>
+
+</body>
+</html>
