@@ -2,25 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Spatial Passport Index</title>
+<title>Spatial Passport Registry</title>
 
 <style>
 body{
   font-family:Arial, sans-serif;
   background:#fff;
   color:#111;
-  max-width:680px;
+  max-width:760px;
   margin:80px auto;
 }
+
+.item{
+  display:flex;
+  align-items:center;
+  margin:14px 0;
+}
+
+.item img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  margin-right:16px;
+  opacity:.85;
+}
+
 a{
   text-decoration:none;
   color:#000;
-  display:block;
-  margin:10px 0;
 }
+
 .small{
   opacity:.5;
-  font-size:12px;
   margin-bottom:30px;
 }
 </style>
@@ -29,7 +42,7 @@ a{
 <body>
 
 <h3>Spatial Passport</h3>
-<p class="small">Auto Index</p>
+<p class="small">Registry · Auto Preview</p>
 
 <div id="list"></div>
 
@@ -37,6 +50,7 @@ a{
 fetch('./')
 .then(r=>r.text())
 .then(html=>{
+
   const div=document.createElement('div');
   div.innerHTML=html;
 
@@ -45,18 +59,43 @@ fetch('./')
   const list=document.getElementById('list');
 
   links.forEach(a=>{
+
     const href=a.getAttribute('href');
 
     if(!href) return;
     if(!href.endsWith('.html')) return;
     if(href.startsWith('_')) return;
     if(href==='index.html') return;
+    if(href==='generator.html') return;
 
-    const el=document.createElement('a');
-    el.href=href;
-    el.textContent=href.replace('.html','');
-    list.appendChild(el);
+    fetch(href)
+    .then(r=>r.text())
+    .then(page=>{
+
+      const m=page.match(/<img src="([^"]+)"/);
+      if(!m) return;
+
+      const img=m[1];
+
+      const wrap=document.createElement('div');
+      wrap.className="item";
+
+      const image=document.createElement('img');
+      image.src=img;
+
+      const link=document.createElement('a');
+      link.href=href;
+      link.textContent=href.replace('.html','');
+
+      wrap.appendChild(image);
+      wrap.appendChild(link);
+
+      list.appendChild(wrap);
+
+    });
+
   });
+
 });
 </script>
 
