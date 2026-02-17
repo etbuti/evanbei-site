@@ -154,5 +154,39 @@ fetch('./')
 });
 </script>
 
+<script>
+
+// ===============================
+// Spatial Control Panel Shortcuts
+// G = Generator
+// C = Charter
+// S = Silence
+// ===============================
+
+document.addEventListener("keydown", function(e){
+
+  // 防止在输入框时误触
+  if(document.activeElement.tagName==="INPUT") return;
+  if(document.activeElement.tagName==="TEXTAREA") return;
+
+  const k=e.key.toLowerCase();
+
+  if(k==="g"){
+    window.location.href="generator.html";
+  }
+
+  if(k==="c"){
+    window.location.href="charter.html";
+  }
+
+  if(k==="s"){
+    window.location.href="silence.html";
+  }
+
+});
+
+</script>
+
+  
 </body>
 </html>
