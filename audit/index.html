@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Audit Visa · Page Compliance Check</title>
+
+  <!-- SEO / robots: 这类内部审计页通常不需要收录 -->
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="canonical" href="./" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Audit Visa (Page Compliance Check)",
+    "applicationCategory":"DeveloperApplication",
+    "operatingSystem":"Any",
+    "isAccessibleForFree": true,
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "description":"A lightweight, offline-friendly audit page template that checks whether key public JSON endpoints exist and look valid, issuing a PASS/WARN/FAIL 'audit visa' with evidence and downloadable report.",
+    "license":"https://opensource.org/licenses/MIT"
+  }
+  </script>
+
+  <style>
+    :root { --pad:16px; --r:16px; --ok:#148a2a; --no:#c62828; --warn:#b26a00; }
+    body{ margin:0; padding:var(--pad); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+      background:#f2f2f2; }
+    .card{ max-width:760px; margin:0 auto; background:#fff; border-radius:var(--r);
+      box-shadow:0 8px 24px rgba(0,0,0,.12); padding:var(--pad); }
+    h1{ margin:6px 0 2px; text-align:center; font-size:18px; letter-spacing:.2px; }
+    .sub{ text-align:center; color:#666; font-size:12px; margin:0 0 12px; line-height:1.35; }
+    .rule{ margin-top:10px; padding:12px; background:#f7f7f7; border-radius:14px; font-size:13px; line-height:1.55; color:#222; }
+    .rule b{ font-weight:900; }
+    .row{ display:flex; gap:10px; align-items:stretch; margin-top:12px; flex-wrap:wrap; }
+    input{
+      flex:1 1 320px;
+      width:100%; box-sizing:border-box; padding:14px 14px; font-size:16px;
+      border-radius:14px; border:1px solid #ddd; outline:none;
+    }
+    input:focus{ border-color:#999; }
+    button{
+      flex:0 0 220px;
+      width:100%; box-sizing:border-box; padding:14px 16px; font-size:16px; font-weight:900;
+      border:0; border-radius:14px; background:#111; color:#fff;
+    }
+    button:disabled{ opacity:.5; }
+    .result{ margin-top:16px; text-align:center; font-weight:900; font-size:34px; letter-spacing:.5px; }
+    .yes{ color:var(--ok); }
+    .no{ color:var(--no); }
+    .warn{ color:var(--warn); }
+
+    .info{ margin-top:10px; text-align:center; font-size:13px; line-height:1.45; color:#333; }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono"; }
+    .meta{ margin-top:14px; color:#666; font-size:12px; line-height:1.55; }
+    .tiny{ margin-top:8px; font-size:12px; color:#666; line-height:1.45; }
+    .muted{ color:#777; }
+
+    .gridWrap{ margin-top:14px; }
+    .gridHead{ display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+    .badge{ display:inline-block; padding:6px 10px; border-radius:999px; background:#f3f3f3; font-size:12px; }
+    table{ width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td{ text-align:left; padding:10px 8px; border-bottom:1px solid #eee; font-size:13px; vertical-align:top; }
+    th{ font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:#777; }
+    .dot{ width:12px; height:12px; border-radius:999px; display:inline-block; margin-right:8px; vertical-align:-2px; }
+    .dot.ok{ background:var(--ok); }
+    .dot.no{ background:var(--no); }
+    .dot.warn{ background:var(--warn); }
+    .path{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono"; font-size:12px; }
+    .small{ font-size:12px; color:#666; }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .btn2{ background:#fff; color:#111; border:1px solid #ddd; }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Audit Visa · Page Compliance Check</h1>
+    <div class="sub">
+      “输入目标 → 一键签证 → 给出 PASS / WARN / FAIL + 证据”<br/>
+      Offline-friendly UI · Network required for fetching audit targets
+    </div>
+
+    <div class="rule">
+      <b>Input / 输入：</b><br/>
+      <span class="mono"><b>BASE URL</b></span>（站点根，例如：<span class="mono">https://evanbei.com</span>）<br/>
+      <span class="muted">
+        建议把本页面部署在同域名下进行审计（避免浏览器跨域/CORS限制）。
+      </span><br/><br/>
+      <b>Audit policy / 审计策略：</b><br/>
+      ✅ 必检：关键 JSON 端点存在 + 可解析 + 基本字段合规<br/>
+      ⚠️ 选检：checksums / registry 等存在则加分，不存在给 WARN（不判死刑）<br/>
+      ❌ 网络错误 / 解析失败 / 必检缺失：FAIL
+    </div>
+
+    <div class="row">
+      <input id="base" placeholder="Base URL… e.g. https://evanbei.com" autocomplete="off" />
+      <button id="go">ISSUE VISA</button>
+    </div>
+
+    <div id="res" class="result"></div>
+    <div id="info" class="info"></div>
+
+    <div class="gridWrap">
+      <div class="gridHead">
+        <div class="badge" id="ver">Policy: AuditVisa v0.1</div>
+        <div class="badge" id="sum">—</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Check</th>
+            <th>Path</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+
+      <div class="actions">
+        <button class="btn2" id="dl" disabled>Download Report (JSON)</button>
+        <button class="btn2" id="copy" disabled>Copy Visa Summary</button>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div class="muted" id="stamp"></div>
+      <div class="tiny">
+        <b>Disclaimer:</b> This audit visa is a convenience check. It does not replace legal/compliance review or official platform policies.<br/>
+        <b>免责声明：</b>本“签证”是便利用途的自动检查，不替代任何官方/法律/合规审核。<br/>
+        <b>Tip:</b> For cross-domain audit, host this page under the target origin (same site) or use a server-side proxy that adds CORS.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === AuditVisa v0.1 ===
+    // 必检(critical): missing => FAIL
+    // 选检(optional): missing => WARN
+    const CHECKS = [
+      { key:"node.json",       path:"/.well-known/node.json",          critical:true,  kind:"json", mustHave:["node_version"] },
+      { key:"portal.json",     path:"/portal/portal.json",             critical:true,  kind:"json", mustHave:["portal_version"] },
+      { key:"manifest.json",   path:"/agent/manifest.json",            critical:true,  kind:"json", mustHave:["agent"] },
+      { key:"protocol.json",   path:"/agent/protocol.json",            critical:true,  kind:"json", mustHave:["protocol_version"] },
+      { key:"access-policy",   path:"/agent/access-policy.json",       critical:true,  kind:"json", mustHave:["access"] },
+      { key:"capability-map",  path:"/agent/capability-map.json",      critical:true,  kind:"json", mustHave:["capabilities"] },
+
+      // optional
+      { key:"registry.json",   path:"/agent/registry.json",            critical:false, kind:"json", mustHave:["registry_version"] },
+      { key:"checksums.json",  path:"/node/checksums.json",            critical:false, kind:"json", mustHave:["sha256"] },
+
+      // (可选) 如果你以后想加签名文件：把下面开启即可
+      // { key:"attestation.sig", path:"/node/attestation.sig.json",    critical:false, kind:"json", mustHave:["alg","sig"] },
+    ];
+
+    const $ = (id)=>document.getElementById(id);
+    const base = $("base");
+    const go = $("go");
+    const res = $("res");
+    const info = $("info");
+    const tbody = $("tbody");
+    const sum = $("sum");
+    const stamp = $("stamp");
+    const dl = $("dl");
+    const copy = $("copy");
+
+    let lastReport = null;
+
+    function nowISO(){
+      return new Date().toISOString();
+    }
+
+    function normBase(u){
+      u = (u||"").trim();
+      if (!u) return "";
+      // allow user to type domain only
+      if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+      // remove trailing slash
+      u = u.replace(/\/+$/,"");
+      return u;
+    }
+
+    function dotClass(status){
+      if (status==="PASS") return "ok";
+      if (status==="WARN") return "warn";
+      return "no";
+    }
+
+    function escapeHtml(s){
+      return (s||"").toString()
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+
+    function setResult(status, msg){
+      if (status==="PASS"){
+        res.className = "result yes";
+        res.textContent = "PASS ✔";
+      } else if (status==="WARN"){
+        res.className = "result warn";
+        res.textContent = "WARN !";
+      } else {
+        res.className = "result no";
+        res.textContent = "FAIL ✘";
+      }
+      info.innerHTML = msg || "";
+    }
+
+    function clearUI(){
+      tbody.innerHTML = "";
+      res.textContent = "";
+      info.textContent = "";
+      sum.textContent = "—";
+      dl.disabled = true;
+      copy.disabled = true;
+      lastReport = null;
+    }
+
+    async function fetchText(url){
+      const r = await fetch(url, { cache:"no-store" });
+      const text = await r.text();
+      return { ok:r.ok, status:r.status, statusText:r.statusText, text, headers:r.headers };
+    }
+
+    function tryParseJSON(text){
+      try { return { ok:true, data: JSON.parse(text) }; }
+      catch(e){ return { ok:false, error: (e && e.message) ? e.message : String(e) }; }
+    }
+
+    function hasFields(obj, fields){
+      if (!obj || typeof obj!=="object") return false;
+      for (const f of (fields||[])){
+        if (!(f in obj)) return false;
+      }
+      return true;
+    }
+
+    async function sha256Hex(str){
+      const enc = new TextEncoder();
+      const buf = enc.encode(str);
+      const digest = await crypto.subtle.digest("SHA-256", buf);
+      const arr = Array.from(new Uint8Array(digest));
+      return arr.map(b=>b.toString(16).padStart(2,"0")).join("");
+    }
+
+    function addRow({status, key, path, evidence, critical}){
+      const tr = document.createElement("tr");
+      const s = escapeHtml(status);
+      const e = escapeHtml(evidence||"");
+      tr.innerHTML = `
+        <td><span class="dot ${dotClass(status)}"></span><b>${s}</b>${critical ? "" : " <span class='small'>(optional)</span>"}</td>
+        <td>${escapeHtml(key)}</td>
+        <td class="path">${escapeHtml(path)}</td>
+        <td class="small">${e}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    function summarize(counts){
+      const {pass, warn, fail, total} = counts;
+      return `Checks: ${total} · PASS ${pass} · WARN ${warn} · FAIL ${fail}`;
+    }
+
+    function visaGrade(counts){
+      if (counts.fail > 0) return "FAIL";
+      if (counts.warn > 0) return "WARN";
+      return "PASS";
+    }
+
+    async function runAudit(){
+      clearUI();
+      go.disabled = true;
+
+      const b = normBase(base.value) || normBase(location.origin);
+      base.value = b;
+
+      const started = nowISO();
+      stamp.textContent = "Issued at: " + started;
+
+      const report = {
+        schema: "audit-visa-report/v0.1",
+        issued_at: started,
+        base_url: b,
+        user_agent: navigator.userAgent,
+        results: [],
+        summary: null,
+        visa_id: null
+      };
+
+      let pass=0, warn=0, fail=0;
+
+      // We build a stable hash input from fetched contents
+      let hashFeed = `base=${b}\nissued_at=${started}\n`;
+
+      for (const c of CHECKS){
+        const url = b + c.path;
+        let status = "FAIL";
+        let evidence = "";
+        let bodyText = "";
+
+        try {
+          const r = await fetchText(url);
+          bodyText = r.text || "";
+          if (!r.ok){
+            status = c.critical ? "FAIL" : "WARN";
+            evidence = `HTTP ${r.status} ${r.statusText || ""}`.trim();
+          } else {
+            if (c.kind==="json"){
+              const pj = tryParseJSON(bodyText);
+              if (!pj.ok){
+                status = c.critical ? "FAIL" : "WARN";
+                evidence = "JSON parse error: " + pj.error;
+              } else {
+                // basic field check
+                const okFields = hasFields(pj.data, c.mustHave);
+                if (!okFields){
+                  status = c.critical ? "FAIL" : "WARN";
+                  evidence = "Missing fields: " + (c.mustHave||[]).join(", ");
+                } else {
+                  status = "PASS";
+                  // short evidence
+                  const keys = Object.keys(pj.data || {}).slice(0, 6).join(", ");
+                  evidence = "OK · keys: " + keys;
+                }
+              }
+            } else {
+              status = "PASS";
+              evidence = "OK";
+            }
+          }
+        } catch (e){
+          status = c.critical ? "FAIL" : "WARN";
+          evidence = "Fetch error (often CORS): " + ((e && e.message) ? e.message : String(e));
+        }
+
+        report.results.push({
+          check: c.key,
+          path: c.path,
+          url,
+          critical: !!c.critical,
+          status,
+          evidence
+        });
+
+        addRow({status, key:c.key, path:c.path, evidence, critical:!!c.critical});
+
+        if (status==="PASS") pass++;
+        else if (status==="WARN") warn++;
+        else fail++;
+
+        // Only hash what we actually got (avoid huge)
+        // Use first 4KB to keep stable and small.
+        const snippet = (bodyText || "").slice(0, 4096);
+        hashFeed += `\n[${c.key} ${status}] ${c.path}\n${snippet}\n`;
+      }
+
+      const counts = {pass, warn, fail, total: CHECKS.length};
+      report.summary = {
+        grade: visaGrade(counts),
+        counts,
+        text: summarize(counts)
+      };
+
+      // Visa ID = SHA256 over feed
+      try {
+        report.visa_id = await sha256Hex(hashFeed);
+      } catch(e){
+        report.visa_id = null;
+      }
+
+      sum.textContent = report.summary.text + (report.visa_id ? (" · VisaID: " + report.visa_id.slice(0,12) + "…") : "");
+
+      const grade = report.summary.grade;
+      if (grade==="PASS"){
+        setResult("PASS",
+          "<b>EN:</b> All critical checks passed. Visa issued.<br/>" +
+          "<b>中文：</b>所有必检项通过，签证已签发。"
+        );
+      } else if (grade==="WARN"){
+        setResult("WARN",
+          "<b>EN:</b> Critical checks passed, but some optional items are missing or weak. Visa issued with warnings.<br/>" +
+          "<b>中文：</b>必检项通过，但部分选检项缺失/不佳。签证带警告。"
+        );
+      } else {
+        setResult("FAIL",
+          "<b>EN:</b> One or more critical checks failed. Visa rejected.<br/>" +
+          "<b>中文：</b>存在必检项失败，签证拒签。<br/>" +
+          "<span class='muted'>If you are auditing another domain and see “Fetch error (often CORS)”, deploy this page under the target site to avoid cross-origin restrictions.</span>"
+        );
+      }
+
+      lastReport = report;
+      dl.disabled = false;
+      copy.disabled = false;
+      go.disabled = false;
+    }
+
+    function downloadJSON(obj, filename){
+      const blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 500);
+    }
+
+    function copyText(txt){
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        return navigator.clipboard.writeText(txt);
+      }
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      return Promise.resolve();
+    }
+
+    go.addEventListener("click", runAudit);
+
+    dl.addEventListener("click", ()=>{
+      if (!lastReport) return;
+      const ts = (lastReport.issued_at || "").replace(/[:.]/g,"-");
+      const fn = `audit-visa-${ts}.json`;
+      downloadJSON(lastReport, fn);
+    });
+
+    copy.addEventListener("click", async ()=>{
+      if (!lastReport) return;
+      const s = lastReport.summary;
+      const line =
+        `AuditVisa v0.1 | ${s.grade} | ${s.text} | base=${lastReport.base_url}` +
+        (lastReport.visa_id ? ` | visa_id=${lastReport.visa_id}` : "");
+      await copyText(line);
+      copy.textContent = "Copied ✓";
+      setTimeout(()=>copy.textContent="Copy Visa Summary", 900);
+    });
+
+    // default base = current origin
+    base.value = normBase(location.origin);
+  </script>
+</body>
+</html>
