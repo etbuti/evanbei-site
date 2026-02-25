@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>单标的量化盯盘（极简）</title>
+  <style>
+    body { font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial; max-width: 980px; margin: 24px auto; padding: 0 14px; }
+    .row { display:flex; gap:12px; flex-wrap: wrap; align-items: center; }
+    .card { border:1px solid #e7e7e7; border-radius: 14px; padding: 14px; margin: 12px 0; }
+    input, select, button { padding: 10px 12px; border-radius: 10px; border:1px solid #ddd; }
+    button { cursor:pointer; }
+    .big { font-size: 30px; font-weight: 700; }
+    .muted { opacity: .65; }
+    .grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:10px; }
+    .k { font-size: 12px; opacity:.6; }
+    .v { font-size: 16px; font-weight:600; }
+    #log { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas; font-size: 12px; max-height: 220px; overflow:auto; }
+    .ok { color: #1a7f37; }
+    .bad { color: #b42318; }
+    .warn { color: #9a6700; }
+    canvas { width: 100%; height: 240px; border: 1px solid #eee; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <h2>单标的量化盯盘（极简版）</h2>
+  <div class="muted">数据：本地代理 → Stooq（日线/报价）。信号仅为演示，不构成投资建议。</div>
+
+  <div class="card">
+    <div class="row">
+      <label>标的</label>
+      <input id="symbol" value="AAPL.US" style="width:140px" />
+      <label>刷新</label>
+      <select id="refresh">
+        <option value="10">10s</option>
+        <option value="30" selected>30s</option>
+        <option value="60">60s</option>
+        <option value="300">5min</option>
+      </select>
+
+      <label>SMA快</label><input id="fast" value="10" style="width:80px" />
+      <label>SMA慢</label><input id="slow" value="30" style="width:80px" />
+      <label>RSI</label><input id="rsiPeriod" value="14" style="width:80px" />
+
+      <label><input type="checkbox" id="useRsiFilter" checked /> RSI过滤</label>
+      <label><input type="checkbox" id="sound" checked /> 声音提醒</label>
+
+      <button id="start">开始</button>
+      <button id="stop" disabled>停止</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content: space-between;">
+      <div>
+        <div class="muted" id="title">—</div>
+        <div class="big" id="price">—</div>
+        <div id="chg" class="muted">—</div>
+      </div>
+      <div style="text-align:right">
+        <div class="k">最新信号</div>
+        <div class="v" id="signal">—</div>
+        <div class="muted" id="updated">—</div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:12px">
+      <div><div class="k">SMA快</div><div class="v" id="smaFast">—</div></div>
+      <div><div class="k">SMA慢</div><div class="v" id="smaSlow">—</div></div>
+      <div><div class="k">RSI</div><div class="v" id="rsi">—</div></div>
+      <div><div class="k">状态</div><div class="v" id="status">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="k">收盘价走势（最近260日，示意图）</div>
+    <canvas id="chart" width="900" height="240"></canvas>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content: space-between;">
+      <div class="k">日志</div>
+      <button id="clear">清空</button>
+    </div>
+    <div id="log"></div>
+  </div>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8788/api";
+
+  const el = (id) => document.getElementById(id);
+  const fmt = (x) => (x === null || x === undefined || Number.isNaN(x)) ? "—" : (Math.round(x*100)/100).toString();
+  const nowStr = () => new Date().toLocaleString();
+
+  function log(line, cls="") {
+    const node = document.createElement("div");
+    node.textContent = `[${nowStr()}] ${line}`;
+    if (cls) node.className = cls;
+    el("log").prepend(node);
+  }
+
+  // --- indicators ---
+  function sma(values, period) {
+    if (values.length < period) return null;
+    let s = 0;
+    for (let i = values.length - period; i < values.length; i++) s += values[i];
+    return s / period;
+  }
+
+  function rsi(values, period) {
+    if (values.length < period + 1) return null;
+    let gains = 0, losses = 0;
+    for (let i = values.length - period; i < values.length; i++) {
+      const diff = values[i] - values[i-1];
+      if (diff >= 0) gains += diff;
+      else losses -= diff;
+    }
+    if (losses === 0) return 100;
+    const rs = gains / losses;
+    return 100 - (100 / (1 + rs));
+  }
+
+  function computeSignal(closes, fastP, slowP, rsiP, useRsi) {
+    const fast = sma(closes, fastP);
+    const slow = sma(closes, slowP);
+    const r = rsi(closes, rsiP);
+
+    if (fast === null || slow === null) return {signal:"数据不足", fast, slow, r};
+
+    // 取前一根用于判断“交叉”
+    const prevFast = sma(closes.slice(0, -1), fastP);
+    const prevSlow = sma(closes.slice(0, -1), slowP);
+
+    let cross = "HOLD";
+    if (prevFast !== null && prevSlow !== null) {
+      if (prevFast <= prevSlow && fast > slow) cross = "BUY";
+      if (prevFast >= prevSlow && fast < slow) cross = "SELL";
+    }
+
+    if (useRsi && r !== null) {
+      // 简单过滤：BUY 要求 RSI < 70；SELL 要求 RSI > 30
+      if (cross === "BUY" && r >= 70) cross = "HOLD (RSI过滤)";
+      if (cross === "SELL" && r <= 30) cross = "HOLD (RSI过滤)";
+    }
+
+    return {signal: cross, fast, slow, r};
+  }
+
+  // --- tiny chart ---
+  function drawChart(closes) {
+    const canvas = el("chart");
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+
+    if (!closes || closes.length < 2) return;
+
+    const min = Math.min(...closes);
+    const max = Math.max(...closes);
+    const pad = 10;
+
+    const x = (i) => pad + (i * (w - pad*2) / (closes.length - 1));
+    const y = (v) => {
+      if (max === min) return h/2;
+      return pad + (h - pad*2) * (1 - (v - min) / (max - min));
+    };
+
+    // grid baseline
+    ctx.globalAlpha = 0.25;
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad);
+    ctx.lineTo(w - pad, h - pad);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    ctx.beginPath();
+    ctx.moveTo(x(0), y(closes[0]));
+    for (let i=1;i<closes.length;i++) ctx.lineTo(x(i), y(closes[i]));
+    ctx.stroke();
+  }
+
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = "sine";
+      o.frequency.value = 880;
+      g.gain.value = 0.05;
+      o.start();
+      setTimeout(()=>{ o.stop(); ctx.close(); }, 120);
+    } catch {}
+  }
+
+  // --- app state ---
+  let timer = null;
+  let lastSignal = null;
+
+  async function fetchJSON(url) {
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  }
+
+  async function tick() {
+    const symbol = el("symbol").value.trim();
+    const fastP = parseInt(el("fast").value, 10);
+    const slowP = parseInt(el("slow").value, 10);
+    const rsiP  = parseInt(el("rsiPeriod").value, 10);
+    const useRsi = el("useRsiFilter").checked;
+
+    el("status").textContent = "拉取中…";
+
+    try {
+      const [q, h] = await Promise.all([
+        fetchJSON(`${API_BASE}/quote?symbol=${encodeURIComponent(symbol)}`),
+        fetchJSON(`${API_BASE}/history?symbol=${encodeURIComponent(symbol)}&limit=260`)
+      ]);
+
+      if (!q.ok || !h.ok) throw new Error("数据返回异常");
+
+      const closes = h.bars.map(b => b.close).filter(x => typeof x === "number");
+      const sig = computeSignal(closes, fastP, slowP, rsiP, useRsi);
+
+      el("title").textContent = `${q.symbol}  ·  source: ${q.source}`;
+      el("price").textContent = q.close === null ? "—" : q.close.toFixed(2);
+
+      // 简单涨跌：用历史最后两根 close
+      let chgTxt = "—";
+      if (closes.length >= 2) {
+        const prev = closes[closes.length-2];
+        const last = closes[closes.length-1];
+        const diff = last - prev;
+        const pct = prev ? (diff/prev)*100 : 0;
+        chgTxt = `${diff>=0?"+":""}${diff.toFixed(2)} (${pct>=0?"+":""}${pct.toFixed(2)}%)`;
+      }
+      el("chg").textContent = `日变动：${chgTxt}`;
+
+      el("smaFast").textContent = fmt(sig.fast);
+      el("smaSlow").textContent = fmt(sig.slow);
+      el("rsi").textContent = sig.r === null ? "—" : sig.r.toFixed(1);
+      el("signal").textContent = sig.signal;
+      el("updated").textContent = `更新：${q.fetched_utc}`;
+      el("status").textContent = "OK";
+
+      drawChart(closes);
+
+      // 提醒逻辑：只在信号从非 BUY/SELL 变成 BUY/SELL 时提醒
+      const actionable = (sig.signal === "BUY" || sig.signal === "SELL");
+      const changed = (sig.signal !== lastSignal);
+
+      if (changed) {
+        const cls = actionable ? "warn" : "muted";
+        log(`信号变更 → ${sig.signal}（SMA快=${fmt(sig.fast)} / SMA慢=${fmt(sig.slow)} / RSI=${sig.r===null?"—":sig.r.toFixed(1)}）`, cls);
+        if (actionable && el("sound").checked) beep();
+      }
+
+      lastSignal = sig.signal;
+    } catch (e) {
+      el("status").textContent = "ERROR";
+      log(`错误：${e.message}（确认 app.py 正在运行 & 端口 8788 可访问）`, "bad");
+    }
+  }
+
+  function start() {
+    if (timer) return;
+    const sec = parseInt(el("refresh").value, 10);
+    el("start").disabled = true;
+    el("stop").disabled = false;
+
+    // 先跑一次
+    tick();
+    timer = setInterval(tick, sec * 1000);
+    log(`开始盯盘：每 ${sec}s 刷新`, "ok");
+  }
+
+  function stop() {
+    if (!timer) return;
+    clearInterval(timer);
+    timer = null;
+    el("start").disabled = false;
+    el("stop").disabled = true;
+    log("已停止", "muted");
+  }
+
+  // UI
+  el("start").addEventListener("click", start);
+  el("stop").addEventListener("click", stop);
+  el("clear").addEventListener("click", ()=>{ el("log").textContent=""; });
+
+  // 默认自动保存参数
+  const saved = localStorage.getItem("one_ticker_cfg");
+  if (saved) {
+    try {
+      const c = JSON.parse(saved);
+      if (c.symbol) el("symbol").value = c.symbol;
+      if (c.refresh) el("refresh").value = c.refresh;
+      if (c.fast) el("fast").value = c.fast;
+      if (c.slow) el("slow").value = c.slow;
+      if (c.rsiPeriod) el("rsiPeriod").value = c.rsiPeriod;
+      if (typeof c.useRsiFilter === "boolean") el("useRsiFilter").checked = c.useRsiFilter;
+      if (typeof c.sound === "boolean") el("sound").checked = c.sound;
+    } catch {}
+  }
+
+  ["symbol","refresh","fast","slow","rsiPeriod","useRsiFilter","sound"].forEach(id=>{
+    el(id).addEventListener("change", ()=>{
+      const c = {
+        symbol: el("symbol").value.trim(),
+        refresh: el("refresh").value,
+        fast: el("fast").value,
+        slow: el("slow").value,
+        rsiPeriod: el("rsiPeriod").value,
+        useRsiFilter: el("useRsiFilter").checked,
+        sound: el("sound").checked
+      };
+      localStorage.setItem("one_ticker_cfg", JSON.stringify(c));
+    });
+  });
+</script>
+</body>
+</html>
