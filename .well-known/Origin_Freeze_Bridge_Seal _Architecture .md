@@ -2,6 +2,7 @@ x-origin-architecture: origin-freeze-bridge
 
 x-origin-state: sealed
 
+
 Origin Freeze Bridge — Seal Architecture (v1.0)
 
 1. Purpose（目的）
