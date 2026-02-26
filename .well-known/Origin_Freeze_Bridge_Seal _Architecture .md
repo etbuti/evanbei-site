@@ -1,3 +1,6 @@
+x-origin-architecture: origin-freeze-bridge
+x-origin-state: sealed
+
 Origin Freeze Bridge — Seal Architecture (v1.0)
 
 1. Purpose（目的）
@@ -37,6 +40,7 @@ Seal Declaration Layer
 Located under:
 /.well-known/seal.html
 /.well-known/seal.json
+Canonical Origin: https://evanbei.com/
 
 This layer provides a public governance declaration independent from runtime code.
 
@@ -80,7 +84,11 @@ State: Sealed
 Manual Core Access: Disabled
 Human Override: Enabled (Guarded)
 
+State: Sealed
+
+Modification Policy: Append-only via Bridge; Core text immutable.
 
 Evan Bei
 London
 26/02/2026
+origin-id: did:web:evanbei.com
