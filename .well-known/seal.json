@@ -1,0 +1,9 @@
+{
+  "type": "system_seal",
+  "seal": "v1.0",
+  "governance": "origin-freeze-bridge",
+  "human_override": true,
+  "core_manual": "never",
+  "updated_utc": "2026-02-26T00:00:00Z",
+  "ref": "EB-SEAL-001"
+}
