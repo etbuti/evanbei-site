@@ -7,3 +7,25 @@
   "updated_utc": "2026-02-26T00:00:00Z",
   "ref": "EB-SEAL-001"
 }
+
+{
+  "name": "Origin Freeze Bridge — Seal Architecture",
+  "version": "v1.0",
+  "state": "sealed",
+  "core_manual_access": "disabled",
+  "human_override": {
+    "enabled": true,
+    "mode": "terminal-only",
+    "guarded": true
+  },
+  "throughput": {
+    "machine_throughput": "unrestricted",
+    "guard_intrusion": "none"
+  },
+  "declaration": {
+    "path": "/.well-known/seal.json",
+    "type": "static"
+  },
+  "updated_utc": "2026-02-26T00:00:00Z",
+  "authority": "did:web:evanbei.com"
+}
