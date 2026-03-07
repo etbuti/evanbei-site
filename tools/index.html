@@ -300,6 +300,29 @@
   transform:translateY(-1px);
   box-shadow:0 0 20px rgba(168,85,247,.18);
 }
+
+.flow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+
+.flow-step{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#0f141e;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.flow-arrow{
+  opacity:.5;
+}
     
   </style>
 </head>
@@ -437,30 +460,40 @@
     </section>
 
     <section class="split">
-      <div class="card">
-        <h2>How it works</h2>
-        <ul>
-          <li>Select a tool entry.</li>
-          <li>Proceed through secure checkout.</li>
-          <li>Use the corresponding scan or processing flow.</li>
-          <li>Receive output in a standard delivery structure.</li>
-        </ul>
+  <div class="card">
+    <h2>How it works</h2>
+    <div class="flow">
+  <div class="flow-step">Tool entry</div>
+  <div class="flow-step flow-arrow">→</div>
+  <div class="flow-step">Checkout</div>
+  <div class="flow-step flow-arrow">→</div>
+  <div class="flow-step">Scan route</div>
+  <div class="flow-step flow-arrow">→</div>
+  <div class="flow-step">Evidence bundle</div>
+</div>
 
-        <div class="notice small muted">
-          Current live payment entry is mapped to the existing host scan route. This keeps the business surface as a collection page while preserving the established scan workflow.
-        </div>
-      </div>
+<p class="small muted" style="margin-top:14px;">
+  Current live flow: Tools page → secure checkout → host scan route → report and evidence bundle.
+</p>
+    
+    <div class="notice small muted">
+      Current live flow: Tools page → secure checkout → host scan route → report and evidence bundle.
+    </div>
+  </div>
 
-      <div class="card">
-        <h2>Delivery format</h2>
-        <ul>
-          <li>PDF summary report</li>
-          <li>Machine-readable evidence JSON</li>
-          <li>Raw evidence bundle</li>
-        </ul>
-      </div>
-    </section>
-
+  <div class="card">
+    <h2>Delivery format</h2>
+    <ul>
+      <li>PDF summary report</li>
+      <li>Machine-readable evidence JSON</li>
+      <li>Raw evidence bundle</li>
+    </ul>
+    <p class="small muted" style="margin-top:12px;">
+      Output is designed for both human review and structured technical reference.
+    </p>
+  </div>
+</section>
+    
     <section class="card">
       <h2>Current payment routing</h2>
       <p class="muted">
