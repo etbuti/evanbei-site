@@ -244,6 +244,63 @@
       padding-left:12px;
       margin-top:10px;
     }
+
+    .tool.live-tool{
+  position:relative;
+  border:1px solid rgba(181,124,255,.34);
+  background:
+    radial-gradient(circle at top right, rgba(157,92,255,.10), transparent 38%),
+    linear-gradient(180deg, rgba(120,70,220,.08), rgba(15,20,30,1) 38%);
+  box-shadow:
+    0 0 0 1px rgba(160,100,255,.05) inset,
+    0 0 24px rgba(120,70,220,.10);
+}
+
+.tool.live-tool::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  pointer-events:none;
+  box-shadow:inset 0 0 24px rgba(190,140,255,.06);
+}
+
+.live-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.live-dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:#c084fc;
+  box-shadow:
+    0 0 10px rgba(192,132,252,.8),
+    0 0 20px rgba(192,132,252,.45);
+}
+
+.live-note{
+  margin-top:6px;
+  font-size:12px;
+  color:#cdb8ff;
+  letter-spacing:.2px;
+}
+
+.btn.primary-live{
+  background:linear-gradient(180deg,#faf5ff,#ede9fe);
+  color:#18181b;
+  border:1px solid #d8b4fe;
+  box-shadow:0 0 16px rgba(168,85,247,.12);
+}
+
+.btn.primary-live:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 20px rgba(168,85,247,.18);
+}
+    
   </style>
 </head>
 <body>
@@ -274,37 +331,45 @@
       </p>
 
       <div class="tools">
-        <article class="tool">
-          <div>
-            <span class="badge live">Live</span>
-            <h3>1. Host Scan / Website Trust Snapshot</h3>
-            <p class="muted">
-              Checks website availability, DNS, TLS, HTTP headers, and basic trust signals for a target host or domain.
-            </p>
-            <p class="small muted">
-              Current active payment entry for the existing host scan workflow.
-            </p>
-          </div>
-          <div class="actions">
-            <a
-              class="btn"
-              href="https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_tools_hostscan"
-              target="_blank"
-              rel="noopener"
-            >
-              Start now
-            </a>
-            <a
-              class="btn secondary"
-              href="https://aiorigins.org/audit/"
-              target="_blank"
-              rel="noopener"
-            >
-              Open scan page
-            </a>
-          </div>
-        </article>
+        <article class="tool live-tool">
+  <div>
+    <span class="badge live">Live</span>
 
+    <div class="live-title">
+      <span class="live-dot"></span>
+      <h3>1. Host Scan / Website Trust Snapshot</h3>
+    </div>
+
+    <p class="muted">
+      Checks website availability, DNS, TLS, HTTP headers, and basic trust signals for a target host or domain.
+    </p>
+
+    <p class="small muted">
+      Current active payment entry for the existing host scan workflow.
+    </p>
+
+    <div class="live-note">Current enabled entry</div>
+  </div>
+
+  <div class="actions">
+    <a
+      class="btn primary-live"
+      href="https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_tools_hostscan"
+      target="_blank"
+      rel="noopener"
+    >
+      Start now
+    </a>
+    <a
+      class="btn secondary"
+      href="https://aiorigins.org/audit/"
+      target="_blank"
+      rel="noopener"
+    >
+      Open scan page
+    </a>
+  </div>
+</article>
         <article class="tool">
           <div>
             <span class="badge soon">Coming soon</span>
