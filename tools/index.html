@@ -3,31 +3,82 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>International Tech Tools</title>
+  <title>International Trade Tech Tools</title>
+  <meta name="description" content="Automated verification and utility tools for websites, email, digital infrastructure, and cross-border operations." />
   <meta name="robots" content="noindex,nofollow" />
   <style>
     :root{
       --bg:#0b0d12;
       --card:#121622;
+      --card2:#0f141e;
       --fg:#e9eef7;
       --muted:#9aa4b2;
-      --line:#222838;
+      --line:#232a39;
+      --ok:#7ee787;
+      --warn:#f2cc60;
+      --btn:#f3f4f6;
+      --btnfg:#111827;
     }
+
+    *{ box-sizing:border-box; }
+
     html,body{
       margin:0;
+      padding:0;
       background:var(--bg);
       color:var(--fg);
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     }
+
+    a{ color:inherit; }
+
     .wrap{
-      max-width:920px;
+      max-width:1100px;
       margin:0 auto;
-      padding:32px 18px 48px;
+      padding:32px 18px 56px;
     }
-    h1{ margin:0 0 10px; font-size:32px; }
-    h2{ margin:0 0 12px; font-size:22px; }
-    p{ line-height:1.6; }
-    .muted{ color:var(--muted); }
+
+    .hero{
+      margin-bottom:18px;
+    }
+
+    h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      line-height:1.15;
+      letter-spacing:.2px;
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    h3{
+      margin:0 0 10px 0;
+      font-size:18px;
+      line-height:1.3;
+    }
+
+    p{
+      margin:0 0 12px 0;
+      line-height:1.65;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .small{
+      font-size:13px;
+    }
+
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      word-break:break-all;
+    }
+
     .card{
       background:var(--card);
       border:1px solid var(--line);
@@ -35,226 +86,265 @@
       padding:20px;
       margin-top:18px;
     }
-    .grid{
+
+    .tools{
       display:grid;
-      grid-template-columns:1fr;
+      grid-template-columns:repeat(1,minmax(0,1fr));
       gap:16px;
-    }
-    @media (min-width: 780px){
-      .grid{ grid-template-columns:1.2fr .8fr; }
-    }
-    label{
-      display:block;
-      margin-bottom:8px;
-      font-size:14px;
-      color:var(--muted);
-    }
-    input[type="text"], input[type="email"]{
-      width:100%;
-      box-sizing:border-box;
-      padding:12px 14px;
-      border-radius:10px;
-      border:1px solid #334055;
-      background:#0f131c;
-      color:var(--fg);
-      outline:none;
-    }
-    input[type="text"]:focus, input[type="email"]:focus{
-      border-color:#5b7bb2;
-    }
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
       margin-top:14px;
     }
+
+    @media (min-width:760px){
+      .tools{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    .tool{
+      background:var(--card2);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:18px;
+      min-height:220px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      font-size:12px;
+      line-height:1;
+      margin-bottom:12px;
+    }
+
+    .badge.live{
+      color:var(--ok);
+      border-color:#27422f;
+      background:#0f1a13;
+    }
+
+    .badge.soon{
+      color:var(--warn);
+      border-color:#463a1b;
+      background:#17140b;
+    }
+
     .btn{
       display:inline-block;
-      padding:12px 18px;
-      border-radius:10px;
       text-decoration:none;
-      border:1px solid var(--line);
-      cursor:pointer;
-      background:#f3f4f6;
-      color:#111827;
+      padding:11px 16px;
+      border-radius:10px;
+      background:var(--btn);
+      color:var(--btnfg);
       font-weight:600;
+      border:1px solid #d1d5db;
+      transition:transform .04s ease;
     }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
     .btn.secondary{
       background:transparent;
       color:var(--fg);
+      border:1px solid var(--line);
     }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+
     ul{
       margin:10px 0 0 18px;
       padding:0;
       line-height:1.7;
     }
-    .small{ font-size:13px; }
-    .mono{
-      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-      word-break:break-all;
+
+    .footer{
+      margin-top:22px;
+      color:var(--muted);
+      font-size:13px;
     }
-    .ok{
-      color:#7ee787;
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
     }
-    .warn{
-      color:#f2cc60;
+
+    @media (min-width:880px){
+      .split{
+        grid-template-columns:1.1fr .9fr;
+      }
+    }
+
+    .notice{
+      border-left:3px solid #3a4459;
+      padding-left:12px;
+      margin-top:10px;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>International Tech Tools</h1>
-    <p class="muted">
-      Automated verification tools for websites and digital business infrastructure.
-    </p>
+    <section class="hero">
+      <h1>International Trade Tech Tools</h1>
+      <p class="muted">
+        Automated verification and utility tools for websites, email, digital infrastructure, and cross-border operations.
+      </p>
+    </section>
 
-    <div class="grid">
+    <section class="card">
+      <h2>Tool Collection</h2>
+      <p class="muted">
+        This page is a product collection surface. Current live checkout is enabled for the host scan entry. Additional tools are being added progressively.
+      </p>
+
+      <div class="tools">
+        <article class="tool">
+          <div>
+            <span class="badge live">Live</span>
+            <h3>1. Host Scan / Website Trust Snapshot</h3>
+            <p class="muted">
+              Checks website availability, DNS, TLS, HTTP headers, and basic trust signals for a target host or domain.
+            </p>
+            <p class="small muted">
+              Current active payment entry for the existing host scan workflow.
+            </p>
+          </div>
+          <div class="actions">
+            <a
+              class="btn"
+              href="https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_tools_hostscan"
+              target="_blank"
+              rel="noopener"
+            >
+              Start now
+            </a>
+            <a
+              class="btn secondary"
+              href="https://aiorigins.org/audit/"
+              target="_blank"
+              rel="noopener"
+            >
+              Open scan page
+            </a>
+          </div>
+        </article>
+
+        <article class="tool">
+          <div>
+            <span class="badge soon">Coming soon</span>
+            <h3>2. Email Deliverability Check</h3>
+            <p class="muted">
+              Checks SPF, DKIM, DMARC, and common email delivery configuration issues for cross-border business email infrastructure.
+            </p>
+            <p class="small muted">
+              Product slot reserved.
+            </p>
+          </div>
+          <div class="actions">
+            <span class="btn secondary" aria-disabled="true">Available soon</span>
+          </div>
+        </article>
+
+        <article class="tool">
+          <div>
+            <span class="badge soon">Coming soon</span>
+            <h3>3. Vendor Website Due Diligence</h3>
+            <p class="muted">
+              Lightweight technical due diligence for supplier, partner, or service-provider websites before engagement.
+            </p>
+            <p class="small muted">
+              Product slot reserved.
+            </p>
+          </div>
+          <div class="actions">
+            <span class="btn secondary" aria-disabled="true">Available soon</span>
+          </div>
+        </article>
+
+        <article class="tool">
+          <div>
+            <span class="badge soon">Beta</span>
+            <h3>4. Export Docs Generator</h3>
+            <p class="muted">
+              Generates simple international trade document packs for operational convenience and template-based workflows.
+            </p>
+            <p class="small muted">
+              Product slot reserved.
+            </p>
+          </div>
+          <div class="actions">
+            <span class="btn secondary" aria-disabled="true">Available soon</span>
+          </div>
+        </article>
+
+        <article class="tool">
+          <div>
+            <span class="badge soon">Coming soon</span>
+            <h3>5. API Availability Proof</h3>
+            <p class="muted">
+              Generates a lightweight availability proof package for public API endpoints and service response checks.
+            </p>
+            <p class="small muted">
+              Product slot reserved.
+            </p>
+          </div>
+          <div class="actions">
+            <span class="btn secondary" aria-disabled="true">Available soon</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="split">
       <div class="card">
-        <h2>Website / Host Scan</h2>
-        <p class="muted">
-          This tool uses the existing host scan flow. The tools page acts as a product entry page.
-        </p>
+        <h2>How it works</h2>
+        <ul>
+          <li>Select a tool entry.</li>
+          <li>Proceed through secure checkout.</li>
+          <li>Use the corresponding scan or processing flow.</li>
+          <li>Receive output in a standard delivery structure.</li>
+        </ul>
 
-        <label for="targetInput">Target host or domain</label>
-        <input
-          id="targetInput"
-          type="text"
-          placeholder="example.com or https://example.com"
-          autocomplete="off"
-        />
-
-        <label for="emailInput" style="margin-top:12px;">Customer email (optional)</label>
-        <input
-          id="emailInput"
-          type="email"
-          placeholder="name@example.com"
-          autocomplete="email"
-        />
-
-        <div class="actions">
-          <button class="btn" id="payBtn">Pay and start</button>
-          <a class="btn secondary" id="openScanBtn" href="https://aiorigins.org/audit/" target="_blank" rel="noopener">Open scan page</a>
+        <div class="notice small muted">
+          Current live payment entry is mapped to the existing host scan route. This keeps the business surface as a collection page while preserving the established scan workflow.
         </div>
-
-        <p class="small muted" style="margin-top:12px;">
-          After payment, you can return to the scan page. The target value will be kept in your browser for quick reuse.
-        </p>
-
-        <div id="statusBox" class="small muted" style="margin-top:12px;"></div>
       </div>
 
       <div class="card">
-        <h2>Included in delivery</h2>
+        <h2>Delivery format</h2>
         <ul>
           <li>PDF summary report</li>
           <li>Machine-readable evidence JSON</li>
           <li>Raw evidence bundle</li>
         </ul>
-
-        <h2 style="margin-top:20px;">Current payment link</h2>
-        <p class="mono small muted">
-          https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_com_tools
-        </p>
-
-        <p class="small muted">
-          Existing Payment Link is reused directly. No new link is required for this launch stage.
-        </p>
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <h2>How it works</h2>
-      <ul>
-        <li>Enter target host or domain</li>
-        <li>Proceed to secure Stripe payment</li>
-        <li>Return to the scan page</li>
-        <li>Run host scan using the saved target</li>
-        <li>Generate report and evidence bundle</li>
-      </ul>
-    </div>
+    <section class="card">
+      <h2>Current payment routing</h2>
+      <p class="muted">
+        Active payment entry for the live host scan tool:
+      </p>
+      <p class="mono small">
+        https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_tools_hostscan
+      </p>
+      <p class="small muted">
+        The client reference value is intentionally set for source-level distinction on the business side.
+      </p>
+    </section>
 
-    <p class="muted small" style="margin-top:20px;">
-      © Evan Bei · London
-    </p>
+    <p class="footer">© Evan Bei · London</p>
   </div>
-
-  <script>
-    (function () {
-      const STRIPE_LINK = "https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00";
-      const RETURN_PAGE = "https://aiorigins.org/audit/";
-
-      const targetInput = document.getElementById("targetInput");
-      const emailInput = document.getElementById("emailInput");
-      const payBtn = document.getElementById("payBtn");
-      const openScanBtn = document.getElementById("openScanBtn");
-      const statusBox = document.getElementById("statusBox");
-
-      const TARGET_KEY = "auditvisa_target";
-      const EMAIL_KEY = "auditvisa_email";
-
-      function normalizeTarget(v) {
-        return (v || "").trim();
-      }
-
-      function isLikelyTarget(v) {
-        if (!v) return false;
-        if (v.startsWith("http://") || v.startsWith("https://")) return true;
-        return /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
-      }
-
-      function saveState() {
-        const target = normalizeTarget(targetInput.value);
-        const email = (emailInput.value || "").trim();
-        if (target) localStorage.setItem(TARGET_KEY, target);
-        if (email) localStorage.setItem(EMAIL_KEY, email);
-      }
-
-      function loadState() {
-        const t = localStorage.getItem(TARGET_KEY) || "";
-        const e = localStorage.getItem(EMAIL_KEY) || "";
-        if (t) targetInput.value = t;
-        if (e) emailInput.value = e;
-      }
-
-      function buildStripeUrl() {
-        const email = (emailInput.value || "").trim();
-        const url = new URL(STRIPE_LINK);
-
-        if (email) {
-          url.searchParams.set("prefilled_email", email);
-        }
-
-        return url.toString();
-      }
-
-      payBtn.addEventListener("click", function () {
-        const target = normalizeTarget(targetInput.value);
-
-        if (!isLikelyTarget(target)) {
-          statusBox.innerHTML = '<span class="warn">Please enter a valid host, domain, or full URL first.</span>';
-          targetInput.focus();
-          return;
-        }
-
-        saveState();
-
-        statusBox.innerHTML =
-          '<span class="ok">Target saved locally.</span> Redirecting to Stripe payment...';
-
-        window.location.href = buildStripeUrl();
-      });
-
-      openScanBtn.addEventListener("click", function () {
-        saveState();
-      });
-
-      loadState();
-
-      const existingTarget = localStorage.getItem(TARGET_KEY);
-      if (existingTarget) {
-        statusBox.textContent = "Saved target detected: " + existingTarget;
-      }
-    })();
-  </script>
 </body>
 </html>
