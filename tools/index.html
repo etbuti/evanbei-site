@@ -1,131 +1,260 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-  
-<meta name="robots" content="index,follow">
-  
-<title>International Tech Tools</title>
-
-<style>
-body{
-font-family:system-ui;
-background:#0b0d12;
-color:#e9eef7;
-margin:0;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-padding:40px 20px;
-}
-
-h1{font-size:32px}
-h2{margin-top:40px}
-
-.card{
-background:#121622;
-padding:20px;
-border-radius:10px;
-margin-top:20px;
-}
-
-.btn{
-display:inline-block;
-padding:12px 18px;
-background:#2ecc71;
-color:black;
-border-radius:6px;
-text-decoration:none;
-margin-top:10px;
-}
-
-.muted{opacity:.6}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>International Tech Tools</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --card:#121622;
+      --fg:#e9eef7;
+      --muted:#9aa4b2;
+      --line:#222838;
+    }
+    html,body{
+      margin:0;
+      background:var(--bg);
+      color:var(--fg);
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    }
+    .wrap{
+      max-width:920px;
+      margin:0 auto;
+      padding:32px 18px 48px;
+    }
+    h1{ margin:0 0 10px; font-size:32px; }
+    h2{ margin:0 0 12px; font-size:22px; }
+    p{ line-height:1.6; }
+    .muted{ color:var(--muted); }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:20px;
+      margin-top:18px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+    @media (min-width: 780px){
+      .grid{ grid-template-columns:1.2fr .8fr; }
+    }
+    label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    input[type="text"], input[type="email"]{
+      width:100%;
+      box-sizing:border-box;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #334055;
+      background:#0f131c;
+      color:var(--fg);
+      outline:none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus{
+      border-color:#5b7bb2;
+    }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:14px;
+    }
+    .btn{
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:10px;
+      text-decoration:none;
+      border:1px solid var(--line);
+      cursor:pointer;
+      background:#f3f4f6;
+      color:#111827;
+      font-weight:600;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--fg);
+    }
+    ul{
+      margin:10px 0 0 18px;
+      padding:0;
+      line-height:1.7;
+    }
+    .small{ font-size:13px; }
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      word-break:break-all;
+    }
+    .ok{
+      color:#7ee787;
+    }
+    .warn{
+      color:#f2cc60;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <h1>International Tech Tools</h1>
+    <p class="muted">
+      Automated verification tools for websites and digital business infrastructure.
+    </p>
 
-<div class="wrap">
+    <div class="grid">
+      <div class="card">
+        <h2>Website / Host Scan</h2>
+        <p class="muted">
+          This tool uses the existing host scan flow. The tools page acts as a product entry page.
+        </p>
 
-<h1>International Trade Tech Tools</h1>
+        <label for="targetInput">Target host or domain</label>
+        <input
+          id="targetInput"
+          type="text"
+          placeholder="example.com or https://example.com"
+          autocomplete="off"
+        />
 
-<p class="muted">
-Automated technical verification tools for global websites and digital businesses.
-</p>
+        <label for="emailInput" style="margin-top:12px;">Customer email (optional)</label>
+        <input
+          id="emailInput"
+          type="email"
+          placeholder="name@example.com"
+          autocomplete="email"
+        />
 
-<div class="card">
-<h2>What we provide</h2>
+        <div class="actions">
+          <button class="btn" id="payBtn">Pay and start</button>
+          <a class="btn secondary" id="openScanBtn" href="https://aiorigins.org/audit/" target="_blank" rel="noopener">Open scan page</a>
+        </div>
 
-<ul>
-<li>Website trust snapshot</li>
-<li>Email deliverability check</li>
-<li>Vendor website due diligence</li>
-<li>Export document generator</li>
-<li>API availability proof</li>
-</ul>
+        <p class="small muted" style="margin-top:12px;">
+          After payment, you can return to the scan page. The target value will be kept in your browser for quick reuse.
+        </p>
 
-</div>
+        <div id="statusBox" class="small muted" style="margin-top:12px;"></div>
+      </div>
 
-<div class="card">
-<h2>How it works</h2>
+      <div class="card">
+        <h2>Included in delivery</h2>
+        <ul>
+          <li>PDF summary report</li>
+          <li>Machine-readable evidence JSON</li>
+          <li>Raw evidence bundle</li>
+        </ul>
 
-<ol>
-<li>Enter domain or data</li>
-<li>Secure payment</li>
-<li>Automated scan starts</li>
-<li>Evidence bundle generated</li>
-<li>Download report</li>
-</ol>
+        <h2 style="margin-top:20px;">Current payment link</h2>
+        <p class="mono small muted">
+          https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_com_tools
+        </p>
 
-</div>
+        <p class="small muted">
+          Existing Payment Link is reused directly. No new link is required for this launch stage.
+        </p>
+      </div>
+    </div>
 
-<div class="card">
+    <div class="card">
+      <h2>How it works</h2>
+      <ul>
+        <li>Enter target host or domain</li>
+        <li>Proceed to secure Stripe payment</li>
+        <li>Return to the scan page</li>
+        <li>Run host scan using the saved target</li>
+        <li>Generate report and evidence bundle</li>
+      </ul>
+    </div>
 
-<h2>Pricing</h2>
+    <p class="muted small" style="margin-top:20px;">
+      © Evan Bei · London
+    </p>
+  </div>
 
-<p><strong>Lite</strong> – £19</p>
-<p class="muted">Basic automated check</p>
+  <script>
+    (function () {
+      const STRIPE_LINK = "https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00";
+      const RETURN_PAGE = "https://aiorigins.org/audit/";
 
-<p><strong>Standard</strong> – £39</p>
-<p class="muted">Full evidence bundle + PDF report</p>
+      const targetInput = document.getElementById("targetInput");
+      const emailInput = document.getElementById("emailInput");
+      const payBtn = document.getElementById("payBtn");
+      const openScanBtn = document.getElementById("openScanBtn");
+      const statusBox = document.getElementById("statusBox");
 
-<p><strong>Pro</strong> – £99</p>
-<p class="muted">Extended verification + priority queue</p>
+      const TARGET_KEY = "auditvisa_target";
+      const EMAIL_KEY = "auditvisa_email";
 
-<a class="btn"
-href="https://buy.stripe.com/14A3cv8cHf4E7MP6rfeIw00?client_reference_id=evanbei_com_tools
-target="_blank">
+      function normalizeTarget(v) {
+        return (v || "").trim();
+      }
 
-Start Scan
+      function isLikelyTarget(v) {
+        if (!v) return false;
+        if (v.startsWith("http://") || v.startsWith("https://")) return true;
+        return /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
+      }
 
-</a>
+      function saveState() {
+        const target = normalizeTarget(targetInput.value);
+        const email = (emailInput.value || "").trim();
+        if (target) localStorage.setItem(TARGET_KEY, target);
+        if (email) localStorage.setItem(EMAIL_KEY, email);
+      }
 
-</div>
+      function loadState() {
+        const t = localStorage.getItem(TARGET_KEY) || "";
+        const e = localStorage.getItem(EMAIL_KEY) || "";
+        if (t) targetInput.value = t;
+        if (e) emailInput.value = e;
+      }
 
-<div class="card">
+      function buildStripeUrl() {
+        const email = (emailInput.value || "").trim();
+        const url = new URL(STRIPE_LINK);
 
-<h2>Delivery</h2>
+        if (email) {
+          url.searchParams.set("prefilled_email", email);
+        }
 
-<p>
-Reports are generated automatically and delivered as:
-</p>
+        return url.toString();
+      }
 
-<ul>
-<li>PDF summary</li>
-<li>Machine-readable evidence JSON</li>
-<li>Raw evidence bundle</li>
-</ul>
+      payBtn.addEventListener("click", function () {
+        const target = normalizeTarget(targetInput.value);
 
-</div>
+        if (!isLikelyTarget(target)) {
+          statusBox.innerHTML = '<span class="warn">Please enter a valid host, domain, or full URL first.</span>';
+          targetInput.focus();
+          return;
+        }
 
-<p class="muted">
-© Evan Bei · London
-</p>
+        saveState();
 
-</div>
+        statusBox.innerHTML =
+          '<span class="ok">Target saved locally.</span> Redirecting to Stripe payment...';
 
+        window.location.href = buildStripeUrl();
+      });
+
+      openScanBtn.addEventListener("click", function () {
+        saveState();
+      });
+
+      loadState();
+
+      const existingTarget = localStorage.getItem(TARGET_KEY);
+      if (existingTarget) {
+        statusBox.textContent = "Saved target detected: " + existingTarget;
+      }
+    })();
+  </script>
 </body>
 </html>
