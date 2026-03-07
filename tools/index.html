@@ -39,7 +39,60 @@
     }
 
     .hero{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:20px;
+      align-items:center;
       margin-bottom:18px;
+    }
+
+    @media (min-width:860px){
+      .hero{
+        grid-template-columns:1.15fr .85fr;
+      }
+    }
+
+    .hero-copy{
+      min-width:0;
+    }
+
+    .hero-art{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    @media (min-width:860px){
+      .hero-art{
+        justify-content:flex-end;
+      }
+    }
+
+    .seal-wrap{
+      text-align:center;
+    }
+
+    .seal{
+      width:220px;
+      max-width:100%;
+      height:auto;
+      display:block;
+      filter:
+        drop-shadow(0 0 18px rgba(180,120,255,.28))
+        drop-shadow(0 0 36px rgba(144,80,255,.18));
+    }
+
+    .seal-note{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.2px;
+    }
+
+    @media (max-width:640px){
+      .seal{
+        width:128px;
+      }
     }
 
     h1{
@@ -196,10 +249,22 @@
 <body>
   <div class="wrap">
     <section class="hero">
-      <h1>International Trade Tech Tools</h1>
-      <p class="muted">
-        Automated verification and utility tools for websites, email, digital infrastructure, and cross-border operations.
-      </p>
+      <div class="hero-copy">
+        <h1>International Trade Tech Tools</h1>
+        <p class="muted">
+          Automated verification and utility tools for websites, email, digital infrastructure, and cross-border operations.
+        </p>
+        <p class="muted small">
+          A compact product surface for lightweight, evidence-oriented technical services.
+        </p>
+      </div>
+
+      <div class="hero-art">
+        <div class="seal-wrap">
+          <img class="seal" src="/tools/origin-seal.jpeg" alt="Origin Seal" />
+          <div class="seal-note">Origin-linked verification surface</div>
+        </div>
+      </div>
     </section>
 
     <section class="card">
