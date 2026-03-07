@@ -1,0 +1,46 @@
+{
+"visa_id": "VISA-20260307-0001",
+
+"product": "website_trust_snapshot",
+
+"timestamp": "2026-03-07T10:32:10Z",
+
+"target": {
+"type": "domain",
+"value": "example.com"
+},
+
+"checks": {
+
+"dns": {
+"status": "ok",
+"nameservers": [
+"ns1.cloudflare.com",
+"ns2.cloudflare.com"
+]
+},
+
+"tls": {
+"issuer": "Let's Encrypt",
+"valid": true,
+"expires": "2026-05-01"
+},
+
+"http": {
+"status_code": 200,
+"server": "cloudflare",
+"response_time_ms": 240
+}
+
+},
+
+"risk_flags": [
+
+],
+
+"generated_by": {
+"system": "auditvisa",
+"version": "0.1"
+}
+
+}
