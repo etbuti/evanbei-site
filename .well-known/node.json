@@ -28,6 +28,11 @@
         "meta": "主锚点（尽量极简）"
       },
       {
+        "name": "/spatial/",
+        "url": "https://evanbei.com/spatial/",
+        "meta": "空间层 / spatial layer of the origin node"
+      }，      
+      {
         "name": "/web3/",
         "url": "https://evanbei.com/web3/",
         "meta": "存在声明、可封存、可复现"
