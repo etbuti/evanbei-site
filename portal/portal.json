@@ -64,6 +64,12 @@
           "meta": "主锚点（尽量极简）"
         },
         {
+          "name": "/spatial/",
+          "url": "https://evanbei.com/spatial/",
+          "label": "Spatial Layer",
+          "meta": "空间表达层 / spatial expression layer anchored to the origin node"
+        },
+        {
           "name": "/web3/",
           "url": "https://evanbei.com/web3/",
           "label": "Web3 Anchor",
