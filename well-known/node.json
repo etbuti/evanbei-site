@@ -1,6 +1,6 @@
 {
   "node_version": "1.0",
-  "updated_utc": "2026-02-16T00:00:05.473Z",
+  "updated_utc": "2026-03-07T20:45:05.666Z",
   "entity": {
     "name": "Evan Bei / billund",
     "canonical": "https://evanbei.com/",
@@ -26,6 +26,11 @@
         "name": "evanbei.com /",
         "url": "https://evanbei.com/",
         "meta": "主锚点（尽量极简）"
+      },
+      {
+        "name": "/spatial/",
+        "url": "https://evanbei.com/spatial/",
+        "meta": "空间表达层 / spatial expression layer anchored to the origin node"
       },
       {
         "name": "/web3/",
