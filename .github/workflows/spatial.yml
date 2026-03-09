@@ -4,59 +4,169 @@ on:
   push:
     paths:
       - 'spatial/images/inbox/**'
+      - '.github/workflows/spatial.yml'
 
 jobs:
   build-gallery:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Prepare folders
         run: |
+          mkdir -p spatial/images/inbox
           mkdir -p spatial/images/archive
           mkdir -p spatial/passport/items
           mkdir -p spatial/gallery
 
       - name: Process images
+        shell: bash
         run: |
+          set -e
+          shopt -s nullglob
+
+          processed=0
+
           for img in spatial/images/inbox/*; do
-            [ -e "$img" ] || continue
+            [ -f "$img" ] || continue
 
             name=$(basename "$img")
             base="${name%.*}"
 
-            mv "$img" spatial/images/archive/$name
+            mv "$img" "spatial/images/archive/$name"
 
-            cat <<EOF > spatial/passport/items/$base.json
+            cat > "spatial/passport/items/$base.json" <<EOF
 {
   "id": "$base",
+  "title": "$base",
+  "date": "$(date -u +%Y-%m-%d)",
+  "place": "Unspecified",
   "image": "/spatial/images/archive/$name",
-  "date": "$(date -u +%Y-%m-%d)"
+  "caption": "Spatial entry."
 }
 EOF
 
-            cat <<EOF > spatial/gallery/$base.html
-<!DOCTYPE html>
-<html>
+            cat > "spatial/gallery/$base.html" <<EOF
+<!doctype html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>$base</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<style>
+body{
+  margin:0;
+  background:#0b0d12;
+  color:#edf2ff;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+.wrap{
+  max-width:980px;
+  margin:0 auto;
+  padding:42px 18px 72px;
+}
+a{color:#9eabc2;text-decoration:none}
+h1{font-weight:560}
+img{
+  max-width:100%;
+  height:auto;
+  display:block;
+  border-radius:18px;
+}
+.meta{
+  color:#9eabc2;
+  margin-bottom:18px;
+}
+</style>
 </head>
 <body>
-<h2>$base</h2>
-<img src="/spatial/images/archive/$name" style="max-width:100%">
+  <div class="wrap">
+    <p><a href="/spatial/gallery/">← Back to gallery</a></p>
+    <h1>$base</h1>
+    <p class="meta">$(date -u +%Y-%m-%d)</p>
+    <img src="/spatial/images/archive/$name" alt="$base">
+  </div>
 </body>
 </html>
 EOF
 
+            processed=1
           done
 
-      - name: Commit results
+      - name: Rebuild gallery index
+        shell: bash
         run: |
-          git config user.name "spatial-bot"
-          git config user.email "bot@users.noreply.github.com"
+          set -e
+          shopt -s nullglob
 
+          {
+            echo '<!doctype html>'
+            echo '<html lang="en">'
+            echo '<head>'
+            echo '<meta charset="utf-8">'
+            echo '<title>Spatial Gallery</title>'
+            echo '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            echo '<meta name="robots" content="index,follow">'
+            echo '<style>'
+            echo 'body{margin:0;background:#0b0d12;color:#edf2ff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}'
+            echo '.wrap{max-width:1100px;margin:0 auto;padding:48px 16px 72px;}'
+            echo 'h1{font-weight:560;margin:0 0 22px;}'
+            echo '.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;}'
+            echo '.card{display:block;text-decoration:none;color:inherit;border:1px solid #232a38;border-radius:18px;overflow:hidden;background:#121722;}'
+            echo '.thumb{aspect-ratio:4/3;background:#101521;}'
+            echo '.thumb img{width:100%;height:100%;object-fit:cover;display:block;}'
+            echo '.info{padding:14px;}'
+            echo '.title{font-size:15px;line-height:1.4;}'
+            echo '</style>'
+            echo '</head><body><div class="wrap">'
+            echo '<h1>Spatial Gallery</h1>'
+            echo '<div class="grid">'
+
+            for page in spatial/gallery/*.html; do
+              [ -f "$page" ] || continue
+              fname=$(basename "$page")
+              [ "$fname" = "index.html" ] && continue
+              title="${fname%.html}"
+
+              img=""
+              for ext in jpg jpeg png webp JPG JPEG PNG WEBP; do
+                if [ -f "spatial/images/archive/$title.$ext" ]; then
+                  img="/spatial/images/archive/$title.$ext"
+                  break
+                fi
+              done
+
+              [ -n "$img" ] || continue
+
+              echo '<a class="card" href="./'"$fname"'">'
+              echo '<div class="thumb"><img src="'"$img"'" alt="'"$title"'"></div>'
+              echo '<div class="info"><div class="title">'"$title"'</div></div>'
+              echo '</a>'
+            done
+
+            echo '</div></div></body></html>'
+          } > spatial/gallery/index.html
+
+      - name: Commit and push
+        shell: bash
+        run: |
+          set -e
+          git config user.name "spatial-bot"
+          git config user.email "spatial-bot@users.noreply.github.com"
           git add spatial/
-          git commit -m "Spatial auto build" || echo "no changes"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Spatial auto build"
+          git push origin HEAD:main
