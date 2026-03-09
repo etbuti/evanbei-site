@@ -40,19 +40,36 @@
 {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
+  "@id": "https://evanbei.com/#profile",
   "url": "https://evanbei.com/",
   "name": "Evan Bei",
+  "isPartOf": {
+    "@id": "https://evanbei.com/#site"
+  },
   "mainEntity": {
     "@type": "Person",
+    "@id": "https://evanbei.com/#person",
     "name": "Evan Bei",
     "alternateName": ["billund", "Xiaojun Yin"],
     "url": "https://evanbei.com/",
     "description": "Independent artistic researcher exploring sound ontology, algorithmic composition, and time-based practice.",
+    
+    "jobTitle": "Independent Scholar and Composer",
+
+    "knowsAbout": [
+      "Sound ontology",
+      "Algorithmic composition",
+      "Time-based practice",
+      "Music composition",
+      "AI and cultural systems"
+    ],
+
     "identifier": [
       "did:web:evanbei.com",
       "ORCID: 0009-0000-8302-3360",
       "UKCS: 284760782"
     ],
+
     "sameAs": [
       "https://orcid.org/0009-0000-8302-3360",
       "https://goldisle.org/",
@@ -60,6 +77,11 @@
       "https://aipoints.org/",
       "https://aiagentsdirectory.com/agent/evan-bei-billund-auditable-agent"
     ]
+  },
+
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://evanbei.com/#person"
   }
 }
 </script>
