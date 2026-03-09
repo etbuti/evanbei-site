@@ -1,0 +1,62 @@
+name: Spatial Gallery Builder
+
+on:
+  push:
+    paths:
+      - 'spatial/images/inbox/**'
+
+jobs:
+  build-gallery:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare folders
+        run: |
+          mkdir -p spatial/images/archive
+          mkdir -p spatial/passport/items
+          mkdir -p spatial/gallery
+
+      - name: Process images
+        run: |
+          for img in spatial/images/inbox/*; do
+            [ -e "$img" ] || continue
+
+            name=$(basename "$img")
+            base="${name%.*}"
+
+            mv "$img" spatial/images/archive/$name
+
+            cat <<EOF > spatial/passport/items/$base.json
+{
+  "id": "$base",
+  "image": "/spatial/images/archive/$name",
+  "date": "$(date -u +%Y-%m-%d)"
+}
+EOF
+
+            cat <<EOF > spatial/gallery/$base.html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>$base</title>
+</head>
+<body>
+<h2>$base</h2>
+<img src="/spatial/images/archive/$name" style="max-width:100%">
+</body>
+</html>
+EOF
+
+          done
+
+      - name: Commit results
+        run: |
+          git config user.name "spatial-bot"
+          git config user.email "bot@users.noreply.github.com"
+
+          git add spatial/
+          git commit -m "Spatial auto build" || echo "no changes"
+          git push
