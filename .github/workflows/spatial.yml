@@ -1,0 +1,213 @@
+name: Spatial Gallery Builder
+
+on:
+  push:
+    paths:
+      - ".github/workflows/spatial.yml"
+      - "spatial/images/inbox/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare folders
+        run: |
+          mkdir -p spatial/images/inbox
+          mkdir -p spatial/images/archive
+          mkdir -p spatial/passport/items
+          mkdir -p spatial/gallery
+
+      - name: Process inbox images and rebuild gallery
+        run: |
+          python3 <<'PY'
+          import json
+          import shutil
+          from pathlib import Path
+          from datetime import datetime
+
+          inbox = Path("spatial/images/inbox")
+          archive = Path("spatial/images/archive")
+          passport = Path("spatial/passport/items")
+          gallery = Path("spatial/gallery")
+
+          archive.mkdir(parents=True, exist_ok=True)
+          passport.mkdir(parents=True, exist_ok=True)
+          gallery.mkdir(parents=True, exist_ok=True)
+
+          today = datetime.utcnow().strftime("%Y-%m-%d")
+          image_exts = {".jpg", ".jpeg", ".png", ".webp", ".JPG", ".JPEG", ".PNG", ".WEBP"}
+
+          for img in inbox.iterdir():
+              if not img.is_file():
+                  continue
+              if img.suffix not in image_exts:
+                  continue
+
+              name = img.name
+              base = img.stem
+              archived = archive / name
+
+              shutil.move(str(img), str(archived))
+
+              data = {
+                  "id": base,
+                  "title": base,
+                  "date": today,
+                  "place": "Unspecified",
+                  "image": f"/spatial/images/archive/{name}",
+                  "caption": "Spatial entry."
+              }
+
+              (passport / f"{base}.json").write_text(
+                  json.dumps(data, ensure_ascii=False, indent=2),
+                  encoding="utf-8"
+              )
+
+              page_html = f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{base}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<style>
+body {{
+  margin: 0;
+  background: #0b0d12;
+  color: #edf2ff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}}
+.wrap {{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 42px 18px 72px;
+}}
+a {{ color: #9eabc2; text-decoration: none; }}
+h1 {{ font-weight: 560; }}
+img {{
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+}}
+.meta {{
+  color: #9eabc2;
+  margin-bottom: 18px;
+}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="/spatial/gallery/">← Back to gallery</a></p>
+    <h1>{base}</h1>
+    <p class="meta">{today}</p>
+    <img src="/spatial/images/archive/{name}" alt="{base}">
+  </div>
+</body>
+</html>
+"""
+              (gallery / f"{base}.html").write_text(page_html, encoding="utf-8")
+
+          cards = []
+          for page in sorted(gallery.glob("*.html")):
+              if page.name == "index.html":
+                  continue
+              title = page.stem
+
+              img_url = None
+              for ext in [".jpg", ".jpeg", ".png", ".webp", ".JPG", ".JPEG", ".PNG", ".WEBP"]:
+                  candidate = archive / f"{title}{ext}"
+                  if candidate.exists():
+                      img_url = f"/spatial/images/archive/{candidate.name}"
+                      break
+
+              if not img_url:
+                  continue
+
+              cards.append(f'''<a class="card" href="./{page.name}">
+  <div class="thumb"><img src="{img_url}" alt="{title}"></div>
+  <div class="info"><div class="title">{title}</div></div>
+</a>''')
+
+          index_html = f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spatial Gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<style>
+body {{
+  margin: 0;
+  background: #0b0d12;
+  color: #edf2ff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}}
+.wrap {{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 16px 72px;
+}}
+h1 {{
+  font-weight: 560;
+  margin: 0 0 22px;
+}}
+.grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}}
+.card {{
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #232a38;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #121722;
+}}
+.thumb {{
+  aspect-ratio: 4/3;
+  background: #101521;
+}}
+.thumb img {{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}}
+.info {{
+  padding: 14px;
+}}
+.title {{
+  font-size: 15px;
+  line-height: 1.4;
+}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Spatial Gallery</h1>
+    <div class="grid">
+      {''.join(cards)}
+    </div>
+  </div>
+</body>
+</html>
+"""
+          (gallery / "index.html").write_text(index_html, encoding="utf-8")
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "spatial-bot"
+          git config user.email "spatial-bot@users.noreply.github.com"
+          git add spatial/
+          git diff --cached --quiet || git commit -m "Spatial auto build"
+          git push origin HEAD:main
