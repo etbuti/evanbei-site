@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "mint": {
+    "signature_reward": 2,
+    "correct_vote_reward": 3,
+    "consistency_bonus": 5
+  },
+  "burn": {
+    "wrong_vote_penalty": 4,
+    "anomaly_penalty": 8,
+    "revocation_penalty": 20
+  },
+  "staking": {
+    "required_for_core_vote": 20,
+    "required_for_cross_network_vote": 30
+  }
+}
