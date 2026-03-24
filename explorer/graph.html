@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Origins Anchor Graph</title>
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#fafafa;
+  color:#111;
+}
+header{
+  padding:16px 20px;
+  border-bottom:1px solid #eee;
+  background:#fff;
+}
+main{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  height:calc(100vh - 58px);
+}
+#canvas{
+  position:relative;
+  overflow:hidden;
+  background:#fafafa;
+}
+#sidebar{
+  border-left:1px solid #eee;
+  background:#fff;
+  padding:18px;
+  overflow:auto;
+}
+.node{
+  position:absolute;
+  min-width:120px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:2px solid #999;
+  background:#fff;
+  text-align:center;
+  font-size:13px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  cursor:pointer;
+}
+.node.anchor{
+  border-color:#111;
+  background:#f8f8f8;
+}
+.node.certificate{
+  border-color:#2563eb;
+  background:#eef6ff;
+}
+.node.node{
+  border-color:#16a34a;
+  background:#edfdf3;
+}
+.node .type{
+  margin-top:6px;
+  font-size:11px;
+  color:#666;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+.line{
+  stroke:#bdbdbd;
+  stroke-width:1.6;
+}
+.label{
+  font-size:11px;
+  fill:#666;
+}
+.small{
+  font-size:13px;
+  color:#666;
+  line-height:1.6;
+}
+code{
+  background:#f3f3f3;
+  padding:2px 4px;
+  border-radius:4px;
+}
+.legend{
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid #eee;
+}
+.legend-item{
+  margin-bottom:8px;
+}
+.dot{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  margin-right:8px;
+  vertical-align:middle;
+}
+.dot.anchor{ background:#111; }
+.dot.certificate{ background:#2563eb; }
+.dot.node{ background:#16a34a; }
+</style>
+</head>
+<body>
+
+<header>
+  <strong>AI Origins — Anchor Graph</strong>
+</header>
+
+<main>
+  <section id="canvas">
+    <svg id="lines"></svg>
+  </section>
+  <aside id="sidebar">
+    <h3>Graph Detail</h3>
+    <div id="detail" class="small">Click a node to inspect.</div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="dot anchor"></span>Anchor</div>
+      <div class="legend-item"><span class="dot certificate"></span>Certificate</div>
+      <div class="legend-item"><span class="dot node"></span>Signing Node</div>
+    </div>
+  </aside>
+</main>
+
+<script>
+let graphData = null;
+let placed = [];
+let nodeMap = {};
+
+async function loadGraph(){
+  const res = await fetch("/anchors/graph.json");
+  return await res.json();
+}
+
+function layout(nodes, width, height){
+  const anchors = nodes.filter(n => n.type === "anchor");
+  const certs = nodes.filter(n => n.type === "certificate");
+  const signers = nodes.filter(n => n.type === "node");
+
+  const placed = [];
+
+  const leftX = 120;
+  const midX = width / 2 - 80;
+  const rightX = width - 260;
+
+  anchors.forEach((n, i) => {
+    placed.push({...n, x:leftX, y:80 + i * 120});
+  });
+
+  certs.forEach((n, i) => {
+    placed.push({...n, x:midX, y:80 + i * 120});
+  });
+
+  signers.forEach((n, i) => {
+    placed.push({...n, x:rightX, y:80 + i * 100});
+  });
+
+  return placed;
+}
+
+function renderDetail(node){
+  const el = document.getElementById("detail");
+  el.innerHTML = `
+    <div><strong>${node.label}</strong></div>
+    <div style="margin-top:10px;">
+      <div><strong>ID:</strong> <code>${node.id}</code></div>
+      <div><strong>Type:</strong> ${node.type}</div>
+    </div>
+  `;
+}
+
+function render(graph){
+  const canvas = document.getElementById("canvas");
+  const svg = document.getElementById("lines");
+
+  canvas.querySelectorAll(".node").forEach(el => el.remove());
+  svg.innerHTML = "";
+
+  placed = layout(graph.nodes, canvas.clientWidth, canvas.clientHeight);
+  nodeMap = Object.fromEntries(placed.map(n => [n.id, n]));
+
+  for (const edge of graph.edges){
+    const s = nodeMap[edge.source];
+    const t = nodeMap[edge.target];
+    if (!s || !t) continue;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", s.x + 60);
+    line.setAttribute("y1", s.y + 22);
+    line.setAttribute("x2", t.x + 60);
+    line.setAttribute("y2", t.y + 22);
+    line.setAttribute("class", "line");
+    svg.appendChild(line);
+
+    const lx = (s.x + t.x) / 2 + 20;
+    const ly = (s.y + t.y) / 2 + 10;
+
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", lx);
+    text.setAttribute("y", ly);
+    text.setAttribute("class", "label");
+    text.textContent = edge.label;
+    svg.appendChild(text);
+  }
+
+  for (const node of placed){
+    const div = document.createElement("div");
+    div.className = `node ${node.type}`;
+    div.style.left = `${node.x}px`;
+    div.style.top = `${node.y}px`;
+    div.innerHTML = `
+      <div>${node.label}</div>
+      <div class="type">${node.type}</div>
+    `;
+    div.addEventListener("click", () => renderDetail(node));
+    canvas.appendChild(div);
+  }
+}
+
+async function init(){
+  graphData = await loadGraph();
+  render(graphData);
+}
+
+window.addEventListener("resize", () => {
+  if (graphData) render(graphData);
+});
+
+init();
+</script>
+</body>
+</html>
