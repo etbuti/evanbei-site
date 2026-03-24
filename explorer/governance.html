@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Governance Timeline</title>
+<style>
+body{font-family:-apple-system;background:#fafafa;margin:0;}
+header{padding:12px 16px;border-bottom:1px solid #eee;background:#fff;}
+.item{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  background:#fff;
+}
+.time{font-size:12px;color:#888;}
+.level{font-weight:bold;}
+.promote{color:green;}
+.demote{color:orange;}
+.revoke{color:red;}
+</style>
+</head>
+
+<body>
+
+<header><strong>Governance Timeline</strong></header>
+
+<div id="list"></div>
+
+<script>
+
+async function load(){
+  const data = await fetch("http://localhost:8080/governance/history")
+    .then(r=>r.json());
+
+  const list = document.getElementById("list");
+
+  data.reverse().forEach(evt=>{
+    const d = document.createElement("div");
+    d.className="item";
+
+    let cls="";
+
+    if(evt.to==="core") cls="promote";
+    if(evt.to==="watch") cls="demote";
+    if(evt.to==="revoked") cls="revoke";
+
+    d.innerHTML = `
+      <div class="time">${evt.ts}</div>
+      <div class="${cls}">
+        ${evt.node_id}: ${evt.from} → ${evt.to}
+      </div>
+      <div>score=${evt.score} anomaly=${evt.anomaly}</div>
+    `;
+
+    list.appendChild(d);
+  });
+}
+
+load();
+
+</script>
+</body>
+</html>
