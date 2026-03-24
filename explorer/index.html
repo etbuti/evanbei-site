@@ -67,6 +67,10 @@ function layout(nodes,w,h){
   return out;
 }
 
+<input id="search" placeholder="Enter certificate id (mc-003)">
+<button onclick="addChain()">Add</button>
+<button onclick="resetChains()">Reset</button>
+  
 // 🔍 搜索
 function addChain(){
   const id=document.getElementById("search").value.trim();
