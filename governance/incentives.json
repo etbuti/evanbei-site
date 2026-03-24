@@ -1,0 +1,5 @@
+{
+  "reward_per_correct_vote": 2,
+  "penalty_per_wrong_vote": -3,
+  "bonus_for_consistency": 5
+}
