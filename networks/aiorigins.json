@@ -1,0 +1,8 @@
+{
+  "network_id": "aiorigins",
+  "name": "AI Origins Network",
+  "root_did": "did:web:evanbei.com",
+  "registry_url": "https://evanbei.com/.well-known/node-registry.json",
+  "anchor_index_url": "https://evanbei.com/anchors/index.json",
+  "policy_url": "https://evanbei.com/policies/default.json"
+}
