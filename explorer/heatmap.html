@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust Heatmap</title>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fafafa;color:#111;}
+header{padding:14px 18px;border-bottom:1px solid #eee;background:#fff;}
+main{display:grid;grid-template-columns:1fr 320px;height:calc(100vh - 52px);}
+#canvas{position:relative;background:#fafafa;overflow:hidden;}
+#sidebar{border-left:1px solid #eee;background:#fff;padding:16px;overflow:auto;}
+.node{
+  position:absolute;
+  border-radius:999px;
+  background:#16a34a22;
+  border:2px solid #16a34a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  text-align:center;
+}
+svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.line{stroke:#999;}
+.item{padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+</style>
+</head>
+<body>
+<header><strong>Trust Heatmap</strong></header>
+<main>
+  <section id="canvas">
+    <svg id="lines"></svg>
+  </section>
+  <aside id="sidebar">
+    <h3>Top Nodes</h3>
+    <div id="topNodes">Loading…</div>
+    <h3 style="margin-top:18px;">Top Paths</h3>
+    <div id="topEdges">Loading…</div>
+  </aside>
+</main>
+
+<script>
+let heat = null;
+let positions = {};
+
+async function loadHeat(){
+  heat = await fetch("/explorer/heatmap.json").then(r => r.json());
+  render();
+}
+
+function render(){
+  const canvas = document.getElementById("canvas");
+  const svg = document.getElementById("lines");
+  const nodes = heat.nodes;
+  const edges = heat.edges;
+
+  canvas.querySelectorAll(".node").forEach(n => n.remove());
+  svg.innerHTML = "";
+
+  const cx = canvas.clientWidth / 2;
+  const cy = canvas.clientHeight / 2;
+  const r = Math.min(canvas.clientWidth, canvas.clientHeight) / 3;
+
+  nodes.forEach((n, i) => {
+    const a = (2 * Math.PI * i) / Math.max(nodes.length, 1);
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+    positions[n.node_id] = {x, y};
+
+    const size = 36 + n.heat * 6;
+
+    const div = document.createElement("div");
+    div.className = "node";
+    div.style.width = `${size}px`;
+    div.style.height = `${size}px`;
+    div.style.left = `${x}px`;
+    div.style.top = `${y}px`;
+    div.style.background = `rgba(22,163,74,${Math.min(0.12 + n.heat * 0.08, 0.8)})`;
+    div.textContent = n.node_id;
+    canvas.appendChild(div);
+  });
+
+  edges.forEach(e => {
+    const s = positions[e.source];
+    const t = positions[e.target];
+    if(!s || !t) return;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", s.x + 20);
+    line.setAttribute("y1", s.y + 20);
+    line.setAttribute("x2", t.x + 20);
+    line.setAttribute("y2", t.y + 20);
+    line.setAttribute("class", "line");
+    line.setAttribute("stroke-width", Math.min(1 + e.heat, 10));
+    line.setAttribute("stroke-opacity", Math.min(0.2 + e.heat * 0.08, 0.95));
+    svg.appendChild(line);
+  });
+
+  document.getElementById("topNodes").innerHTML =
+    nodes.slice(0, 10).map(n => `<div class="item">${n.node_id} — heat ${n.heat}</div>`).join("");
+
+  document.getElementById("topEdges").innerHTML =
+    edges.slice(0, 10).map(e => `<div class="item">${e.source} → ${e.target} — heat ${e.heat}</div>`).join("");
+}
+
+window.addEventListener("resize", () => location.reload());
+
+loadHeat();
+</script>
+</body>
+</html>
