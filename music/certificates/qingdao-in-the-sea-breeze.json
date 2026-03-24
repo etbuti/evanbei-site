@@ -23,7 +23,7 @@
 
   "identifiers": {
     "isrc_distributor": "QZTAT2598565",
-    "isrc_author_registered": "YOUR_OWN_ISRC_HERE",
+    "isrc_author_registered": "GXGXN2517933",
     "upc": "199524004158",
     "distrokid_release_label": "Evan Bei"
   },
@@ -46,6 +46,7 @@
     "apple_music": "https://music.apple.com/us/album/qingdao-in-the-sea-breeze-single/1817326214",
     "spotify": "https://open.spotify.com/track/7zr8IEer9Xddqk9EurbAU9",
     "bandcamp": "https://billund.bandcamp.com/album/qingdao-in-the-sea-breeze"
+    "distrokids": "https://distrokid.com/dashboard/album/?albumuuid=397A59A2-E180-4208-BC0F0EA843F0DF47"
   },
 
   "historical_note": "This work marks the first global music release in Evan Bei's international publishing path. The distributor-assigned ISRC and author-registered ISRC are both preserved for historical continuity and authorship identity.",
