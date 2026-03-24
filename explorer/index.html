@@ -1,177 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>AI Origins Anchor Explorer</title>
-
-<style>
-body{
-  margin:0;
-  font-family:-apple-system,Segoe UI,sans-serif;
-  background:#fafafa;
-}
-
-header{
-  padding:16px 20px;
-  border-bottom:1px solid #eee;
-  background:#fff;
-}
-
-main{
-  display:grid;
-  grid-template-columns:320px 1fr;
-  height:calc(100vh - 60px);
-}
-
-#list{
-  border-right:1px solid #eee;
-  overflow:auto;
-  background:#fff;
-}
-
-.item{
-  padding:12px 14px;
-  border-bottom:1px solid #f0f0f0;
-  cursor:pointer;
-}
-
-.item:hover{
-  background:#f7f7f7;
-}
-
-.item.active{
-  background:#eef6ff;
-}
-
-#detail{
-  padding:20px;
-  overflow:auto;
-}
-
-.badge{
-  display:inline-block;
-  padding:2px 8px;
-  border-radius:999px;
-  font-size:12px;
-  background:#eee;
-  margin-left:8px;
-}
-
-.hash{
-  font-family:monospace;
-  font-size:12px;
-  color:#555;
-  word-break:break-all;
-}
-
-button{
-  margin-top:10px;
-  padding:6px 10px;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <strong>AI Origins — Anchor Explorer</strong>
-</header>
-
-<main>
-  <div id="list"></div>
-  <div id="detail">
-    <h3>Anchor Detail</h3>
-    <div>Select an anchor</div>
-  </div>
-</main>
-
 <script>
 
-let anchors = [];
-let current = null;
+let anchorMap = {};
+let graphData;
+let nodeMap = {};
+let edgeEls = [];
 
-// 加载 index
-async function loadIndex(){
-  const res = await fetch("/anchors/index.json");
-  const data = await res.json();
-  anchors = data.anchors.reverse(); // 最新在上
-  renderList();
+let activeChains = []; // 当前加载的链
+let COLORS = ["#2563eb","#16a34a","#9333ea","#ea580c"];
+
+async function init(){
+  const idx = await fetch("/anchors/index.json").then(r=>r.json());
+
+  for(const f of idx.anchors){
+    const a = await fetch("/anchors/"+f).then(r=>r.json());
+    anchorMap[a.certificate_id] = a;
+  }
+
+  graphData = await fetch("/anchors/graph.json").then(r=>r.json());
+  renderGraph();
 }
 
-// 渲染列表
-function renderList(){
-  const el = document.getElementById("list");
-  el.innerHTML = "";
+function renderGraph(){
+  const canvas=document.getElementById("graph");
+  const svg=document.getElementById("lines");
 
-  anchors.forEach(id=>{
-    const d = document.createElement("div");
-    d.className="item";
-    d.innerText = id;
+  svg.innerHTML="";
+  canvas.querySelectorAll(".node").forEach(n=>n.remove());
+  edgeEls=[];
 
-    d.onclick = ()=>loadAnchor(id,d);
+  const placed = layout(graphData.nodes,canvas.clientWidth,canvas.clientHeight);
+  nodeMap = Object.fromEntries(placed.map(n=>[n.id,n]));
 
-    el.appendChild(d);
+  graphData.edges.forEach(e=>{
+    const s=nodeMap[e.source];
+    const t=nodeMap[e.target];
+    if(!s||!t)return;
+
+    const l=document.createElementNS("http://www.w3.org/2000/svg","line");
+    l.setAttribute("x1",s.x+40);
+    l.setAttribute("y1",s.y+20);
+    l.setAttribute("x2",t.x+40);
+    l.setAttribute("y2",t.y+20);
+    l.setAttribute("class","line");
+    l.dataset.k=`${e.source}->${e.target}`;
+    svg.appendChild(l);
+    edgeEls.push(l);
+  });
+
+  placed.forEach(n=>{
+    const d=document.createElement("div");
+    d.className="node "+n.type;
+    d.style.left=n.x+"px";
+    d.style.top=n.y+"px";
+    d.dataset.id=n.id;
+    d.innerText=n.label;
+
+    canvas.appendChild(d);
   });
 }
 
-// 加载 anchor
-async function loadAnchor(id, dom){
-  document.querySelectorAll(".item").forEach(x=>x.classList.remove("active"));
-  dom.classList.add("active");
-
-  const res = await fetch("/anchors/"+id);
-  const a = await res.json();
-
-  current = a;
-  renderDetail(a);
+function layout(nodes,w,h){
+  let out=[];
+  nodes.forEach((n,i)=>{
+    out.push({...n,x:100+(i%3)*200,y:80+Math.floor(i/3)*100});
+  });
+  return out;
 }
 
-// 渲染详情
-function renderDetail(a){
-  const el = document.getElementById("detail");
+// 🔍 搜索
+function addChain(){
+  const id=document.getElementById("search").value.trim();
+  if(!anchorMap[id]) return alert("Not found");
 
-  el.innerHTML = `
-    <h3>${a.certificate_id}</h3>
-
-    <div><strong>Created:</strong> ${a.created_at}</div>
-
-    <div style="margin-top:10px;">
-      <strong>Hash:</strong>
-      <div class="hash">${a.hash_sha256}</div>
-    </div>
-
-    <div style="margin-top:10px;">
-      <strong>Previous:</strong>
-      ${a.previous_anchor ? a.previous_anchor.file : "GENESIS"}
-    </div>
-
-    <button onclick="traceBack()">Trace Back</button>
-    <button onclick="verifyHash()">Verify</button>
-  `;
-}
-
-// 向前追溯
-async function traceBack(){
-  if(!current.previous_anchor){
-    alert("Reached Genesis");
-    return;
+  if(!activeChains.includes(id)){
+    activeChains.push(id);
   }
 
-  const prev = current.previous_anchor.file;
-  const dom = [...document.querySelectorAll(".item")]
-    .find(x=>x.innerText===prev);
-
-  if(dom) dom.click();
+  renderChains();
 }
 
-// 简单 hash 验证（演示）
-async function verifyHash(){
-  alert("Hash check logic can run here (client-side verify)");
+// 多链渲染
+function renderChains(){
+  clearAll();
+
+  activeChains.forEach((cid,i)=>{
+    traceChain(cid,i);
+  });
 }
 
-loadIndex();
+// 核心：多链高亮
+function traceChain(certId,idx){
+  let cur = certId;
+  let color = COLORS[idx % COLORS.length];
+
+  while(cur){
+    const anchorId="anchor:"+cur;
+    activateNode(anchorId,color);
+
+    const a = anchorMap[cur];
+    if(!a) break;
+
+    const certNode="cert:"+cur;
+    activateNode(certNode,color);
+    activateEdge(anchorId,certNode,color);
+
+    (a.signatures||[]).forEach(s=>{
+      const nid="node:"+s.node_id;
+      activateNode(nid,color);
+      activateEdge(certNode,nid,color);
+    });
+
+    if(!a.previous_anchor) break;
+
+    const prev=a.previous_anchor.file.replace(".json","");
+    activateEdge(anchorId,"anchor:"+prev,color);
+    cur = prev;
+  }
+}
+
+function activateNode(id,color){
+  const el=document.querySelector(`[data-id="${id}"]`);
+  if(!el) return;
+
+  el.style.opacity=1;
+  el.style.borderColor=color;
+}
+
+function activateEdge(a,b,color){
+  const e=edgeEls.find(x=>x.dataset.k===`${a}->${b}`);
+  if(!e) return;
+
+  e.style.stroke=color;
+  e.style.strokeWidth=2;
+}
+
+function clearAll(){
+  document.querySelectorAll(".node").forEach(n=>{
+    n.style.opacity=0.2;
+    n.style.borderColor="#999";
+  });
+
+  edgeEls.forEach(e=>{
+    e.style.stroke="#ccc";
+    e.style.strokeWidth=1;
+  });
+}
+
+// 清空
+function resetChains(){
+  activeChains=[];
+  clearAll();
+}
+
+init();
 
 </script>
-
-</body>
-</html>
