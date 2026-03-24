@@ -1,0 +1,3 @@
+{"ts":"2026-03-24T12:00:00Z","node_id":"helsinki-core","type":"mint","amount":2,"reason":"signature_reward"}
+{"ts":"2026-03-24T12:05:00Z","node_id":"helsinki-core","type":"mint","amount":3,"reason":"correct_vote"}
+{"ts":"2026-03-24T12:10:00Z","node_id":"qingdao-node","type":"burn","amount":8,"reason":"anomaly_penalty"}
