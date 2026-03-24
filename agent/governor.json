@@ -1,0 +1,16 @@
+{
+  "agent_id": "governor-01",
+  "role": "governor",
+  "enabled": true,
+  "policy": "default.signed.json",
+  "permissions": {
+    "auto_observe": true,
+    "auto_downgrade": true,
+    "auto_revoke": false,
+    "auto_propose": true
+  },
+  "budget": {
+    "max_actions_per_hour": 10,
+    "max_governance_spend": 20
+  }
+}
