@@ -1,0 +1,13 @@
+{
+  "bridges": [
+    {
+      "from_network": "aiorigins",
+      "to_network": "partner-a",
+      "mode": "partial",
+      "accepted_levels": ["root", "core", "trusted"],
+      "accepted_anchor_types": ["AIOriginsTimeAnchor"],
+      "weight_multiplier": 0.7,
+      "requires_root_endorsement": true
+    }
+  ]
+}
