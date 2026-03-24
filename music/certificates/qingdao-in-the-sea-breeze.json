@@ -1,7 +1,7 @@
 {
-  "@context": "https://evanbei.com/ns/music-certificate/v1",
+  "@context": "https://evanbei.com/ns/music-certificate/v2",
   "type": "MusicCertificate",
-  "certificate_version": "1.0",
+  "certificate_version": "2.0",
   "certificate_id": "mc-evanbei-qitsb-2025-001",
   "issued_at": "2026-03-24T00:00:00Z",
 
@@ -15,15 +15,15 @@
 
   "work": {
     "title": "Qingdao in the Sea Breeze",
+    "slug": "qingdao-in-the-sea-breeze",
     "type": "single",
     "release_date": "2025-06-06",
-    "language": "instrumental or unspecified",
     "genre": ["folk", "indie", "experimental"]
   },
 
   "identifiers": {
     "isrc_distributor": "QZTAT2598565",
-    "isrc_author_registered": "GXGXN2517933",
+    "isrc_author_registered": "YOUR_OWN_ISRC_HERE",
     "upc": "199524004158",
     "distrokid_release_label": "Evan Bei"
   },
@@ -42,8 +42,9 @@
   "links": {
     "archive_record": "https://evanbei.com/music/archive/",
     "certificate_page": "https://evanbei.com/music/certificates/qingdao-in-the-sea-breeze.html",
-    "apple_music": "https://music.apple.com/REPLACE",
-    "spotify": "https://open.spotify.com/REPLACE",
+    "certificate_json": "https://evanbei.com/music/certificates/qingdao-in-the-sea-breeze.json",
+    "apple_music": "https://music.apple.com/us/album/qingdao-in-the-sea-breeze-single/1817326214",
+    "spotify": "https://open.spotify.com/track/7zr8IEer9Xddqk9EurbAU9",
     "bandcamp": "https://billund.bandcamp.com/album/qingdao-in-the-sea-breeze"
   },
 
@@ -56,9 +57,13 @@
   },
 
   "verification": {
-    "status": "unsigned",
-    "hash_sha256": "",
-    "signature": "",
-    "public_key_url": ""
+    "status": "signed",
+    "canonicalization": "json-minified-no-signature-field",
+    "hash_algorithm": "SHA-256",
+    "hash_sha256": "PUT_REAL_SHA256_HERE",
+    "signature_algorithm": "Ed25519",
+    "signature_base64": "PUT_REAL_SIGNATURE_HERE",
+    "public_key_id": "evanbei-music-cert-key-1",
+    "public_key_url": "https://evanbei.com/.well-known/music-cert.pub"
   }
 }
