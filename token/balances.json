@@ -1,0 +1,17 @@
+{
+  "evanbei-origin": {
+    "governance_credit": 100,
+    "work_credit": 80,
+    "risk_debt": 0
+  },
+  "helsinki-core": {
+    "governance_credit": 60,
+    "work_credit": 45,
+    "risk_debt": 2
+  },
+  "qingdao-node": {
+    "governance_credit": 18,
+    "work_credit": 20,
+    "risk_debt": 6
+  }
+}
