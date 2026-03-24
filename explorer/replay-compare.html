@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Chain Replay</title>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fafafa;color:#111;}
+header{padding:14px 18px;border-bottom:1px solid #eee;background:#fff;}
+main{display:grid;grid-template-columns:280px 1fr 320px;height:calc(100vh - 52px);}
+#left{border-right:1px solid #eee;background:#fff;padding:16px;overflow:auto;}
+#canvasWrap{position:relative;background:#fafafa;overflow:hidden;}
+#right{border-left:1px solid #eee;background:#fff;padding:16px;overflow:auto;}
+.chain-item{padding:8px 10px;border:1px solid #eee;border-radius:10px;margin-bottom:8px;cursor:pointer;}
+.chain-item.active{background:#eef6ff;border-color:#2563eb;}
+.node{
+  position:absolute;
+  padding:8px 10px;
+  border-radius:12px;
+  border:2px solid #999;
+  background:#fff;
+  font-size:12px;
+  text-align:center;
+  opacity:0.35;
+}
+.node.active{opacity:1;}
+svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+button{margin-right:8px;}
+.legend-item{margin-bottom:6px;font-size:13px;}
+.swatch{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle;}
+</style>
+</head>
+<body>
+<header><strong>Multi-Chain Replay</strong></header>
+<main>
+  <aside id="left">
+    <div style="margin-bottom:12px;">
+      <button onclick="play()">Play</button>
+      <button onclick="pause()">Pause</button>
+      <button onclick="resetReplay()">Reset</button>
+    </div>
+    <div id="chainList">Loading…</div>
+  </aside>
+
+  <section id="canvasWrap">
+    <svg id="overlay"></svg>
+  </section>
+
+  <aside id="right">
+    <h3>Selected Chains</h3>
+    <div id="legend"></div>
+    <h3 style="margin-top:18px;">Event</h3>
+    <div id="eventInfo">No event yet.</div>
+  </aside>
+</main>
+
+<script>
+const COLORS = ["#2563eb","#16a34a","#9333ea","#ea580c","#dc2626"];
+
+let replayData = null;
+let selectedChains = [];
+let chainStates = [];
+let timer = null;
+let nodes = {};
+let pulses = [];
+let nodePositions = {};
+
+async function loadData(){
+  replayData = await fetch("/explorer/replay-data.json").then(r => r.json());
+  renderChainList();
+  initNodes();
+  animate();
+}
+
+function renderChainList(){
+  const el = document.getElementById("chainList");
+  el.innerHTML = "";
+
+  replayData.chains.forEach((c, idx) => {
+    const div = document.createElement("div");
+    div.className = "chain-item";
+    div.textContent = c.certificate_id;
+    div.onclick = () => toggleChain(c.certificate_id, div);
+    el.appendChild(div);
+  });
+}
+
+function toggleChain(cid, dom){
+  const idx = selectedChains.indexOf(cid);
+  if(idx >= 0){
+    selectedChains.splice(idx, 1);
+    dom.classList.remove("active");
+  } else {
+    selectedChains.push(cid);
+    dom.classList.add("active");
+  }
+  rebuildStates();
+  renderLegend();
+}
+
+function rebuildStates(){
+  chainStates = selectedChains.map((cid, i) => {
+    const chain = replayData.chains.find(c => c.certificate_id === cid);
+    return {
+      certificate_id: cid,
+      color: COLORS[i % COLORS.length],
+      index: 0,
+      events: chain ? chain.events : [],
+      lastNode: null,
+      done: false
+    };
+  });
+}
+
+function renderLegend(){
+  const el = document.getElementById("legend");
+  el.innerHTML = "";
+  chainStates.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "legend-item";
+    row.innerHTML = `<span class="swatch" style="background:${c.color}"></span>${c.certificate_id}`;
+    el.appendChild(row);
+  });
+}
+
+function initNodes(){
+  const wrap = document.getElementById("canvasWrap");
+  const known = new Set();
+
+  replayData.chains.forEach(chain => {
+    chain.events.forEach(evt => {
+      if(evt.type === "signature" && evt.node_id){
+        known.add(evt.node_id);
+      }
+    });
+  });
+
+  const arr = [...known];
+  const cx = wrap.clientWidth / 2;
+  const cy = wrap.clientHeight / 2;
+  const r = Math.min(wrap.clientWidth, wrap.clientHeight) / 3;
+
+  arr.forEach((nid, i) => {
+    const a = (2 * Math.PI * i) / Math.max(arr.length, 1);
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+
+    nodePositions[nid] = {x, y};
+
+    const div = document.createElement("div");
+    div.className = "node";
+    div.id = `node-${nid}`;
+    div.style.left = `${x}px`;
+    div.style.top = `${y}px`;
+    div.textContent = nid;
+    wrap.appendChild(div);
+    nodes[nid] = div;
+  });
+}
+
+function play(){
+  if(timer) return;
+  timer = setInterval(step, 900);
+}
+
+function pause(){
+  clearInterval(timer);
+  timer = null;
+}
+
+function resetReplay(){
+  pause();
+  pulses.forEach(p => p.el.remove());
+  pulses = [];
+  chainStates.forEach(c => {
+    c.index = 0;
+    c.lastNode = null;
+    c.done = false;
+  });
+  Object.values(nodes).forEach(n => {
+    n.style.opacity = "0.35";
+    n.style.borderColor = "#999";
+    n.style.boxShadow = "none";
+  });
+  document.getElementById("eventInfo").textContent = "Reset.";
+}
+
+function step(){
+  let active = false;
+
+  chainStates.forEach(chain => {
+    if(chain.done) return;
+    if(chain.index >= chain.events.length){
+      chain.done = true;
+      return;
+    }
+
+    const evt = chain.events[chain.index++];
+    handleChainEvent(chain, evt);
+    active = true;
+  });
+
+  if(!active) pause();
+}
+
+function handleChainEvent(chain, evt){
+  const info = document.getElementById("eventInfo");
+
+  if(evt.type === "signature" && evt.node_id){
+    const el = nodes[evt.node_id];
+    if(el){
+      el.style.opacity = "1";
+      el.style.borderColor = chain.color;
+      el.style.boxShadow = `0 0 0 6px ${chain.color}33`;
+    }
+
+    if(chain.lastNode && chain.lastNode !== evt.node_id){
+      flow(chain.lastNode, evt.node_id, chain.color);
+    }
+    chain.lastNode = evt.node_id;
+
+    info.innerHTML = `<strong>${chain.certificate_id}</strong><br>signature → ${evt.node_id}`;
+  }
+
+  if(evt.type === "finalized"){
+    info.innerHTML = `<strong>${chain.certificate_id}</strong><br>finalized`;
+  }
+}
+
+function flow(a, b, color){
+  const A = nodePositions[a];
+  const B = nodePositions[b];
+  if(!A || !B) return;
+
+  const svg = document.getElementById("overlay");
+  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  circle.setAttribute("r", 6);
+  circle.setAttribute("fill", color);
+  svg.appendChild(circle);
+
+  pulses.push({
+    el: circle,
+    sx: A.x + 30,
+    sy: A.y + 16,
+    tx: B.x + 30,
+    ty: B.y + 16,
+    t: 0
+  });
+}
+
+function animate(){
+  pulses.forEach(p => {
+    p.t += 0.03;
+    const x = p.sx + (p.tx - p.sx) * p.t;
+    const y = p.sy + (p.ty - p.sy) * p.t;
+    p.el.setAttribute("cx", x);
+    p.el.setAttribute("cy", y);
+  });
+
+  pulses = pulses.filter(p => {
+    if(p.t >= 1){
+      p.el.remove();
+      return false;
+    }
+    return true;
+  });
+
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener("resize", () => location.reload());
+
+loadData();
+</script>
+</body>
+</html>
