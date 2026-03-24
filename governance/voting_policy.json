@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+
+  "local_weights": {
+    "root": 3,
+    "core": 1,
+    "trusted": 0.5,
+    "watch": 0.1
+  },
+
+  "external_networks": {
+    "partner-a": {
+      "weight_multiplier": 0.7,
+      "allowed_levels": ["root", "core"]
+    }
+  },
+
+  "thresholds": {
+    "approve": 3,
+    "reject": 3
+  }
+}
