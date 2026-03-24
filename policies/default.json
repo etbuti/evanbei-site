@@ -1,0 +1,30 @@
+{
+  "policy_id": "default",
+  "version": "1.0",
+
+  "scoring": {
+    "heat_weight": 2,
+    "cluster_weight": 3,
+    "recency_weight": 5,
+    "anomaly_penalty": 10
+  },
+
+  "thresholds": {
+    "core": 40,
+    "trusted": 20,
+    "watch": 8,
+    "suspicious": 0
+  },
+
+  "governance": {
+    "root_immutable": true,
+    "anomaly_to_suspicious": 5,
+    "anomaly_to_revoked": 8
+  },
+
+  "dispatch": {
+    "critical": ["root", "core"],
+    "normal": ["core", "trusted"],
+    "low": ["trusted", "watch"]
+  }
+}
