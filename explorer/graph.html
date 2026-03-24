@@ -1,151 +1,148 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Origins Evidence Explorer</title>
 
-let graphData = null;
-let placed = [];
-let nodeMap = {};
-let edgeEls = [];
-let anchorMap = {}; // anchor_id -> 原始 anchor 数据
+<style>
+body{margin:0;font-family:-apple-system,Segoe UI,sans-serif;background:#fafafa;}
+header{padding:14px 18px;border-bottom:1px solid #eee;background:#fff;}
 
-async function loadGraph(){
-  const res = await fetch("/anchors/graph.json");
-  return await res.json();
+main{
+  display:grid;
+  grid-template-columns:240px 1fr 320px;
+  height:calc(100vh - 52px);
 }
 
-async function loadAnchorData(){
-  const res = await fetch("/anchors/index.json");
-  const idx = await res.json();
+#timeline{
+  border-right:1px solid #eee;
+  background:#fff;
+  overflow:auto;
+}
 
-  for (const f of idx.anchors){
+.item{
+  padding:12px;
+  border-bottom:1px solid #f0f0f0;
+  cursor:pointer;
+}
+
+.item.active{background:#eef6ff;}
+
+#graph{
+  position:relative;
+}
+
+.node{
+  position:absolute;
+  padding:8px 10px;
+  border-radius:12px;
+  border:2px solid #999;
+  background:#fff;
+  font-size:12px;
+  text-align:center;
+  cursor:pointer;
+  opacity:0.4;
+}
+
+.node.active{opacity:1;}
+
+.node.anchor{border-color:#111;}
+.node.certificate{border-color:#2563eb;background:#eef6ff;}
+.node.node{border-color:#16a34a;background:#edfdf3;}
+
+svg{
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+.line{stroke:#bbb;}
+.line.active{stroke:#000;stroke-width:2;}
+
+#detail{
+  border-left:1px solid #eee;
+  background:#fff;
+  padding:16px;
+}
+
+.hash{
+  font-family:monospace;
+  font-size:12px;
+  word-break:break-all;
+}
+</style>
+</head>
+
+<body>
+
+<header><strong>AI Origins Evidence Explorer</strong></header>
+
+<main>
+  <div id="timeline"></div>
+  <div id="graph"><svg id="lines"></svg></div>
+  <div id="detail">Select an anchor</div>
+</main>
+
+<script>
+
+let graphData, anchorMap={}, nodeMap={}, edgeEls=[];
+
+async function init(){
+  const idx = await fetch("/anchors/index.json").then(r=>r.json());
+
+  // Timeline
+  const tl = document.getElementById("timeline");
+
+  for(const f of idx.anchors.reverse()){
     const a = await fetch("/anchors/"+f).then(r=>r.json());
     anchorMap["anchor:"+a.certificate_id] = a;
+
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=a.certificate_id;
+
+    d.onclick=()=>selectAnchor("anchor:"+a.certificate_id,d);
+
+    tl.appendChild(d);
   }
+
+  graphData = await fetch("/anchors/graph.json").then(r=>r.json());
+  renderGraph();
 }
 
 function layout(nodes,w,h){
+  let out=[];
   const anchors = nodes.filter(n=>n.type==="anchor");
   const certs = nodes.filter(n=>n.type==="certificate");
   const signers = nodes.filter(n=>n.type==="node");
 
-  let out=[];
-
-  anchors.forEach((n,i)=>{
-    out.push({...n,x:120,y:80+i*120});
-  });
-
-  certs.forEach((n,i)=>{
-    out.push({...n,x:w/2-80,y:80+i*120});
-  });
-
-  signers.forEach((n,i)=>{
-    out.push({...n,x:w-260,y:80+i*100});
-  });
+  anchors.forEach((n,i)=>out.push({...n,x:80,y:80+i*100}));
+  certs.forEach((n,i)=>out.push({...n,x:w/2-60,y:80+i*100}));
+  signers.forEach((n,i)=>out.push({...n,x:w-200,y:80+i*80}));
 
   return out;
 }
 
-function clearHighlight(){
-  edgeEls.forEach(e=>e.classList.remove("active"));
-  document.querySelectorAll(".node").forEach(n=>{
-    n.style.opacity=0.3;
-  });
-}
-
-function highlightNode(id){
-  const n = document.querySelector(`[data-id="${id}"]`);
-  if(n){
-    n.style.opacity=1;
-  }
-}
-
-function highlightEdge(src,dst){
-  const e = edgeEls.find(x=>x.dataset.k===`${src}->${dst}`);
-  if(e){
-    e.classList.add("active");
-  }
-}
-
-function traceChain(anchorId){
-  clearHighlight();
-
-  let cur = anchorId;
-
-  while(cur){
-    highlightNode(cur);
-
-    const a = anchorMap[cur];
-    if(!a) break;
-
-    const certId = "cert:"+a.certificate_id;
-    highlightNode(certId);
-    highlightEdge(cur,certId);
-
-    const sigs = a.signatures || [];
-    sigs.forEach(s=>{
-      const nid = "node:"+s.node_id;
-      highlightNode(nid);
-      highlightEdge(certId,nid);
-    });
-
-    if(!a.previous_anchor) break;
-
-    const prev = "anchor:"+a.previous_anchor.file.replace(".json","");
-    highlightEdge(cur,prev);
-    cur = prev;
-  }
-}
-
-function renderDetail(anchorId){
-  const a = anchorMap[anchorId];
-  const el = document.getElementById("detail");
-
-  if(!a){
-    el.innerHTML="No data";
-    return;
-  }
-
-  el.innerHTML = `
-    <h3>${a.certificate_id}</h3>
-
-    <div><strong>Time:</strong> ${a.created_at}</div>
-
-    <div style="margin-top:10px;">
-      <strong>Hash:</strong>
-      <div class="hash">${a.hash_sha256}</div>
-    </div>
-
-    <div style="margin-top:10px;">
-      <strong>Previous:</strong>
-      ${a.previous_anchor ? a.previous_anchor.file : "GENESIS"}
-    </div>
-
-    <div style="margin-top:10px;">
-      <strong>Signatures:</strong><br>
-      ${(a.signatures||[]).map(s=>s.node_id).join("<br>")}
-    </div>
-  `;
-}
-
-function render(graph){
-  const canvas=document.getElementById("canvas");
+function renderGraph(){
+  const canvas=document.getElementById("graph");
   const svg=document.getElementById("lines");
 
-  canvas.querySelectorAll(".node").forEach(e=>e.remove());
   svg.innerHTML="";
-  edgeEls=[];
+  canvas.querySelectorAll(".node").forEach(n=>n.remove());
 
-  placed = layout(graph.nodes,canvas.clientWidth,canvas.clientHeight);
+  const placed=layout(graphData.nodes,canvas.clientWidth,canvas.clientHeight);
   nodeMap = Object.fromEntries(placed.map(n=>[n.id,n]));
 
   // edges
-  graph.edges.forEach(e=>{
+  graphData.edges.forEach(e=>{
     const s=nodeMap[e.source];
     const t=nodeMap[e.target];
     if(!s||!t)return;
 
     const l=document.createElementNS("http://www.w3.org/2000/svg","line");
-    l.setAttribute("x1",s.x+60);
+    l.setAttribute("x1",s.x+40);
     l.setAttribute("y1",s.y+20);
-    l.setAttribute("x2",t.x+60);
+    l.setAttribute("x2",t.x+40);
     l.setAttribute("y2",t.y+20);
     l.setAttribute("class","line");
     l.dataset.k=`${e.source}->${e.target}`;
@@ -160,30 +157,83 @@ function render(graph){
     d.style.left=n.x+"px";
     d.style.top=n.y+"px";
     d.dataset.id=n.id;
-
-    d.innerHTML=`<div>${n.label}</div><div class="type">${n.type}</div>`;
-
-    d.onclick=()=>{
-      if(n.type==="anchor"){
-        traceChain(n.id);
-        renderDetail(n.id);
-      }
-    };
+    d.innerText=n.label;
 
     canvas.appendChild(d);
   });
 }
 
-async function init(){
-  await loadAnchorData();
-  graphData = await loadGraph();
-  render(graphData);
+function clearAll(){
+  document.querySelectorAll(".node").forEach(n=>{
+    n.classList.remove("active");
+  });
+  edgeEls.forEach(e=>e.classList.remove("active"));
 }
 
-window.addEventListener("resize",()=>{
-  if(graphData) render(graphData);
-});
+function activateNode(id){
+  const el=document.querySelector(`[data-id="${id}"]`);
+  if(el) el.classList.add("active");
+}
+
+function activateEdge(a,b){
+  const e=edgeEls.find(x=>x.dataset.k===`${a}->${b}`);
+  if(e) e.classList.add("active");
+}
+
+function selectAnchor(anchorId,dom){
+  document.querySelectorAll(".item").forEach(x=>x.classList.remove("active"));
+  dom.classList.add("active");
+
+  clearAll();
+
+  let cur = anchorId;
+
+  while(cur){
+    activateNode(cur);
+
+    const a = anchorMap[cur];
+    if(!a) break;
+
+    const cert="cert:"+a.certificate_id;
+    activateNode(cert);
+    activateEdge(cur,cert);
+
+    (a.signatures||[]).forEach(s=>{
+      const nid="node:"+s.node_id;
+      activateNode(nid);
+      activateEdge(cert,nid);
+    });
+
+    if(!a.previous_anchor) break;
+
+    const prev="anchor:"+a.previous_anchor.file.replace(".json","");
+    activateEdge(cur,prev);
+    cur=prev;
+  }
+
+  renderDetail(anchorMap[anchorId]);
+}
+
+function renderDetail(a){
+  document.getElementById("detail").innerHTML=`
+    <h3>${a.certificate_id}</h3>
+    <div>Time: ${a.created_at}</div>
+    <div style="margin-top:10px;">
+      <div class="hash">${a.hash_sha256}</div>
+    </div>
+    <div style="margin-top:10px;">
+      Previous: ${a.previous_anchor ? a.previous_anchor.file : "GENESIS"}
+    </div>
+    <div style="margin-top:10px;">
+      Signatures:<br>
+      ${(a.signatures||[]).map(s=>s.node_id).join("<br>")}
+    </div>
+  `;
+}
 
 init();
 
 </script>
+
+</body>
+</html>
