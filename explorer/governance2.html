@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance Explorer</title>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fafafa;color:#111;}
+header{padding:16px 20px;border-bottom:1px solid #eee;background:#fff;}
+main{display:grid;grid-template-columns:320px 1fr;height:calc(100vh - 58px);}
+#list{border-right:1px solid #eee;background:#fff;overflow:auto;}
+.item{padding:12px 14px;border-bottom:1px solid #f0f0f0;cursor:pointer;}
+.item:hover{background:#f7f7f7;}
+.item.active{background:#eef6ff;}
+#detail{padding:20px;overflow:auto;}
+.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;border:1px solid #ddd;}
+.pending{background:#fff7d6;color:#854d0e;border-color:#eab308;}
+.approved{background:#eef6ff;color:#1d4ed8;border-color:#3b82f6;}
+.executed{background:#ecfdf3;color:#166534;border-color:#16a34a;}
+.rollback{background:#fef2f2;color:#991b1b;border-color:#dc2626;}
+code{background:#f3f3f3;padding:2px 4px;border-radius:4px;}
+.hash{font-family:monospace;font-size:12px;word-break:break-all;color:#555;}
+</style>
+</head>
+<body>
+<header><strong>Governance Explorer</strong></header>
+
+<main>
+  <aside id="list">Loading…</aside>
+  <section id="detail">
+    <h3>Governance Detail</h3>
+    <div>Select an item.</div>
+  </section>
+</main>
+
+<script>
+let items = [];
+
+async function fetchJSON(url){
+  const res = await fetch(url);
+  if(!res.ok) throw new Error(url);
+  return await res.json();
+}
+
+async function loadItems(){
+  const listEl = document.getElementById("list");
+  listEl.innerHTML = "";
+
+  const govAnchorIndex = await fetchJSON("/governance/anchors/index.json").catch(() => ({anchors:[]}));
+
+  for(const f of govAnchorIndex.anchors || []){
+    try{
+      const a = await fetchJSON(`/governance/anchors/${f}`);
+      items.push({
+        kind: "anchor",
+        id: a.anchor_id,
+        time: a.created_at,
+        data: a
+      });
+    }catch(e){}
+  }
+
+  items.sort((a,b) => new Date(b.time) - new Date(a.time));
+
+  items.forEach((it, idx) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div><strong>${it.id}</strong></div>
+      <div style="font-size:12px;color:#666;">${it.time}</div>
+    `;
+    div.onclick = () => selectItem(idx, div);
+    listEl.appendChild(div);
+  });
+}
+
+function selectItem(idx, dom){
+  document.querySelectorAll(".item").forEach(x => x.classList.remove("active"));
+  dom.classList.add("active");
+
+  const it = items[idx];
+  if(it.kind === "anchor"){
+    renderAnchor(it.data);
+  }
+}
+
+function renderAnchor(a){
+  const el = document.getElementById("detail");
+  el.innerHTML = `
+    <h3>${a.anchor_id}</h3>
+
+    <div><strong>Created:</strong> ${a.created_at}</div>
+    <div style="margin-top:8px;"><strong>Certificate:</strong> <code>${a.certificate_id}</code></div>
+    <div><strong>Type:</strong> ${a.certificate_type}</div>
+
+    <div style="margin-top:12px;">
+      <strong>Hash:</strong>
+      <div class="hash">${a.hash_sha256}</div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <strong>Previous Anchor:</strong>
+      ${a.previous_anchor ? a.previous_anchor.file : "GENESIS"}
+    </div>
+
+    <div style="margin-top:12px;">
+      <strong>References:</strong><br>
+      proposal_id: ${a.references?.proposal_id || "-"}<br>
+      target_node: ${a.references?.target_node || "-"}<br>
+      action: ${a.references?.action || "-"}
+    </div>
+  `;
+}
+
+loadItems();
+</script>
+</body>
+</html>
