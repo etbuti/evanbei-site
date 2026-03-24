@@ -1,0 +1,48 @@
+{
+  "type": "SignedPolicy",
+  "version": "1.0",
+
+  "policy_id": "default",
+  "issued_at": "2026-03-24T00:00:00Z",
+  "issuer": {
+    "name": "Evan Bei",
+    "did": "did:web:evanbei.com"
+  },
+
+  "policy": {
+    "policy_id": "default",
+    "version": "1.0",
+    "scoring": {
+      "heat_weight": 2,
+      "cluster_weight": 3,
+      "recency_weight": 5,
+      "anomaly_penalty": 10
+    },
+    "thresholds": {
+      "core": 40,
+      "trusted": 20,
+      "watch": 8,
+      "suspicious": 0
+    },
+    "governance": {
+      "root_immutable": true,
+      "anomaly_to_suspicious": 5,
+      "anomaly_to_revoked": 8
+    },
+    "dispatch": {
+      "critical": ["root", "core"],
+      "normal": ["core", "trusted"],
+      "low": ["trusted", "watch"]
+    }
+  },
+
+  "verification": {
+    "canonicalization": "json-minified-no-signature-field-sorted-keys",
+    "hash_algorithm": "SHA-256",
+    "hash_sha256": "PUT_REAL_HASH_HERE",
+    "signature_algorithm": "Ed25519",
+    "signature_base64": "PUT_REAL_SIGNATURE_HERE",
+    "public_key_url": "https://evanbei.com/.well-known/policy.pub",
+    "key_id": "evanbei-policy-key-1"
+  }
+}
