@@ -1,0 +1,9 @@
+{
+  "pool_balance": 1000,
+  "spend_rules": {
+    "observe": 1,
+    "downgrade": 2,
+    "proposal_create": 3,
+    "cross_network_vote": 5
+  }
+}
