@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "id": "anchor:mc-003",
+      "label": "Anchor mc-003",
+      "type": "anchor"
+    },
+    {
+      "id": "cert:mc-003",
+      "label": "Certificate mc-003",
+      "type": "certificate"
+    },
+    {
+      "id": "node:evanbei-origin",
+      "label": "evanbei-origin",
+      "type": "node"
+    },
+    {
+      "id": "node:helsinki-core",
+      "label": "helsinki-core",
+      "type": "node"
+    }
+  ],
+  "edges": [
+    {
+      "source": "anchor:mc-003",
+      "target": "anchor:mc-002",
+      "label": "previous"
+    },
+    {
+      "source": "anchor:mc-003",
+      "target": "cert:mc-003",
+      "label": "anchors"
+    },
+    {
+      "source": "cert:mc-003",
+      "target": "node:evanbei-origin",
+      "label": "signed_by"
+    },
+    {
+      "source": "cert:mc-003",
+      "target": "node:helsinki-core",
+      "label": "signed_by"
+    }
+  ]
+}
