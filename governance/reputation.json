@@ -1,0 +1,17 @@
+{
+  "evanbei-origin": {
+    "score": 1.0,
+    "history": 10,
+    "correct": 10
+  },
+  "helsinki-core": {
+    "score": 0.85,
+    "history": 20,
+    "correct": 17
+  },
+  "partner-a-core": {
+    "score": 0.7,
+    "history": 5,
+    "correct": 4
+  }
+}
