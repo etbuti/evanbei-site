@@ -1,0 +1,64 @@
+{
+  "@context": "https://evanbei.com/ns/music-certificate/v1",
+  "type": "MusicCertificate",
+  "certificate_version": "1.0",
+  "certificate_id": "mc-evanbei-qitsb-2025-001",
+  "issued_at": "2026-03-24T00:00:00Z",
+
+  "artist": {
+    "name": "Evan Bei",
+    "alias": ["billund"],
+    "legal_name": "Xiaojun Yin",
+    "official_site": "https://evanbei.com",
+    "music_site": "https://evanbei.com/music/"
+  },
+
+  "work": {
+    "title": "Qingdao in the Sea Breeze",
+    "type": "single",
+    "release_date": "2025-06-06",
+    "language": "instrumental or unspecified",
+    "genre": ["folk", "indie", "experimental"]
+  },
+
+  "identifiers": {
+    "isrc_distributor": "QZTAT2598565",
+    "isrc_author_registered": "GXGXN2517933",
+    "upc": "199524004158",
+    "distrokid_release_label": "Evan Bei"
+  },
+
+  "distribution": {
+    "initial_distributor": "DistroKid",
+    "distribution_scope": "global",
+    "known_platforms": [
+      "Apple Music",
+      "Spotify",
+      "YouTube Music",
+      "Bandcamp"
+    ]
+  },
+
+  "links": {
+    "archive_record": "https://evanbei.com/music/archive/",
+    "certificate_page": "https://evanbei.com/music/certificates/qingdao-in-the-sea-breeze.html",
+    "apple_music": "https://music.apple.com/REPLACE",
+    "spotify": "https://open.spotify.com/REPLACE",
+    "bandcamp": "https://billund.bandcamp.com/album/qingdao-in-the-sea-breeze"
+  },
+
+  "historical_note": "This work marks the first global music release in Evan Bei's international publishing path. The distributor-assigned ISRC and author-registered ISRC are both preserved for historical continuity and authorship identity.",
+
+  "assertion": {
+    "statement": "This certificate records the existence, release identity, and archive continuity of the work named above.",
+    "issuer": "Evan Bei",
+    "issuer_role": "author / artist / archive maintainer"
+  },
+
+  "verification": {
+    "status": "unsigned",
+    "hash_sha256": "",
+    "signature": "",
+    "public_key_url": ""
+  }
+}
