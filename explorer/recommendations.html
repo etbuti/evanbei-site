@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Governance Recommendations</title>
+<style>
+body{font-family:-apple-system;background:#fafafa;}
+.item{padding:12px;border-bottom:1px solid #eee;background:#fff;}
+.high{color:red;}
+.medium{color:orange;}
+</style>
+</head>
+<body>
+
+<h2 style="padding:12px;">Recommendations</h2>
+<div id="list"></div>
+
+<script>
+
+async function load(){
+  const data = await fetch("/explorer/recommendations.json").then(r=>r.json());
+
+  const el = document.getElementById("list");
+
+  data.forEach(n=>{
+    const d = document.createElement("div");
+    d.className="item";
+
+    let cls = n.recommendation.priority;
+
+    d.innerHTML = `
+      <div><strong>${n.node_id}</strong></div>
+      <div>cause: ${n.root_cause}</div>
+      <div class="${cls}">${n.recommendation.action}</div>
+      <div>${n.recommendation.suggestion}</div>
+    `;
+
+    el.appendChild(d);
+  });
+}
+
+load();
+
+</script>
+
+</body>
+</html>
