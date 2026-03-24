@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Root Cause Analysis</title>
+<style>
+body{font-family:-apple-system;background:#fafafa;}
+.item{padding:12px;border-bottom:1px solid #eee;background:#fff;}
+.bad{color:red;}
+.warn{color:orange;}
+</style>
+</head>
+<body>
+
+<h2 style="padding:12px;">Root Cause Analysis</h2>
+<div id="list"></div>
+
+<script>
+
+async function load(){
+  const data = await fetch("/explorer/root-cause.json").then(r=>r.json());
+
+  const el = document.getElementById("list");
+
+  data.forEach(n=>{
+    const d = document.createElement("div");
+    d.className="item";
+
+    let cls = "";
+    if(n.root_cause==="frequent_anomaly") cls="bad";
+    if(n.root_cause==="unstable_trust") cls="warn";
+
+    d.innerHTML = `
+      <div><strong>${n.node_id}</strong></div>
+      <div class="${cls}">cause: ${n.root_cause}</div>
+      <div>anomaly: ${n.anomaly_count}</div>
+      <div>downgrade: ${n.downgrade_count}</div>
+    `;
+
+    el.appendChild(d);
+  });
+}
+
+load();
+
+</script>
+
+</body>
+</html>
