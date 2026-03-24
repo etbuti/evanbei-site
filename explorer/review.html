@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Action Review</title>
+<style>
+body{font-family:-apple-system;background:#fafafa;}
+.item{padding:12px;border-bottom:1px solid #eee;background:#fff;}
+button{margin-right:10px;}
+</style>
+</head>
+<body>
+
+<h2 style="padding:12px;">Pending Actions</h2>
+<div id="list"></div>
+
+<script>
+
+async function load(){
+  const data = await fetch("/action_engine/pending_actions.json")
+    .then(r=>r.json());
+
+  const el = document.getElementById("list");
+  el.innerHTML="";
+
+  data.forEach((a,i)=>{
+    const d = document.createElement("div");
+    d.className="item";
+
+    d.innerHTML = `
+      <div><strong>${a.node_id}</strong></div>
+      <div>action: ${a.recommendation.action}</div>
+      <div>${a.recommendation.suggestion}</div>
+      <button onclick="approve(${i})">Approve</button>
+      <button onclick="reject(${i})">Reject</button>
+    `;
+
+    el.appendChild(d);
+  });
+}
+
+function approve(i){
+  alert("Approved: " + i);
+  // 后面可以接 API
+}
+
+function reject(i){
+  alert("Rejected: " + i);
+}
+
+load();
+
+</script>
+</body>
+</html>
