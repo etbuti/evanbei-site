@@ -1,0 +1,7 @@
+{
+  "network_id": "partner-a",
+  "name": "Partner A Network",
+  "root_did": "did:web:partner-a.org",
+  "policy": "default",
+  "local": false
+}
