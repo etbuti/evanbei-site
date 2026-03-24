@@ -1,0 +1,27 @@
+{
+  "type": "GovernanceProposal",
+  "version": "1.0",
+  "proposal_id": "gov-2026-0001",
+  "created_at": "2026-03-24T12:00:00Z",
+
+  "target_node": "qingdao-node",
+  "action": "revoke",
+  "reason": "high_risk_signature_pattern",
+  "initiator": {
+    "node_id": "evanbei-origin",
+    "role": "root"
+  },
+
+  "policy": {
+    "mode": "multi_approval",
+    "required_approvals": 2,
+    "allowed_approvers": [
+      "evanbei-origin",
+      "helsinki-core",
+      "london-core"
+    ]
+  },
+
+  "approvals": [],
+  "status": "pending"
+}
