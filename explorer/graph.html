@@ -1,241 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Origins Anchor Graph</title>
-<style>
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#fafafa;
-  color:#111;
-}
-header{
-  padding:16px 20px;
-  border-bottom:1px solid #eee;
-  background:#fff;
-}
-main{
-  display:grid;
-  grid-template-columns:1fr 320px;
-  height:calc(100vh - 58px);
-}
-#canvas{
-  position:relative;
-  overflow:hidden;
-  background:#fafafa;
-}
-#sidebar{
-  border-left:1px solid #eee;
-  background:#fff;
-  padding:18px;
-  overflow:auto;
-}
-.node{
-  position:absolute;
-  min-width:120px;
-  padding:10px 12px;
-  border-radius:14px;
-  border:2px solid #999;
-  background:#fff;
-  text-align:center;
-  font-size:13px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-  cursor:pointer;
-}
-.node.anchor{
-  border-color:#111;
-  background:#f8f8f8;
-}
-.node.certificate{
-  border-color:#2563eb;
-  background:#eef6ff;
-}
-.node.node{
-  border-color:#16a34a;
-  background:#edfdf3;
-}
-.node .type{
-  margin-top:6px;
-  font-size:11px;
-  color:#666;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-}
-svg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-}
-.line{
-  stroke:#bdbdbd;
-  stroke-width:1.6;
-}
-.label{
-  font-size:11px;
-  fill:#666;
-}
-.small{
-  font-size:13px;
-  color:#666;
-  line-height:1.6;
-}
-code{
-  background:#f3f3f3;
-  padding:2px 4px;
-  border-radius:4px;
-}
-.legend{
-  margin-top:18px;
-  padding-top:14px;
-  border-top:1px solid #eee;
-}
-.legend-item{
-  margin-bottom:8px;
-}
-.dot{
-  display:inline-block;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  margin-right:8px;
-  vertical-align:middle;
-}
-.dot.anchor{ background:#111; }
-.dot.certificate{ background:#2563eb; }
-.dot.node{ background:#16a34a; }
-</style>
-</head>
-<body>
-
-<header>
-  <strong>AI Origins — Anchor Graph</strong>
-</header>
-
-<main>
-  <section id="canvas">
-    <svg id="lines"></svg>
-  </section>
-  <aside id="sidebar">
-    <h3>Graph Detail</h3>
-    <div id="detail" class="small">Click a node to inspect.</div>
-
-    <div class="legend">
-      <div class="legend-item"><span class="dot anchor"></span>Anchor</div>
-      <div class="legend-item"><span class="dot certificate"></span>Certificate</div>
-      <div class="legend-item"><span class="dot node"></span>Signing Node</div>
-    </div>
-  </aside>
-</main>
-
 <script>
+
 let graphData = null;
 let placed = [];
 let nodeMap = {};
+let edgeEls = [];
+let anchorMap = {}; // anchor_id -> 原始 anchor 数据
 
 async function loadGraph(){
   const res = await fetch("/anchors/graph.json");
   return await res.json();
 }
 
-function layout(nodes, width, height){
-  const anchors = nodes.filter(n => n.type === "anchor");
-  const certs = nodes.filter(n => n.type === "certificate");
-  const signers = nodes.filter(n => n.type === "node");
+async function loadAnchorData(){
+  const res = await fetch("/anchors/index.json");
+  const idx = await res.json();
 
-  const placed = [];
-
-  const leftX = 120;
-  const midX = width / 2 - 80;
-  const rightX = width - 260;
-
-  anchors.forEach((n, i) => {
-    placed.push({...n, x:leftX, y:80 + i * 120});
-  });
-
-  certs.forEach((n, i) => {
-    placed.push({...n, x:midX, y:80 + i * 120});
-  });
-
-  signers.forEach((n, i) => {
-    placed.push({...n, x:rightX, y:80 + i * 100});
-  });
-
-  return placed;
+  for (const f of idx.anchors){
+    const a = await fetch("/anchors/"+f).then(r=>r.json());
+    anchorMap["anchor:"+a.certificate_id] = a;
+  }
 }
 
-function renderDetail(node){
+function layout(nodes,w,h){
+  const anchors = nodes.filter(n=>n.type==="anchor");
+  const certs = nodes.filter(n=>n.type==="certificate");
+  const signers = nodes.filter(n=>n.type==="node");
+
+  let out=[];
+
+  anchors.forEach((n,i)=>{
+    out.push({...n,x:120,y:80+i*120});
+  });
+
+  certs.forEach((n,i)=>{
+    out.push({...n,x:w/2-80,y:80+i*120});
+  });
+
+  signers.forEach((n,i)=>{
+    out.push({...n,x:w-260,y:80+i*100});
+  });
+
+  return out;
+}
+
+function clearHighlight(){
+  edgeEls.forEach(e=>e.classList.remove("active"));
+  document.querySelectorAll(".node").forEach(n=>{
+    n.style.opacity=0.3;
+  });
+}
+
+function highlightNode(id){
+  const n = document.querySelector(`[data-id="${id}"]`);
+  if(n){
+    n.style.opacity=1;
+  }
+}
+
+function highlightEdge(src,dst){
+  const e = edgeEls.find(x=>x.dataset.k===`${src}->${dst}`);
+  if(e){
+    e.classList.add("active");
+  }
+}
+
+function traceChain(anchorId){
+  clearHighlight();
+
+  let cur = anchorId;
+
+  while(cur){
+    highlightNode(cur);
+
+    const a = anchorMap[cur];
+    if(!a) break;
+
+    const certId = "cert:"+a.certificate_id;
+    highlightNode(certId);
+    highlightEdge(cur,certId);
+
+    const sigs = a.signatures || [];
+    sigs.forEach(s=>{
+      const nid = "node:"+s.node_id;
+      highlightNode(nid);
+      highlightEdge(certId,nid);
+    });
+
+    if(!a.previous_anchor) break;
+
+    const prev = "anchor:"+a.previous_anchor.file.replace(".json","");
+    highlightEdge(cur,prev);
+    cur = prev;
+  }
+}
+
+function renderDetail(anchorId){
+  const a = anchorMap[anchorId];
   const el = document.getElementById("detail");
+
+  if(!a){
+    el.innerHTML="No data";
+    return;
+  }
+
   el.innerHTML = `
-    <div><strong>${node.label}</strong></div>
+    <h3>${a.certificate_id}</h3>
+
+    <div><strong>Time:</strong> ${a.created_at}</div>
+
     <div style="margin-top:10px;">
-      <div><strong>ID:</strong> <code>${node.id}</code></div>
-      <div><strong>Type:</strong> ${node.type}</div>
+      <strong>Hash:</strong>
+      <div class="hash">${a.hash_sha256}</div>
+    </div>
+
+    <div style="margin-top:10px;">
+      <strong>Previous:</strong>
+      ${a.previous_anchor ? a.previous_anchor.file : "GENESIS"}
+    </div>
+
+    <div style="margin-top:10px;">
+      <strong>Signatures:</strong><br>
+      ${(a.signatures||[]).map(s=>s.node_id).join("<br>")}
     </div>
   `;
 }
 
 function render(graph){
-  const canvas = document.getElementById("canvas");
-  const svg = document.getElementById("lines");
+  const canvas=document.getElementById("canvas");
+  const svg=document.getElementById("lines");
 
-  canvas.querySelectorAll(".node").forEach(el => el.remove());
-  svg.innerHTML = "";
+  canvas.querySelectorAll(".node").forEach(e=>e.remove());
+  svg.innerHTML="";
+  edgeEls=[];
 
-  placed = layout(graph.nodes, canvas.clientWidth, canvas.clientHeight);
-  nodeMap = Object.fromEntries(placed.map(n => [n.id, n]));
+  placed = layout(graph.nodes,canvas.clientWidth,canvas.clientHeight);
+  nodeMap = Object.fromEntries(placed.map(n=>[n.id,n]));
 
-  for (const edge of graph.edges){
-    const s = nodeMap[edge.source];
-    const t = nodeMap[edge.target];
-    if (!s || !t) continue;
+  // edges
+  graph.edges.forEach(e=>{
+    const s=nodeMap[e.source];
+    const t=nodeMap[e.target];
+    if(!s||!t)return;
 
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", s.x + 60);
-    line.setAttribute("y1", s.y + 22);
-    line.setAttribute("x2", t.x + 60);
-    line.setAttribute("y2", t.y + 22);
-    line.setAttribute("class", "line");
-    svg.appendChild(line);
+    const l=document.createElementNS("http://www.w3.org/2000/svg","line");
+    l.setAttribute("x1",s.x+60);
+    l.setAttribute("y1",s.y+20);
+    l.setAttribute("x2",t.x+60);
+    l.setAttribute("y2",t.y+20);
+    l.setAttribute("class","line");
+    l.dataset.k=`${e.source}->${e.target}`;
+    svg.appendChild(l);
+    edgeEls.push(l);
+  });
 
-    const lx = (s.x + t.x) / 2 + 20;
-    const ly = (s.y + t.y) / 2 + 10;
+  // nodes
+  placed.forEach(n=>{
+    const d=document.createElement("div");
+    d.className=`node ${n.type}`;
+    d.style.left=n.x+"px";
+    d.style.top=n.y+"px";
+    d.dataset.id=n.id;
 
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.setAttribute("x", lx);
-    text.setAttribute("y", ly);
-    text.setAttribute("class", "label");
-    text.textContent = edge.label;
-    svg.appendChild(text);
-  }
+    d.innerHTML=`<div>${n.label}</div><div class="type">${n.type}</div>`;
 
-  for (const node of placed){
-    const div = document.createElement("div");
-    div.className = `node ${node.type}`;
-    div.style.left = `${node.x}px`;
-    div.style.top = `${node.y}px`;
-    div.innerHTML = `
-      <div>${node.label}</div>
-      <div class="type">${node.type}</div>
-    `;
-    div.addEventListener("click", () => renderDetail(node));
-    canvas.appendChild(div);
-  }
+    d.onclick=()=>{
+      if(n.type==="anchor"){
+        traceChain(n.id);
+        renderDetail(n.id);
+      }
+    };
+
+    canvas.appendChild(d);
+  });
 }
 
 async function init(){
+  await loadAnchorData();
   graphData = await loadGraph();
   render(graphData);
 }
 
-window.addEventListener("resize", () => {
-  if (graphData) render(graphData);
+window.addEventListener("resize",()=>{
+  if(graphData) render(graphData);
 });
 
 init();
+
 </script>
-</body>
-</html>
