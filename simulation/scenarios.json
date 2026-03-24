@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "name": "honest_network",
+      "malicious_ratio": 0.1
+    },
+    {
+      "name": "attack_network",
+      "malicious_ratio": 0.4
+    }
+  ]
+}
