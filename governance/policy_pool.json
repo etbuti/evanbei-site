@@ -1,0 +1,19 @@
+{
+  "policies": [
+    {
+      "id": "strict",
+      "anomaly_penalty": 15,
+      "approve_threshold": 4
+    },
+    {
+      "id": "balanced",
+      "anomaly_penalty": 10,
+      "approve_threshold": 3
+    },
+    {
+      "id": "loose",
+      "anomaly_penalty": 6,
+      "approve_threshold": 2
+    }
+  ]
+}
