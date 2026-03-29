@@ -1,0 +1,7 @@
+{
+  "version": "1.0",
+  "core_url": "https://api.aiprotocol.uk",
+  "join_url": "https://api.aiprotocol.uk/v1/node/join",
+  "display_url": "https://evanbei.com/display",
+  "wireguard_enabled": false
+}
