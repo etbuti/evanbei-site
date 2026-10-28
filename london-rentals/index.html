@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Premium en-suite bedroom with exclusive living area, kitchen and park-facing balcony near the River Thames in London.">
+<title>London Riverside | Premium Living Suite</title>
+<style>
+:root {
+  --ink:#25312e;
+  --muted:#65716d;
+  --accent:#426b5a;
+  --paper:#faf9f6;
+  --line:#e4e5df;
+}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {margin:0;font-family:Arial,"Helvetica Neue",sans-serif;color:var(--ink);background:var(--paper);line-height:1.65}
+a {color:inherit}
+header {position:sticky;top:0;z-index:10;background:#faf9f6f2;border-bottom:1px solid var(--line);padding:13px 6%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand {font-weight:700;letter-spacing:2px;font-size:13px}
+nav {display:flex;gap:12px;align-items:center}
+nav a {font-size:13px;text-decoration:none}
+button,.btn {cursor:pointer;border:0;border-radius:5px;padding:12px 18px;background:var(--accent);color:white;text-decoration:none;display:inline-block;font-size:14px}
+.lang {background:transparent;color:var(--ink);border:1px solid #aab2ac;padding:8px 12px}
+.hero {position:relative;background:#e5e9e4;min-height:520px;display:flex;align-items:end;overflow:hidden}
+.hero img {position:absolute;width:100%;height:100%;object-fit:cover}
+.hero:after {content:"";position:absolute;inset:0;background:linear-gradient(transparent 20%,rgba(0,0,0,.76))}
+.hero-content {position:relative;z-index:1;color:white;padding:55px 7%;max-width:900px}
+.hero h1 {font-size:clamp(35px,6vw,68px);line-height:1.12;margin:10px 0}
+.hero p {font-size:18px}
+.kicker {text-transform:uppercase;letter-spacing:3px;font-size:12px;font-weight:700}
+.price {font-size:32px;font-weight:700}
+section {padding:65px 7%;max-width:1300px;margin:auto}
+h2 {font-size:clamp(27px,4vw,42px);line-height:1.2;margin:0 0 20px}
+.lead {font-size:18px;color:var(--muted);max-width:850px}
+.features {display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:35px}
+.feature {border:1px solid var(--line);padding:22px;border-radius:8px;background:white}
+.feature strong {display:block;margin-bottom:6px}
+.gallery {display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gallery img {width:100%;height:255px;object-fit:cover;border-radius:6px;cursor:pointer;background:#e5e5e5}
+.gallery img:first-child {grid-column:span 2;height:390px}
+.gallery img:nth-child(2) {height:390px}
+video {width:100%;max-height:650px;background:#151515;border-radius:8px}
+.note {background:#f0f2ed;border-left:4px solid var(--accent);padding:18px 22px;margin-top:30px;font-size:14px}
+.contact {background:#e8ede7;text-align:center;max-width:none}
+.contact .buttons {display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:25px}
+.contact .btn.secondary {background:white;color:var(--accent);border:1px solid var(--accent)}
+footer {padding:30px 7%;text-align:center;color:var(--muted);font-size:12px}
+#lightbox {display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:35px}
+#lightbox img {max-width:100%;max-height:90vh;object-fit:contain}
+#lightbox button {position:absolute;right:15px;top:15px;background:#333}
+[data-zh] {display:none}
+body.zh [data-en] {display:none}
+body.zh [data-zh] {display:initial}
+@media(max-width:700px) {
+ header {padding:12px 4%}
+ nav a {display:none}
+ .hero {min-height:470px}
+ .hero-content {padding:35px 6%}
+ section {padding:45px 5%}
+ .features {grid-template-columns:1fr}
+ .gallery {grid-template-columns:repeat(2,1fr)}
+ .gallery img,.gallery img:first-child,.gallery img:nth-child(2) {height:200px;grid-column:auto}
+ .gallery img:first-child {grid-column:span 2;height:260px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="brand">LONDON RIVERSIDE</div>
+ <nav>
+  <a href="#about">Residence</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#tour">Video</a>
+  <a href="#contact">Contact</a>
+  <button class="lang" onclick="toggleLanguage()" id="langButton">中文</button>
+ </nav>
+</header>
+
+<div class="hero">
+ <img src="media/IMG_1866.jpeg" alt="Bright open-plan living area and kitchen overlooking the park">
+ <div class="hero-content">
+  <div class="kicker">London · Riverside Living</div>
+  <h1 data-en>Space, Light & Riverside Living</h1>
+  <h1 data-zh>伦敦河畔 · 宽敞明亮的品质生活空间</h1>
+  <p data-en>Premium en-suite bedroom with exclusive living area, kitchen and park-facing balcony.</p>
+  <p data-zh>独立卫浴主卧，专享宽敞大厅、完整厨房与公园景观阳台。</p>
+  <div class="price">£450 / week</div>
+  <a class="btn" href="#contact" data-en>Arrange a Viewing</a>
+  <a class="btn" href="#contact" data-zh>预约看房</a>
+ </div>
+</div>
+
+<section id="about">
+ <div class="kicker">The Residence</div>
+ <h2 data-en>A More Personal Way to Live in London</h2>
+ <h2 data-zh>在伦敦，享受更从容的生活空间</h2>
+
+ <p class="lead" data-en>
+ Located approximately 100 metres from the River Thames,
+ this premium living arrangement offers a private east-facing
+ bedroom with en-suite bathroom, together with exclusive use
+ of a spacious living area, fully fitted kitchen and a large
+ balcony overlooking the park.
+ </p>
+ <p class="lead" data-zh>
+ 距离泰晤士河约100米。东向主卧位于安静的花园侧，
+ 配备独立套内卫生间，并享有宽敞大厅、完整厨房及面向公园的大阳台的专属使用安排。
+ </p>
+
+ <div class="features">
+  <div class="feature">
+   <strong data-en>Private En-suite Bedroom</strong>
+   <strong data-zh>独立卫浴主卧</strong>
+   <span data-en>East-facing, overlooking a quiet landscaped garden.</span>
+   <span data-zh>东向，面向安静的园林庭院。</span>
+  </div>
+  <div class="feature">
+   <strong data-en>Exclusive Living & Kitchen</strong>
+   <strong data-zh>专享大厅与厨房</strong>
+   <span data-en>Generous open-plan living space with a fitted kitchen.</span>
+   <span data-zh>宽敞的开放式生活空间与完整厨房。</span>
+  </div>
+  <div class="feature">
+   <strong data-en>Park-facing Balcony</strong>
+   <strong data-zh>公园景观大阳台</strong>
+   <span data-en>Open green views and abundant natural daylight.</span>
+   <span data-zh>绿地景观、开阔视野和充足自然光。</span>
+  </div>
+  <div class="feature">
+   <strong data-en>Riverside Location</strong>
+   <strong data-zh>泰晤士河畔</strong>
+   <span data-en>Approximately 100 metres from the Thames.</span>
+   <span data-zh>距离泰晤士河约100米。</span>
+  </div>
+  <div class="feature">
+   <strong data-en>Laundry & Storage</strong>
+   <strong data-zh>洗衣及储藏设施</strong>
+   <span data-en>Dedicated laundry facilities and storage space.</span>
+   <span data-zh>专用洗衣设施及储藏空间。</span>
+  </div>
+  <div class="feature">
+   <strong data-en>Single Occupancy</strong>
+   <strong data-zh>单人入住</strong>
+   <span data-en>Designed for one resident seeking comfort and privacy.</span>
+   <span data-zh>适合一位注重品质、舒适与私人空间的租客。</span>
+  </div>
+ </div>
+
+ <div class="note">
+  <span data-en>
+   Important: This is a room and designated living-area arrangement
+   within a two-bedroom apartment, not a self-contained studio.
+   The second bedroom may be occupied by one other resident.
+   Access and facility arrangements will be explained before any agreement.
+  </span>
+  <span data-zh>
+   重要说明：本房源属于两居室公寓中的主卧及指定生活区域，
+   并非独立产权或完全独立的 Studio。
+   另一间卧室可能有一名单独住户。
+   具体通行及设施使用安排将在签约前明确。
+  </span>
+ </div>
+</section>
+
+<section id="gallery">
+ <div class="kicker">Actual Property Photography</div>
+ <h2 data-en>Explore the Space</h2>
+ <h2 data-zh>实景照片</h2>
+ <p class="lead" data-en>Photographs of the actual apartment and its surroundings.</p>
+ <p class="lead" data-zh>以下为公寓及周边环境的真实照片。</p>
+
+ <div class="gallery">
+  <img src="media/IMG_1866.jpeg" alt="Living area" onclick="openImage(this)">
+  <img src="media/IMG_1873.jpeg" alt="Balcony skyline" onclick="openImage(this)">
+  <img src="media/IMG_1865.jpeg" alt="Kitchen and dining area" onclick="openImage(this)">
+  <img src="media/IMG_1868.jpeg" alt="Furnished bedroom" onclick="openImage(this)">
+  <img src="media/IMG_1872.jpeg" alt="Bathroom with bath and shower" onclick="openImage(this)">
+  <img src="media/IMG_1874.jpeg" alt="Balcony park view" onclick="openImage(this)">
+  <img src="media/IMG_1867.jpeg" alt="Garden-facing window" onclick="openImage(this)">
+  <img src="media/IMG_1869.jpeg" alt="Apartment entrance hallway" onclick="openImage(this)">
+ </div>
+</section>
+
+<section id="tour">
+ <div class="kicker">Virtual Property Tour</div>
+ <h2 data-en>Take a Look Around</h2>
+ <h2 data-zh>视频参观</h2>
+ <p class="lead" data-en>
+ A recorded walkthrough of the apartment.
+ Some areas shown may not be included in the advertised rental.
+ </p>
+ <p class="lead" data-zh>
+ 公寓实景参观视频。视频中部分区域可能不属于本次公开出租的使用范围。
+ </p>
+ <video controls preload="metadata" playsinline poster="media/IMG_1866.jpeg">
+  <source src="media/IMG_1862.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+ </video>
+</section>
+
+<section>
+ <div class="kicker">Rental Information</div>
+ <h2 data-en>Simple & Clear</h2>
+ <h2 data-zh>租赁信息</h2>
+ <div class="features">
+  <div class="feature">
+   <strong data-en>Weekly Rent</strong>
+   <strong data-zh>每周租金</strong>
+   <div class="price">£450</div>
+  </div>
+  <div class="feature">
+   <strong data-en>Occupancy</strong>
+   <strong data-zh>入住人数</strong>
+   <span data-en>One person</span>
+   <span data-zh>一人</span>
+  </div>
+  <div class="feature">
+   <strong data-en>Availability & Terms</strong>
+   <strong data-zh>入住日期及条款</strong>
+   <span data-en>Please enquire for availability, bills and tenancy terms.</span>
+   <span data-zh>请咨询入住日期、费用包含范围和租赁条款。</span>
+  </div>
+ </div>
+</section>
+
+<section class="contact" id="contact">
+ <div class="kicker">Private Enquiries</div>
+ <h2 data-en>Arrange Your Viewing</h2>
+ <h2 data-zh>预约看房及咨询</h2>
+ <p data-en>
+ Interested in the Premium Living Suite?
+ Contact us by email or WhatsApp message.
+ </p>
+ <p data-zh>
+ 如果你对这套品质生活空间感兴趣，
+ 欢迎通过电子邮件或 WhatsApp 文字咨询。
+ </p>
+ <div class="buttons">
+  <a class="btn" href="mailto:toptrust@gmail.com?subject=London%20Riverside%20Rental%20Enquiry">
+   Email Enquiry
+  </a>
+  <a class="btn secondary" target="_blank" rel="noopener noreferrer"
+   href="https://wa.me/447983995837?text=Hello%2C%20I%20am%20interested%20in%20the%20London%20Riverside%20Premium%20Living%20Suite.">
+   WhatsApp Message
+  </a>
+ </div>
+ <p style="font-size:13px;color:#65716d;margin-top:20px">
+  Messages only · No phone calls, please.
+ </p>
+</section>
+
+<footer>
+ London Riverside · Premium Living Suite
+ <div>Private rental enquiries · London, United Kingdom</div>
+ <div>Property details subject to confirmation and applicable tenancy requirements.</div>
+</footer>
+
+<div id="lightbox" onclick="closeImage()">
+ <button onclick="closeImage()">✕</button>
+ <img id="lightboxImage" alt="Property photograph">
+</div>
+
+<script>
+function toggleLanguage() {
+ document.body.classList.toggle("zh");
+ const isZh=document.body.classList.contains("zh");
+ document.documentElement.lang=isZh?"zh-CN":"en";
+ document.getElementById("langButton").textContent=isZh?"English":"中文";
+}
+function openImage(el) {
+ document.getElementById("lightboxImage").src=el.src;
+ document.getElementById("lightbox").style.display="flex";
+}
+function closeImage() {
+ document.getElementById("lightbox").style.display="none";
+}
+document.addEventListener("keydown",function(e) {
+ if(e.key==="Escape")closeImage();
+});
+</script>
+
+</body>
+</html>
